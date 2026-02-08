@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+	"name": "AiTranaslationExtension",
+	"version": "1.0.0",
+	"author": [
+		"Local"
+	],
+	"description": "Adds an API module to mark pages for translation.",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.42.0"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\\\Extension\\\\LocalPageTranslationApi\\\\": "src/"
+	},
+	"AutoloadClasses": {
+		"MediaWiki\\\\Extension\\\\LocalPageTranslationApi\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php"
+	},
+	"APIModules": {
+		"markfortranslation": "MediaWiki\\\\Extension\\\\LocalPageTranslationApi\\\\ApiMarkForTranslation"
+	}
+}

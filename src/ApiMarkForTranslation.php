@@ -1,7 +1,7 @@
 <?php
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\LocalPageTranslationApi;
+namespace MediaWiki\Extension\AiTranslationExtension;
 
 use ApiBase;
 use IDBAccessObject;

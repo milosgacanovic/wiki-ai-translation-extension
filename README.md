@@ -17,10 +17,10 @@ wfLoadExtension( 'AiTranslationExtension' );
 Optional if you prefer explicit registration:
 
 ```
-$wgAutoloadClasses['MediaWiki\\Extension\\LocalPageTranslationApi\\ApiMarkForTranslation'] =
+$wgAutoloadClasses['MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation'] =
 	"$IP/extensions/AiTranslationExtension/src/ApiMarkForTranslation.php";
 $wgAPIModules['markfortranslation'] =
-	'MediaWiki\\Extension\\LocalPageTranslationApi\\ApiMarkForTranslation';
+	'MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation';
 ```
 
 ## Usage (API)

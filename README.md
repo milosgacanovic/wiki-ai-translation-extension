@@ -1,4 +1,4 @@
-# AiTranaslationExtension
+# AiTranslationExtension
 
 Adds a server-side API module `action=markfortranslation` for MediaWiki Translate.
 
@@ -7,18 +7,18 @@ MediaWiki 1.42 + Translate does not expose `markfortranslation` by default, so t
 
 ## Install
 
-1. Copy this extension into `extensions/AiTranaslationExtension`.
+1. Copy this extension into `extensions/AiTranslationExtension`.
 2. Add to `LocalSettings.php`:
 
 ```
-wfLoadExtension( 'AiTranaslationExtension' );
+wfLoadExtension( 'AiTranslationExtension' );
 ```
 
 Optional if you prefer explicit registration:
 
 ```
 $wgAutoloadClasses['MediaWiki\\Extension\\LocalPageTranslationApi\\ApiMarkForTranslation'] =
-	"$IP/extensions/AiTranaslationExtension/src/ApiMarkForTranslation.php";
+	"$IP/extensions/AiTranslationExtension/src/ApiMarkForTranslation.php";
 $wgAPIModules['markfortranslation'] =
 	'MediaWiki\\Extension\\LocalPageTranslationApi\\ApiMarkForTranslation';
 ```

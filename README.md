@@ -32,14 +32,14 @@ $wgAPIModules['markfortranslation'] =
 ## Unified Language Switcher (optional)
 
 Provides a Wikipedia-like language selector that switches both the page translation URL
-and the UI language (via ULS). Default is off.
+and the UI language. Default is off.
 
 Enable in `LocalSettings.php`:
 
 ```php
 $wgDRUnifiedLangSwitcherEnabled = true;
 $wgDRUnifiedLangSwitcherNamespaces = [ NS_MAIN, NS_PROJECT ];
-$wgDRUnifiedLangSwitcherPosition = 'sidebar';
+$wgDRUnifiedLangSwitcherPosition = 'header';
 $wgDRUnifiedLangSwitcherFallbackBehavior = 'stay_and_notify';
 $wgDRUnifiedLangSwitcherPreferAvailableOnly = true;
 $wgDRUnifiedLangSwitcherUILanguageMode = 'uls_cookie';
@@ -56,9 +56,10 @@ Config options:
 
 Behavior notes:
 
-- On translatable pages, selecting language `L` sets UI language via ULS and navigates to `/Title/L`.
-- If no translation exists for `L`, the default behavior is to stay and show a notice.
-- Serbian variants `sr-ec` and `sr-el` switch the UI language without changing content language (stays `sr`).
+- Language links use `?uselang=` so the UI switches along with the content page.
+- On translatable pages, selecting language `L` navigates to `/Title/L` (or stays if missing).
+- Serbian is shown as a single entry labeled **Srpski** (no `sr-ec`/`sr-el` entries). It links to
+  `/Title/sr?uselang=sr-el` to default UI to Serbian Latin.
 - Special pages, edit pages, and non-configured namespaces are unaffected.
 
 ## Language-Specific Sidebar (optional)
@@ -70,6 +71,17 @@ Add to `LocalSettings.php`:
 
 ```php
 $wgAiTranslationExtensionLanguageSidebar = true;
+$wgAutoloadClasses['MediaWiki\\Extension\\AiTranslationExtension\\HookHandler'] =
+	"$IP/extensions/AiTranslationExtension/src/HookHandler.php";
+$wgHooks['SkinBuildSidebar'][] = static function ( $skin, &$bar ) {
+	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onSkinBuildSidebar( $skin, $bar );
+};
+```
+
+Debug helper:
+
+```
+?debugsidebar=1
 ```
 
 Example pages:
@@ -109,7 +121,7 @@ Returns:
 - `title` (base page title)
 - `sourceLanguage`
 - `currentLanguage`
-- `languages` (available translations with autonyms)
+- `languages` (available translations)
 
 ## Troubleshooting
 

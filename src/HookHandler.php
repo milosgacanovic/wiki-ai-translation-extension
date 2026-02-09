@@ -39,12 +39,36 @@ class HookHandler {
 		}
 
 		if ( $text === '' ) {
+			self::debugSidebar( $skin, $lang, $candidates, '', 'fallback' );
 			return true;
 		}
 
 		$bar = [];
 		$skin->addToSidebarPlain( $bar, $text );
+		self::debugSidebar( $skin, $lang, $candidates, $text, 'custom' );
 		return false;
+	}
+
+	private static function debugSidebar( $skin, string $lang, array $candidates, string $text, string $mode ): void {
+		$request = $skin->getRequest();
+		if ( !$request || $request->getVal( 'debugsidebar' ) !== '1' ) {
+			return;
+		}
+
+		$len = strlen( trim( $text ) );
+		$label = sprintf(
+			'Sidebar lang=%s candidates=%s mode=%s textlen=%d',
+			$lang,
+			implode( ',', $candidates ),
+			$mode,
+			$len
+		);
+
+		$skin->getOutput()->addHTML(
+			'<div class="dr-sidebar-debug" style="font-size:12px;color:#666;margin:4px 0;">' .
+			htmlspecialchars( $label ) .
+			'</div>'
+		);
 	}
 
 	public static function onBeforePageDisplay( $out, $skin ): bool {

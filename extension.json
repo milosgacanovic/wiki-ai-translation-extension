@@ -5,7 +5,7 @@
 	"author": [
 		"Local"
 	],
-	"description": "Adds an API module to mark pages for translation.",
+	"description": "Adds API modules and UI helpers for Translate page translation workflows.",
 	"type": "other",
 	"requires": {
 		"MediaWiki": ">= 1.42.0"
@@ -14,19 +14,75 @@
 		"AiTranslationExtensionLanguageSidebar": {
 			"value": false,
 			"description": "Use MediaWiki:Sidebar/<lang> based on the user interface language."
+		},
+		"DRUnifiedLangSwitcherEnabled": {
+			"value": false,
+			"description": "Enable unified language switcher for content + UI languages."
+		},
+		"DRUnifiedLangSwitcherNamespaces": {
+			"value": [ 0 ],
+			"description": "Namespace IDs where the unified language switcher is enabled."
+		},
+		"DRUnifiedLangSwitcherPosition": {
+			"value": "sidebar",
+			"description": "Placement for the unified language switcher: sidebar, header, or personal."
+		},
+		"DRUnifiedLangSwitcherFallbackBehavior": {
+			"value": "stay_and_notify",
+			"description": "Behavior when translation is missing: stay_and_notify or navigate_anyway."
+		},
+		"DRUnifiedLangSwitcherPreferAvailableOnly": {
+			"value": true,
+			"description": "Only show languages with existing translation pages."
+		},
+		"DRUnifiedLangSwitcherUILanguageMode": {
+			"value": "uls_cookie",
+			"description": "How to set UI language: uls_cookie or user_preference_only."
 		}
+	},
+	"MessagesDirs": {
+		"AiTranslationExtension": [
+			"i18n"
+		]
 	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\": "src/"
 	},
 	"AutoloadClasses": {
+		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiLanguageStatus": "src/ApiLanguageStatus.php",
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php",
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler": "src/HookHandler.php"
 	},
 	"Hooks": {
-		"SkinBuildSidebar": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onSkinBuildSidebar"
+		"SkinBuildSidebar": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onSkinBuildSidebar",
+		"SkinAfterPortlet": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onSkinAfterPortlet",
+		"BeforePageDisplay": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onBeforePageDisplay",
+		"OutputPageBeforeHTML": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onOutputPageBeforeHTML"
+	},
+	"ResourceModules": {
+		"ext.danceresource.unifiedLangSwitcher": {
+			"scripts": [
+				"resources/ext.danceresource.unifiedLangSwitcher.js"
+			],
+			"styles": [
+				"resources/ext.danceresource.unifiedLangSwitcher.css"
+			],
+			"messages": [
+				"druls-languages",
+				"druls-translation-not-available",
+				"druls-help-translate",
+				"druls-search-languages"
+			],
+			"dependencies": [
+				"mediawiki.api",
+				"mediawiki.util",
+				"mediawiki.notify",
+				"ext.uls.common"
+			]
+		}
 	},
 	"APIModules": {
-		"markfortranslation": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation"
+		"markfortranslation": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation",
+		"danceresource-languagestatus": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiLanguageStatus"
 	}
 }

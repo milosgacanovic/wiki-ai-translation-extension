@@ -294,20 +294,51 @@ var api = new mw.Api();
 		return $.Deferred().resolve();
 	}
 
-	function loadAndRender() {
-		api.get( {
-			action: 'danceresource-languagestatus',
-			title: config.baseTitle
-		} ).then( function ( res ) {
-			var data = res[ 'danceresource-languagestatus' ];
-			var eligible = data && ( data.isEligible === 1 || data.isEligible === '1' || data.isEligible === true );
-			if ( !eligible ) {
-				return;
-			}
+function loadAndRender() {
+	api.get( {
+		action: 'danceresource-languagestatus',
+		title: config.baseTitle
+	} ).then( function ( res ) {
+		var data = res[ 'danceresource-languagestatus' ];
+		var eligible = data && ( data.isEligible === 1 || data.isEligible === '1' || data.isEligible === true );
+		if ( !eligible ) {
+			return;
+		}
 
-			render( data );
-		} );
+		render( data );
+	} );
+
+	autoSetAnonUiLanguage();
+}
+
+$( loadAndRender );
+
+function autoSetAnonUiLanguage() {
+	if ( mw.user.isNamed() ) {
+		return;
 	}
 
-	$( loadAndRender );
+	var pageName = mw.config.get( 'wgPageName' ) || '';
+	var match = pageName.match( /\/(sr(?:-el|-ec)?)$/i );
+	if ( !match ) {
+		return;
+	}
+
+	var targetUi = 'sr-el';
+	var currentUi = mw.config.get( 'wgUserLanguage' ) || '';
+	if ( currentUi.indexOf( 'sr' ) === 0 ) {
+		return;
+	}
+
+	var cookieLang = mw.cookie ? mw.cookie.get( 'language' ) : null;
+	if ( cookieLang && cookieLang.indexOf( 'sr' ) === 0 ) {
+		return;
+	}
+
+	mw.loader.using( [ 'ext.uls.common', 'mediawiki.cookie' ] ).then( function () {
+		return setInterfaceLanguage( targetUi );
+	} ).then( function () {
+		window.location.reload();
+	} );
+}
 }() );

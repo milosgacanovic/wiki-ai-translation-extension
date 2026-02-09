@@ -20,7 +20,8 @@
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\": "src/"
 	},
 	"AutoloadClasses": {
-		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php"
+		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php",
+		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler": "src/HookHandler.php"
 	},
 	"Hooks": {
 		"SkinBuildSidebar": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onSkinBuildSidebar"

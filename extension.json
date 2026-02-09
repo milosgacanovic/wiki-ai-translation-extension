@@ -10,11 +10,20 @@
 	"requires": {
 		"MediaWiki": ">= 1.42.0"
 	},
+	"config": {
+		"AiTranslationExtensionLanguageSidebar": false
+	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\": "src/"
 	},
 	"AutoloadClasses": {
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php"
+	},
+	"HookHandlers": {
+		"AiTranslationExtensionHooks": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler"
+	},
+	"Hooks": {
+		"SkinBuildSidebar": "AiTranslationExtensionHooks::onSkinBuildSidebar"
 	},
 	"APIModules": {
 		"markfortranslation": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation"

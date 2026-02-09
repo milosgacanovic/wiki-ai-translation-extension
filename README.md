@@ -23,6 +23,22 @@ $wgAPIModules['markfortranslation'] =
 	'MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation';
 ```
 
+## Language-Specific Sidebar (optional)
+
+Off by default. When enabled, the sidebar uses `MediaWiki:Sidebar/<lang>` based on the
+user’s interface language (e.g. `sr-el`, `sr-ec`, `sr`).
+
+Add to `LocalSettings.php`:
+
+```
+$wgAiTranslationExtensionLanguageSidebar = true;
+```
+
+Example pages:
+- `MediaWiki:Sidebar/sr-el`
+- `MediaWiki:Sidebar/sr-ec`
+- `MediaWiki:Sidebar/sr`
+
 ## Usage (API)
 
 ```

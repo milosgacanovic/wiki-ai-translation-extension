@@ -9,6 +9,14 @@ use Title;
 
 class HookHandler {
 	public static function onSkinBuildSidebar( $skin, &$bar ): bool {
+		if ( $skin->getRequest()->getCheck( 'debugsidebar' ) ) {
+			$bar['navigation'] = $bar['navigation'] ?? [];
+			array_unshift( $bar['navigation'], [
+				'text' => 'AiTranslationExtension hook active',
+				'href' => '#',
+			] );
+		}
+
 		$config = MediaWikiServices::getInstance()->getMainConfig();
 		if ( !$config->get( 'AiTranslationExtensionLanguageSidebar' ) ) {
 			return true;

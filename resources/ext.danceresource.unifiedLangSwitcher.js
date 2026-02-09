@@ -140,8 +140,17 @@
 
 		languages.forEach( function ( item ) {
 			var label = getLabel( item );
+			var uiLang = item.code;
+			if ( item.code === 'sr' ) {
+				uiLang = 'sr-el';
+			}
+			var hrefTitle = data.title;
+			if ( item.contentCode !== data.sourceLanguage ) {
+				hrefTitle = data.title + '/' + item.contentCode;
+			}
+			var href = mw.util.getUrl( hrefTitle, { uselang: uiLang } );
 			var $link = $( '<a>' )
-				.attr( 'href', '#' )
+				.attr( 'href', href )
 				.attr( 'data-code', item.code )
 				.attr( 'data-content-code', item.contentCode )
 				.text( label );
@@ -220,8 +229,6 @@
 		} );
 
 		$container.on( 'click', '.dr-uls-list a', function ( event ) {
-			event.preventDefault();
-
 			var uiCode = $( this ).data( 'code' );
 			var contentCode = $( this ).data( 'content-code' ) || uiCode;
 			contentCode = normalizeContentCode( contentCode );
@@ -242,20 +249,13 @@
 
 			if ( !available[ contentCode ] && contentCode !== data.sourceLanguage ) {
 				if ( config.fallbackBehavior === 'stay_and_notify' ) {
+					event.preventDefault();
 					mw.notify( mw.message( 'druls-translation-not-available' ).text() );
 					setInterfaceLanguage( uiCode );
 					return;
 				}
 			}
-
-			if ( isSamePage ) {
-				setInterfaceLanguage( uiCode );
-				return;
-			}
-
-			setInterfaceLanguage( uiCode ).then( function () {
-				window.location.href = mw.util.getUrl( targetTitle );
-			} );
+			// Allow normal navigation; UI language is set via uselang param.
 		} );
 	}
 

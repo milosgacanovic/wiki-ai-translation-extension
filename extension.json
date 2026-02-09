@@ -45,9 +45,6 @@
 			"i18n"
 		]
 	},
-	"AutoloadNamespaces": {
-		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\": "src/"
-	},
 	"AutoloadClasses": {
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiLanguageStatus": "src/ApiLanguageStatus.php",
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php",

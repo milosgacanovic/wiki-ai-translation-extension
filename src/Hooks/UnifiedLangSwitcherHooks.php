@@ -1,54 +1,16 @@
 <?php
 declare( strict_types = 1 );
 
-namespace MediaWiki\Extension\AiTranslationExtension;
+namespace MediaWiki\Extension\AiTranslationExtension\Hooks;
 
-use ContentHandler;
+use MediaWiki\Extension\Translate\PageTranslation\TranslatablePage;
+use MediaWiki\Extension\Translate\Utilities\Utilities;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 
-class HookHandler {
-	public static function onSkinBuildSidebar( $skin, &$bar ): bool {
-		$config = MediaWikiServices::getInstance()->getMainConfig();
-		if ( !$config->get( 'AiTranslationExtensionLanguageSidebar' ) ) {
-			return true;
-		}
-
-		$lang = $skin->getLanguage()->getCode();
-		$candidates = [ $lang ];
-		if ( strpos( $lang, '-' ) !== false ) {
-			$candidates[] = explode( '-', $lang )[0];
-		}
-
-		$text = '';
-		foreach ( $candidates as $code ) {
-			$title = Title::newFromText( "MediaWiki:Sidebar/$code" );
-			if ( $title && $title->exists() ) {
-				$page = MediaWikiServices::getInstance()
-					->getWikiPageFactory()
-					->newFromTitle( $title );
-				$content = $page->getContent();
-				if ( $content ) {
-					$candidate = ContentHandler::getContentText( $content );
-					if ( trim( $candidate ) !== '' ) {
-						$text = $candidate;
-						break;
-					}
-				}
-			}
-		}
-
-		if ( $text === '' ) {
-			return true;
-		}
-
-		$bar = [];
-		$skin->addToSidebarPlain( $bar, $text );
-		return false;
-	}
-
+class UnifiedLangSwitcherHooks {
 	public static function onBeforePageDisplay( $out, $skin ): bool {
-		$context = self::getUnifiedLangSwitcherContext( $out );
+		$context = self::getContext( $out );
 		if ( $context === null ) {
 			return true;
 		}
@@ -79,7 +41,7 @@ class HookHandler {
 		}
 
 		$out = $skin->getOutput();
-		$context = self::getUnifiedLangSwitcherContext( $out );
+		$context = self::getContext( $out );
 		if ( $context === null ) {
 			return true;
 		}
@@ -92,7 +54,7 @@ class HookHandler {
 			return true;
 		}
 
-		$html .= self::getUnifiedLangSwitcherPlaceholder( $position );
+		$html .= self::getPlaceholder( $position );
 		return true;
 	}
 
@@ -103,16 +65,16 @@ class HookHandler {
 			return true;
 		}
 
-		$context = self::getUnifiedLangSwitcherContext( $out );
+		$context = self::getContext( $out );
 		if ( $context === null ) {
 			return true;
 		}
 
-		$text = self::getUnifiedLangSwitcherPlaceholder( $position ) . $text;
+		$text = self::getPlaceholder( $position ) . $text;
 		return true;
 	}
 
-	private static function getUnifiedLangSwitcherContext( $out ): ?array {
+	private static function getContext( $out ): ?array {
 		$config = MediaWikiServices::getInstance()->getMainConfig();
 		if ( !$config->get( 'DRUnifiedLangSwitcherEnabled' ) ) {
 			return null;
@@ -170,7 +132,7 @@ class HookHandler {
 		];
 	}
 
-	private static function getUnifiedLangSwitcherPlaceholder( string $position ): string {
+	private static function getPlaceholder( string $position ): string {
 		return '<div class="dr-uls-container" data-dr-uls-position="' .
 			htmlspecialchars( $position ) . '"></div>';
 	}

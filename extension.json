@@ -45,16 +45,13 @@
 			"i18n"
 		]
 	},
-	"AutoloadClasses": {
-		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiLanguageStatus": "src/ApiLanguageStatus.php",
-		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php",
-		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler": "src/HookHandler.php"
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "AiTranslationExtension"
 	},
-	"Hooks": {
-		"SkinBuildSidebar": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onSkinBuildSidebar",
-		"SkinAfterPortlet": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onSkinAfterPortlet",
-		"BeforePageDisplay": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onBeforePageDisplay",
-		"OutputPageBeforeHTML": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\HookHandler::onOutputPageBeforeHTML"
+	"AutoloadClasses": {
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus": "src/ApiLanguageStatus.php",
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php"
 	},
 	"ResourceModules": {
 		"ext.danceresource.unifiedLangSwitcher": {
@@ -73,13 +70,13 @@
 			"dependencies": [
 				"mediawiki.api",
 				"mediawiki.util",
-				"mediawiki.notify",
+				"mediawiki.notification",
 				"ext.uls.common"
 			]
 		}
 	},
 	"APIModules": {
-		"markfortranslation": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiMarkForTranslation",
-		"danceresource-languagestatus": "MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\ApiLanguageStatus"
+		"markfortranslation": "MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation",
+		"danceresource-languagestatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus"
 	}
 }

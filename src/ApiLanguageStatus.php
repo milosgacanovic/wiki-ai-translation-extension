@@ -20,7 +20,7 @@ class ApiLanguageStatus extends ApiBase {
 
 		if ( !class_exists( TranslatablePage::class ) ) {
 			$this->getResult()->addValue( null, $this->getModuleName(), [
-				'isEligible' => false,
+				'isEligible' => 0,
 				'reason' => 'translate-missing'
 			] );
 			return;
@@ -28,7 +28,7 @@ class ApiLanguageStatus extends ApiBase {
 
 		if ( $title->isSpecialPage() ) {
 			$this->getResult()->addValue( null, $this->getModuleName(), [
-				'isEligible' => false,
+				'isEligible' => 0,
 				'reason' => 'specialpage'
 			] );
 			return;
@@ -41,7 +41,7 @@ class ApiLanguageStatus extends ApiBase {
 			$baseTitle = $handle->getTitleForBase();
 			if ( !$baseTitle ) {
 				$this->getResult()->addValue( null, $this->getModuleName(), [
-					'isEligible' => false,
+					'isEligible' => 0,
 					'reason' => 'invalid-base'
 				] );
 				return;
@@ -54,7 +54,7 @@ class ApiLanguageStatus extends ApiBase {
 
 		if ( !$marked ) {
 			$this->getResult()->addValue( null, $this->getModuleName(), [
-				'isEligible' => false,
+				'isEligible' => 0,
 				'reason' => 'not-marked'
 			] );
 			return;
@@ -74,7 +74,7 @@ class ApiLanguageStatus extends ApiBase {
 				'name' => $languageNameUtils->getLanguageName( $code ),
 				'autonym' => $languageNameUtils->getLanguageName( $code, $code ),
 				'percent' => $stats[$code] ?? null,
-				'exists' => true
+				'exists' => 1
 			];
 		}
 
@@ -85,7 +85,7 @@ class ApiLanguageStatus extends ApiBase {
 				'name' => $languageNameUtils->getLanguageName( $sourceLang ),
 				'autonym' => $languageNameUtils->getLanguageName( $sourceLang, $sourceLang ),
 				'percent' => 1.0,
-				'exists' => true
+				'exists' => 1
 			];
 		}
 
@@ -94,7 +94,7 @@ class ApiLanguageStatus extends ApiBase {
 		}
 
 		$this->getResult()->addValue( null, $this->getModuleName(), [
-			'isEligible' => true,
+			'isEligible' => 1,
 			'title' => $baseTitle->getPrefixedText(),
 			'currentLanguage' => $currentLanguage,
 			'sourceLanguage' => $sourceLang,

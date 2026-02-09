@@ -1,33 +1,9 @@
 .dr-uls-container {
 	margin: 0.5em 0;
+	pointer-events: auto;
 }
 
-.dr-uls-details {
-	border: 1px solid #c8ccd1;
-	border-radius: 6px;
-	padding: 0.4em 0.6em 0.6em;
-	background: #f8f9fa;
-}
-
-.dr-uls-summary {
-	font-weight: 600;
-	cursor: pointer;
-	list-style: none;
-}
-
-.dr-uls-summary::-webkit-details-marker {
-	display: none;
-}
-
-.dr-uls-search {
-	width: 100%;
-	margin: 0.5em 0;
-	padding: 0.4em 0.5em;
-	border: 1px solid #c8ccd1;
-	border-radius: 4px;
-}
-
-.dr-uls-list {
+.dr-uls-portlet .dr-uls-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -35,18 +11,18 @@
 	overflow-y: auto;
 }
 
-.dr-uls-list li {
+.dr-uls-portlet .dr-uls-list li {
 	margin: 0;
 	padding: 0.15em 0;
 }
 
-.dr-uls-list a {
+.dr-uls-portlet .dr-uls-list a {
 	text-decoration: none;
 	color: #0645ad;
 }
 
-.dr-uls-list a:hover,
-.dr-uls-list a:focus {
+.dr-uls-portlet .dr-uls-list a:hover,
+.dr-uls-portlet .dr-uls-list a:focus {
 	text-decoration: underline;
 }
 
@@ -55,7 +31,108 @@
 }
 
 .dr-uls-container[data-dr-uls-position="header"] {
-	margin: 0.5em 0 1em;
+	display: inline-flex;
+	float: right;
+	margin: 0 0 0.25em 1em;
+	z-index: 2;
+}
+
+#firstHeading {
+	overflow: auto;
+}
+
+.dr-titlebar {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.dr-titlebar-tools {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	overflow: visible;
+}
+
+.dr-titlebar-tools {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#content {
+	position: relative;
+}
+
+.dr-titlebar .dr-titlebar-tools {
+	position: static;
+}
+
+.dr-header-dropdown {
+	position: relative;
+}
+
+.dr-lang-portlet {
+	display: inline-flex;
+	width: auto;
+	max-width: max-content;
+	flex: 0 0 auto;
+	position: relative;
+}
+
+.dr-lang-portlet .dr-lang-dropdown {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	margin-top: 6px;
+	min-width: 220px;
+	background: #fff;
+	border: 1px solid #c8ccd1;
+	border-radius: 4px;
+	padding: 0.4em 0.6em;
+	box-shadow: 0 2px 8px rgba( 0, 0, 0, 0.08 );
+	z-index: 3;
+}
+
+.dr-lang-portlet.dr-open .dr-lang-dropdown {
+	display: block;
+}
+
+#p-language-compact > h3 {
+	cursor: pointer;
+	display: inline-block;
+	font-size: 1em;
+	line-height: 1.5;
+	padding: 0 2px 0 26px;
+	margin: 0;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: left center;
+	border: 0;
+	background-image: url("/skins/Timeless/resources/images/languages-grey.svg?7ad50");
+	white-space: nowrap;
+}
+
+#p-language-compact-label {
+	position: relative;
+	top: -2px;
+}
+
+#p-language-compact > h3 .dr-lang-icon {
+	display: none;
+}
+
+
+.dr-lang-caret {
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 5px solid #666;
+	display: inline-block;
+	margin-left: 6px;
 }
 
 .dr-uls-container[data-dr-uls-position="personal"] {

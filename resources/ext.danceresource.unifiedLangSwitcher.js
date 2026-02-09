@@ -11,16 +11,23 @@
 	function getContainer() {
 		var $container = $( '.dr-uls-container' ).first();
 		if ( $container.length ) {
+			if ( config.position === 'header' ) {
+				var $headerLinks = $( '#mw-page-header-links' );
+				if ( $headerLinks.length && !$container.closest( '#mw-page-header-links' ).length ) {
+					$headerLinks.append( $container );
+					$container.attr( 'data-dr-uls-position', 'header' );
+				}
+			}
 			return $container;
 		}
 
 		if ( config.position === 'header' ) {
-			var $heading = $( '#firstHeading' );
-			if ( $heading.length ) {
+			var $headerLinks = $( '#mw-page-header-links' );
+			if ( $headerLinks.length ) {
 				$container = $( '<div>' )
 					.addClass( 'dr-uls-container' )
 					.attr( 'data-dr-uls-position', 'header' );
-				$heading.after( $container );
+				$headerLinks.append( $container );
 				return $container;
 			}
 		}
@@ -58,6 +65,10 @@
 	}
 
 	function render( data ) {
+		if ( window.matchMedia && window.matchMedia( '(max-width: 720px)' ).matches ) {
+			return;
+		}
+
 		var $container = getContainer();
 		if ( !$container.length ) {
 			return;
@@ -91,23 +102,17 @@
 			return getLabel( a ).localeCompare( getLabel( b ) );
 		} );
 
-		var currentLabel = getLabel( {
-			code: data.currentLanguage,
-			autonym: getAutonym( data.currentLanguage ),
-			name: data.currentLanguage
-		} );
+		var contentLanguageCount = Object.keys( available ).length;
+		var labelText = contentLanguageCount + ' ' + mw.message( 'druls-languages' ).text();
+		var $label = $( '<h3>' )
+			.attr( 'id', 'p-language-compact-label' )
+			.append( $( '<span>' ).addClass( 'dr-lang-count' ).text( labelText ) )
+			.append( $( '<span>' ).addClass( 'dr-lang-caret' ) );
 
-		var $details = $( '<details>' ).addClass( 'dr-uls-details' );
-		var $summary = $( '<summary>' )
-			.addClass( 'dr-uls-summary' )
-			.text( mw.message( 'druls-languages' ).text() + ': ' + currentLabel );
-
-		var $search = $( '<input>' )
-			.addClass( 'dr-uls-search' )
-			.attr( 'type', 'search' )
-			.attr( 'placeholder', mw.message( 'druls-search-languages' ).text() );
-
-		var $list = $( '<ul>' ).addClass( 'dr-uls-list' );
+		var $list = $( '<ul>' )
+			.addClass( 'dr-uls-list' )
+			.attr( 'lang', mw.config.get( 'wgUserLanguage' ) || 'en' )
+			.attr( 'dir', mw.config.get( 'wgUserLanguageDir' ) || 'ltr' );
 
 		languages.forEach( function ( item ) {
 			var label = getLabel( item );
@@ -117,30 +122,80 @@
 				.attr( 'data-content-code', item.contentCode )
 				.text( label );
 
-			if ( normalizeContentCode( item.code ) === normalizeContentCode( data.currentLanguage ) ) {
+			var isCurrent = normalizeContentCode( item.code ) === normalizeContentCode( data.currentLanguage );
+			var $li = $( '<li>' )
+				.addClass( 'mw-list-item' );
+
+			if ( isCurrent ) {
+				$li.addClass( 'selected' );
 				$link.addClass( 'dr-uls-current' );
 			}
 
-			$list.append( $( '<li>' ).append( $link ) );
+			$li.append( $link );
+			$list.append( $li );
 		} );
 
-		$details
-			.append( $summary )
-			.append( $search )
+		var $body = $( '<div>' )
+			.addClass( 'mw-portlet-body dr-lang-dropdown' )
 			.append( $list );
 
-		$container.empty().append( $details );
+		var $portlet = $( '#p-language-compact' );
+		if ( !$portlet.length ) {
+			$portlet = $( '<div>' )
+				.attr( 'role', 'navigation' )
+				.addClass( 'mw-portlet dr-uls-portlet dr-header-dropdown dr-lang-portlet' )
+				.attr( 'id', 'p-language-compact' )
+				.attr( 'aria-labelledby', 'p-language-compact-label' );
+		}
 
-		$search.on( 'input', function () {
-			var query = $search.val().toLowerCase();
-			$list.find( 'li' ).each( function () {
-				var $li = $( this );
-				var text = $li.text().toLowerCase();
-				$li.toggle( text.indexOf( query ) !== -1 );
-			} );
+		$portlet.removeClass( 'dr-open' ).empty().append( $label ).append( $body );
+
+		$container.empty().append( $portlet );
+
+		var $variants = $( '#p-variants-desktop' );
+		if ( $variants.length ) {
+			$variants.addClass( 'dr-header-dropdown' );
+		}
+
+		if ( config.position === 'header' ) {
+			var $title = $( '#firstHeading' );
+			if ( $title.length ) {
+				var $headingWrap = $title.parent();
+				if ( $headingWrap.length ) {
+					// Remove any old misplaced containers
+					$( '#mw-page-header-links .dr-lang-tools' ).remove();
+
+					var $tools = $headingWrap.find( '> .dr-titlebar-tools' );
+					if ( !$tools.length ) {
+						$tools = $( '<div>' ).addClass( 'dr-titlebar-tools' );
+						$title.after( $tools );
+					}
+
+					if ( $headingWrap.attr( 'id' ) !== 'content' ) {
+						$headingWrap.addClass( 'dr-titlebar' );
+					}
+
+					if ( !$portlet.closest( '.dr-titlebar-tools' ).length ) {
+						$tools.append( $portlet );
+					}
+
+					// Clean up any stray tool containers outside the heading wrapper
+					$( '.dr-titlebar-tools' ).not( $tools ).remove();
+				}
+			}
+		}
+
+		$( document ).off( 'click.drLangCompact' ).on( 'click.drLangCompact', function () {
+			$portlet.removeClass( 'dr-open' );
 		} );
 
-		$list.on( 'click', 'a', function ( event ) {
+		$label.off( 'click.drLangCompact' ).on( 'click.drLangCompact', function ( event ) {
+			event.preventDefault();
+			event.stopPropagation();
+			$portlet.toggleClass( 'dr-open' );
+		} );
+
+		$container.on( 'click', '.dr-uls-list a', function ( event ) {
 			event.preventDefault();
 
 			var uiCode = $( this ).data( 'code' );
@@ -192,15 +247,20 @@
 		return $.Deferred().resolve();
 	}
 
-	api.get( {
-		action: 'danceresource-languagestatus',
-		title: config.baseTitle
-	} ).then( function ( res ) {
-		var data = res[ 'danceresource-languagestatus' ];
-		if ( !data || !data.isEligible ) {
-			return;
-		}
+	function loadAndRender() {
+		api.get( {
+			action: 'danceresource-languagestatus',
+			title: config.baseTitle
+		} ).then( function ( res ) {
+			var data = res[ 'danceresource-languagestatus' ];
+			var eligible = data && ( data.isEligible === 1 || data.isEligible === '1' || data.isEligible === true );
+			if ( !eligible ) {
+				return;
+			}
 
-		render( data );
-	} );
+			render( data );
+		} );
+	}
+
+	$( loadAndRender );
 }() );

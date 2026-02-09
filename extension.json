@@ -11,7 +11,10 @@
 		"MediaWiki": ">= 1.42.0"
 	},
 	"config": {
-		"AiTranslationExtensionLanguageSidebar": false
+		"AiTranslationExtensionLanguageSidebar": {
+			"value": false,
+			"description": "Use MediaWiki:Sidebar/<lang> based on the user interface language."
+		}
 	},
 	"AutoloadNamespaces": {
 		"MediaWiki\\\\Extension\\\\AiTranslationExtension\\\\": "src/"

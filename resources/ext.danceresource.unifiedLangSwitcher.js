@@ -6,7 +6,9 @@
 		return;
 	}
 
-	var api = new mw.Api();
+var debugUls = ( /\bdebuguls=1\b/ ).test( window.location.search );
+
+var api = new mw.Api();
 
 	function getContainer() {
 		var $container = $( '.dr-uls-container' ).first();
@@ -149,8 +151,10 @@
 				hrefTitle = data.title + '/' + item.contentCode;
 			}
 			var href = mw.util.getUrl( hrefTitle, { uselang: uiLang } );
+			var hrefNoUi = mw.util.getUrl( hrefTitle );
 			var $link = $( '<a>' )
 				.attr( 'href', href )
+				.attr( 'data-href-noui', hrefNoUi )
 				.attr( 'data-code', item.code )
 				.attr( 'data-content-code', item.contentCode )
 				.text( label );
@@ -228,13 +232,18 @@
 			$portlet.toggleClass( 'dr-open' );
 		} );
 
-		$container.on( 'click', '.dr-uls-list a', function ( event ) {
+		$( document ).off( 'click.drUlsLang', '#p-language-compact .dr-uls-list a' )
+			.on( 'click.drUlsLang', '#p-language-compact .dr-uls-list a', function ( event ) {
+			var debug = debugUls;
 			var uiCode = $( this ).data( 'code' );
 			var contentCode = $( this ).data( 'content-code' ) || uiCode;
 			contentCode = normalizeContentCode( contentCode );
+			var hrefNoUi = $( this ).data( 'href-noui' );
+			var hrefUi = $( this ).attr( 'href' );
+			var uiCodeForUi = uiCode === 'sr' ? 'sr-el' : uiCode;
 
 			if ( config.uiLanguageMode === 'user_preference_only' && !mw.user.isNamed() ) {
-				uiCode = null;
+				uiCodeForUi = null;
 			}
 
 			var targetTitle = data.title;
@@ -251,9 +260,23 @@
 				if ( config.fallbackBehavior === 'stay_and_notify' ) {
 					event.preventDefault();
 					mw.notify( mw.message( 'druls-translation-not-available' ).text() );
-					setInterfaceLanguage( uiCode );
+					if ( uiCodeForUi ) {
+						setInterfaceLanguage( uiCodeForUi );
+					}
 					return;
 				}
+			}
+			// Persist UI language when possible, then navigate without uselang.
+			if ( uiCodeForUi ) {
+				event.preventDefault();
+				mw.loader.using( 'ext.uls.common' ).then( function () {
+					return setInterfaceLanguage( uiCodeForUi );
+				} ).then( function () {
+					window.location.href = hrefNoUi || hrefUi;
+				} ).catch( function ( err ) {
+					window.location.href = hrefUi;
+				} );
+				return;
 			}
 			// Allow normal navigation; UI language is set via uselang param.
 		} );

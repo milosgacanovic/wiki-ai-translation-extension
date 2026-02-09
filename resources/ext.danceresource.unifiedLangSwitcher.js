@@ -64,6 +64,23 @@
 		return code;
 	}
 
+	function getCurrentContentLanguage( data ) {
+		var pageName = mw.config.get( 'wgPageName' ) || '';
+		var match = pageName.match( /\/([a-z-]+)$/i );
+		var current = ( match ? match[1].toLowerCase() : '' ) ||
+			( data && data.currentLanguage ) ||
+			mw.config.get( 'wgPageContentLanguage' ) ||
+			mw.config.get( 'wgUserLanguage' ) ||
+			data.sourceLanguage;
+
+		var variant = mw.config.get( 'wgUserVariant' );
+		if ( current === 'sr' && variant && variant.indexOf( 'sr-' ) === 0 ) {
+			current = variant;
+		}
+
+		return current;
+	}
+
 	function render( data ) {
 		if ( window.matchMedia && window.matchMedia( '(max-width: 720px)' ).matches ) {
 			return;
@@ -88,13 +105,16 @@
 		available[ data.sourceLanguage ] = true;
 
 		if ( available.sr ) {
-			[ 'sr-ec', 'sr-el' ].forEach( function ( variant ) {
-				languages.push( {
-					code: variant,
-					contentCode: 'sr',
-					autonym: getAutonym( variant ),
-					name: getAutonym( variant )
-				} );
+			languages = languages.map( function ( item ) {
+				if ( item.code === 'sr' ) {
+					return {
+						code: 'sr',
+						contentCode: 'sr',
+						autonym: 'Srpski',
+						name: 'Srpski'
+					};
+				}
+				return item;
 			} );
 		}
 
@@ -102,6 +122,10 @@
 			return getLabel( a ).localeCompare( getLabel( b ) );
 		} );
 
+		var currentContentLanguage = getCurrentContentLanguage( data );
+		if ( currentContentLanguage.indexOf( 'sr-' ) === 0 ) {
+			currentContentLanguage = 'sr';
+		}
 		var contentLanguageCount = Object.keys( available ).length;
 		var labelText = contentLanguageCount + ' ' + mw.message( 'druls-languages' ).text();
 		var $label = $( '<h3>' )
@@ -122,7 +146,7 @@
 				.attr( 'data-content-code', item.contentCode )
 				.text( label );
 
-			var isCurrent = normalizeContentCode( item.code ) === normalizeContentCode( data.currentLanguage );
+			var isCurrent = normalizeContentCode( item.code ) === normalizeContentCode( currentContentLanguage );
 			var $li = $( '<li>' )
 				.addClass( 'mw-list-item' );
 

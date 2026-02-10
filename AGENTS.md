@@ -52,7 +52,6 @@ Config flags (LocalSettings):
 ## Important Notes
 - **Do not push to `origin` unless explicitly asked.**
 - Avoid adding code directly to `LocalSettings.php`; keep logic in `local-hooks.php`.
-- Timeless skin layout is sensitive; avoid wrapping `#content` or reparenting `#firstHeading`.
 
 ## Commit/Push Workflow
 - Commit locally as needed.

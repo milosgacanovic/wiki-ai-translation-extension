@@ -129,18 +129,16 @@ var api = new mw.Api();
 			currentContentLanguage = 'sr';
 		}
 		languages.sort( function ( a, b ) {
-			var aCurrent = normalizeContentCode( a.code ) === normalizeContentCode( currentContentLanguage );
-			var bCurrent = normalizeContentCode( b.code ) === normalizeContentCode( currentContentLanguage );
-			if ( aCurrent && !bCurrent ) {
-				return -1;
-			}
-			if ( bCurrent && !aCurrent ) {
-				return 1;
-			}
 			return getLabel( a ).localeCompare( getLabel( b ) );
 		} );
-		var contentLanguageCount = Object.keys( available ).length;
-		var labelText = contentLanguageCount + ' ' + mw.message( 'druls-languages' ).text();
+		var currentItem = null;
+		for ( var i = 0; i < languages.length; i++ ) {
+			if ( normalizeContentCode( languages[ i ].code ) === normalizeContentCode( currentContentLanguage ) ) {
+				currentItem = languages[ i ];
+				break;
+			}
+		}
+		var labelText = currentItem ? getLabel( currentItem ) : mw.message( 'druls-languages' ).text();
 		var $label = $( '<h3>' )
 			.attr( 'id', 'p-language-compact-label' )
 			.append( $( '<span>' ).addClass( 'dr-lang-count' ).text( labelText ) )

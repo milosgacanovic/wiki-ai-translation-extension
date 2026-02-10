@@ -49,7 +49,11 @@ var api = new mw.Api();
 	}
 
 	function getLabel( item ) {
-		return item.autonym || item.name || item.code;
+		var label = item.autonym || item.name || item.code;
+		if ( !label ) {
+			return label;
+		}
+		return label.charAt( 0 ).toUpperCase() + label.slice( 1 );
 	}
 
 	function normalizeContentCode( code ) {
@@ -120,14 +124,21 @@ var api = new mw.Api();
 			} );
 		}
 
-		languages.sort( function ( a, b ) {
-			return getLabel( a ).localeCompare( getLabel( b ) );
-		} );
-
 		var currentContentLanguage = getCurrentContentLanguage( data );
 		if ( currentContentLanguage.indexOf( 'sr-' ) === 0 ) {
 			currentContentLanguage = 'sr';
 		}
+		languages.sort( function ( a, b ) {
+			var aCurrent = normalizeContentCode( a.code ) === normalizeContentCode( currentContentLanguage );
+			var bCurrent = normalizeContentCode( b.code ) === normalizeContentCode( currentContentLanguage );
+			if ( aCurrent && !bCurrent ) {
+				return -1;
+			}
+			if ( bCurrent && !aCurrent ) {
+				return 1;
+			}
+			return getLabel( a ).localeCompare( getLabel( b ) );
+		} );
 		var contentLanguageCount = Object.keys( available ).length;
 		var labelText = contentLanguageCount + ' ' + mw.message( 'druls-languages' ).text();
 		var $label = $( '<h3>' )
@@ -306,9 +317,8 @@ function loadAndRender() {
 		}
 
 		render( data );
+		autoSyncUiLanguage( data );
 	} );
-
-	autoSetAnonUiLanguage();
 }
 
 $( loadAndRender );
@@ -340,5 +350,43 @@ function autoSetAnonUiLanguage() {
 	} ).then( function () {
 		window.location.reload();
 	} );
+}
+
+function autoSyncUiLanguage( data ) {
+	if ( !mw.user.isNamed() ) {
+		autoSetAnonUiLanguage();
+		return;
+	}
+
+	if ( config.uiLanguageMode === 'user_preference_only' || config.uiLanguageMode === 'uls_cookie' ) {
+		var currentContent = getCurrentContentLanguage( data );
+		if ( !currentContent ) {
+			return;
+		}
+
+		var targetUi = currentContent.indexOf( 'sr' ) === 0 ? 'sr-el' : currentContent;
+		var currentUi = mw.config.get( 'wgUserLanguage' ) || '';
+
+		if ( currentUi === targetUi ) {
+			if ( window.sessionStorage ) {
+				window.sessionStorage.removeItem( 'drUlsSync' );
+			}
+			return;
+		}
+
+		if ( window.sessionStorage ) {
+			var lastSync = window.sessionStorage.getItem( 'drUlsSync' );
+			if ( lastSync === targetUi ) {
+				return;
+			}
+			window.sessionStorage.setItem( 'drUlsSync', targetUi );
+		}
+
+		mw.loader.using( [ 'ext.uls.common', 'mediawiki.cookie' ] ).then( function () {
+			return setInterfaceLanguage( targetUi );
+		} ).then( function () {
+			window.location.reload();
+		} );
+	}
 }
 }() );

@@ -60,6 +60,7 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	}
 
 	$out->addModuleStyles( [ 'ext.danceresource.common' ] );
+	$out->addModuleStyles( [ 'ext.danceresource.unifiedLangSwitcher' ] );
 	$out->addModules( [ 'ext.danceresource.common' ] );
 	$out->addModules( [ 'ext.danceresource.unifiedLangSwitcher' ] );
 	$out->addJsConfigVars( 'drUls', [

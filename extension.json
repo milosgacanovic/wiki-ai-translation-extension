@@ -54,6 +54,14 @@
 		"MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php"
 	},
 	"ResourceModules": {
+		"ext.danceresource.common": {
+			"scripts": [
+				"resources/ext.danceresource.common.js"
+			],
+			"styles": [
+				"resources/ext.danceresource.common.css"
+			]
+		},
 		"ext.danceresource.unifiedLangSwitcher": {
 			"scripts": [
 				"resources/ext.danceresource.unifiedLangSwitcher.js"

@@ -59,6 +59,8 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		$currentLanguage = $sourceLanguage;
 	}
 
+	$out->addModuleStyles( [ 'ext.danceresource.common' ] );
+	$out->addModules( [ 'ext.danceresource.common' ] );
 	$out->addModules( [ 'ext.danceresource.unifiedLangSwitcher' ] );
 	$out->addJsConfigVars( 'drUls', [
 		'enabled' => true,

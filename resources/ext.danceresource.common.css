@@ -1,0 +1,1199 @@
+/* =========================================================
+   DanceResource Wiki — clean + modest (Timeless)
+   FULL PASTE (safe overwrite)
+
+   Minimal update vs last working:
+   - Ensure Page/Discussion are hidden by default on ALL pages
+   - Reveal Page/Discussion + actions on hover/focus of #mw-page-header-links (consistent everywhere)
+   Everything else unchanged.
+   ========================================================= */
+
+
+/*  fixing MediaWiki:Common.css font   */
+.page-MediaWiki_Common_css .wikiEditor-ui-view {
+  font-family: monospace !important;
+}
+
+.mw-body h1.firstHeading {
+    margin: 0.25em 0 0;
+    border-bottom: solid 3px #d3d3d3;
+    display: block;
+}
+
+/* =========================================================
+   DanceResource Wiki – Welcome page landing polish
+   Scope: body.page-Welcome_to_the_DanceResource_Wiki only
+   ========================================================= */
+
+
+/*  fixing language selector on main page   */
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #bodyContent {
+    margin-top: 30px;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-titlebar-tools {
+    top: -28px !important;
+}
+
+/*  fixing first p on all pages  */ 
+.mw-body-content p:first-of-type {
+	margin-top:0.4rem;
+}
+
+
+/* =========================================================
+   Welcome page: create a quiet meta row above the hero
+   ========================================================= */
+
+/* Give the page-header-links area a small, intentional height */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-page-header-links {
+  height: 34px;
+  margin: 10px 0 0;
+}
+
+/* Position actions on the left within that row */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #dr-header-row {
+  top: 6px;
+  left: 0;
+  opacity: 0.72;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #dr-header-row:hover {
+  opacity: 1;
+}
+
+/* Put language selector on the right, aligned with the same row */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-titlebar-tools {
+  position: absolute;
+  right: 0;
+  top: 4px;
+  margin: 0;
+  padding: 0 14px;
+  z-index: 80;
+}
+
+/* Ensure the hero doesn’t collide with the meta row */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero {
+  margin-top: 18px;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero img {
+  opacity: 0.82;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-content {
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+
+
+
+
+
+
+/* ---------------------------------
+   Keep semantic H1, hide visually
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #firstHeading,
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-page-title-main {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ---------------------------------
+   Reduce default wiki chrome noise
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #contentSub,
+body.rootpage-Welcome_to_the_DanceResource_Wiki #siteSub {
+  display: none;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-indicators {
+  margin-bottom: 0;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output {
+/*  padding-top: 22px;*/
+}
+
+/* Hide section [edit] links on the landing page */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-editsection {
+  display: none;
+}
+
+/* Optional: remove duplicated huge sidebar logo on THIS page only */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-site-navigation #p-logo {
+  display: none;
+}
+
+
+
+
+
+
+/* ---------------------------------
+   Hero: remove "card", make editorial
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero {
+  max-width: 980px;
+  margin: 10px auto 24px;
+  padding: 26px 14px 22px;
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  /* editorial separation (not a component box) */
+  border-top: 1px solid rgba(0,0,0,.10);
+  border-bottom: 1px solid rgba(0,0,0,.10);
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-inner {
+  /* desktop layout handled below via grid */
+  text-align: left;
+}
+
+/* ---------------------------------
+   Desktop layout: logo left, copy right
+   --------------------------------- */
+@media (min-width: 860px) {
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-inner {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    column-gap: 34px;
+    align-items: center;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero figure {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    margin: 0;
+    align-self: start;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-title,
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-subtitle,
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-lead,
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-links {
+    grid-column: 2;
+  }
+}
+
+/* ---------------------------------
+   Hero image: smaller, quieter
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero figure {
+  margin: 0 0 12px;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero img {
+  max-width: 180px;
+  width: 100%;
+  height: auto;
+  opacity: 0.90;
+}
+
+/* ---------------------------------
+   Typography: calmer, more "reading"
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-title {
+  font-size: 36px;
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 2px 0 10px;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-subtitle {
+  font-size: 16px;
+  font-weight: 650;
+  margin: 0 0 12px;
+  opacity: 0.82;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-lead {
+  max-width: 68ch;
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: 0.88;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-lead i {
+  opacity: 0.95;
+}
+
+/* ---------------------------------
+   Links: editorial underline (not buttony)
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-links {
+  margin-top: 6px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  opacity: 0.86;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  font-weight: 650;
+  border: 0;
+  padding: 0;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------------------------------
+   Transition to content below: tighten + align style
+   --------------------------------- */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero + h2 {
+  margin-top: 22px;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output > h2 {
+  font-size: 32px;
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  margin-top: 34px;
+}
+
+/* ---------------------------------
+   Mobile: stack, center, reduce title size
+   --------------------------------- */
+@media (max-width: 859px) {
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-titlebar-tools {
+    padding: 0 12px;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero {
+    padding: 22px 12px 18px;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-inner {
+    text-align: center;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero img {
+    max-width: 150px;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-title {
+    font-size: 30px;
+    line-height: 1.12;
+  }
+
+  body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* =========================================================
+   Welcome page – final polish
+   ========================================================= */
+
+/* 1) Remove noisy heading rules/lines that fight the hero */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-title {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-title:before,
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero-title:after {
+  content: none !important;
+}
+
+/* Some skins inject HR-like separators around headings */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output hr {
+  opacity: 0.55;
+}
+
+/* 2) Make section headings calmer + closer to hero tone */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output > h2 {
+  font-size: 28px !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  margin-top: 28px !important;
+  margin-bottom: 10px !important;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output > h2:after,
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output > h2:before {
+  content: none !important;
+}
+
+/* 3) Make the Quick Start block feel like onboarding, not docs */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #Quick_Start_Guide ~ p:first-of-type {
+  max-width: 72ch;
+  opacity: 0.88;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #Quick_Start_Guide ~ ul {
+  max-width: 72ch;
+  margin-top: 12px;
+  padding-left: 0;
+  list-style: none;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #Quick_Start_Guide ~ ul > li {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,.65);
+  box-shadow: 0 8px 20px rgba(0,0,0,.03);
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #Quick_Start_Guide ~ ul > li b {
+  display: inline-block;
+  min-width: 12ch;
+}
+
+/* 4) Reduce sidebar dominance on this page only */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-site-navigation .sidebar-chunk {
+  opacity: 0.88;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-site-navigation a {
+  opacity: 0.92;
+}
+
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-site-navigation a:hover {
+  opacity: 1;
+}
+
+/* 5) Slightly widen readable content line-length */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile: keep the “cards” from feeling cramped */
+@media (max-width: 859px) {
+  body.rootpage-Welcome_to_the_DanceResource_Wiki #Quick_Start_Guide ~ ul > li {
+    padding: 10px 10px;
+    border-radius: 10px;
+  }
+}
+
+
+
+
+
+
+
+/* =========================================================
+   Welcome page: kill header-links bar + float tools cleanly
+   ========================================================= */
+
+/* Remove the header-links bar footprint entirely */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-page-header-links {
+  position: relative;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+/* Hide the clearfix that creates extra vertical space */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #mw-page-header-links + .visualClear {
+  display: none;
+}
+
+/* Float the moved header row (Page / Discussion / Edit…) to the LEFT */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #dr-header-row {
+  position: absolute;
+  top: 6px;
+  left: 0;
+
+  display: flex;
+  gap: 12px;
+
+  margin: 0;
+  padding: 0;
+
+  z-index: 20;
+}
+
+/* Keep "More" inline but compact */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #dr-header-row #p-more {
+  margin: 0;
+}
+
+
+/* Tighten hero spacing now that the bar is gone */
+body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero {
+  margin-top: 16px;
+}
+
+
+/* tabs above the line */
+body.rootpage-Welcome_to_the_DanceResource_Wiki #dr-header-row {
+	top: -20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* hide language variants selector */
+
+#p-variants-desktop {
+	  display: none !important;
+}
+
+/* disclamer */
+.translation-disclaimer {
+    width: 100%;
+    text-align: center;
+    background: #fff8e1;
+    border: 1px solid #d9a441;
+    padding: 10px 12px;
+    margin: 0 0 12px 0;
+    font-size: 0.92em;
+  }
+  .translation-disclaimer-link {
+    color: inherit;
+    text-decoration: underline dotted;
+  }
+
+
+
+
+/* Hide "(Redirected from ...)" line */
+.mw-redirectedfrom { display: none !important; }
+
+/* Hide ApprovedRevs banners everywhere */
+body.approvedRevs-approved .approvedAndLatestMsg,
+body.approvedRevs-approved .approvingUser,
+#contentSub .approvedAndLatestMsg,
+#contentSub .approvingUser {
+  display: none !important;
+}
+
+/* Keep ONLY subpages inside content subtitle, hide redirected-from and remove double <br> spacing */
+#contentSub { margin: 0 !important; padding: 0 !important; }
+#mw-content-subtitle { margin: 0 !important; padding: 0 !important; }
+#mw-content-subtitle br { display: none !important; }
+#mw-content-subtitle .mw-redirectedfrom { display: none !important; }
+#mw-content-subtitle > :not(.subpages) { display: none !important; }
+
+/* =========================
+   Breadcrumb (subpages) styling
+   - less padding below, more above
+   - spacing between "<" and text consistent
+   ========================= */
+#mw-content-subtitle .subpages {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;            /* consistent spacing between "<" and the link */
+  white-space: nowrap !important;
+
+/*
+  margin-top: 14px !important;    /* more above */
+  margin-bottom: 6px !important;  /* less below */
+
+/*
+  padding: 6px 10px !important;
+  border-radius: 10px !important;
+  background: #f3f4f6 !important;
+  border: 1px solid #e5e7eb !important;
+*/
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
+#mw-content-subtitle .subpages a,
+#mw-content-subtitle .subpages a:visited {
+  color: #1d4ed8 !important;
+  text-decoration: none !important;
+}
+#mw-content-subtitle .subpages a:hover { text-decoration: underline !important; }
+
+/* =========================
+   Remove “wiki-ish” clutter + old bars
+   ========================= */
+body.skin-timeless #siteSub,
+body.skin-timeless .printfooter { display: none !important; }
+
+body.skin-timeless #mw-header-hack,
+body.skin-timeless #mw-header-nav-hack { display: none !important; }
+
+/* =========================
+   Full width + modest outer padding
+   ========================= */
+body.skin-timeless #mw-content-block,
+body.skin-timeless #mw-content-wrapper,
+body.skin-timeless #mw-content {
+  max-width: none !important;
+}
+
+body.skin-timeless #mw-content-container .ts-inner,
+body.skin-timeless #mw-header-container .ts-inner,
+body.skin-timeless #mw-footer-container .ts-inner {
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+}
+
+body.skin-timeless #mw-header-container {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* =========================
+   Inter everywhere (except text logo, which we hide anyway)
+   ========================= */
+body.skin-timeless,
+body.skin-timeless #mw-content-container,
+body.skin-timeless #mw-content-container *,
+body.skin-timeless #mw-navigation,
+body.skin-timeless #mw-navigation *,
+body.skin-timeless #mw-related-navigation,
+body.skin-timeless #mw-related-navigation * {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+}
+
+body.skin-timeless #mw-content-container {
+  color: #111827;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* Request: push content down a bit */
+body.skin-timeless #mw-content-container {
+  margin-top: 3.2em;
+}
+
+/* =========================
+   Remove text logo so search begins from the left
+   (also keep serif styling if it ever gets shown somewhere else)
+   ========================= */
+#p-logo-text a {
+  font-variant: normal;
+  font-family: 'Linux Libertine', 'Times New Roman', 'Liberation Serif', 'Nimbus Roman', 'Noto Serif', 'Times', serif;
+  color: #111 !important;
+  text-decoration: none !important;
+}
+#p-logo-text a.long {
+  font-size: 1.3em;
+  padding: 0.4em 0.75em 0 0;
+}
+body.skin-timeless #p-logo-text { display: none !important; }
+
+/* =========================
+   Search input — your exact “flat” block
+   ========================= */
+body.skin-timeless #searchInput {
+  border: 0 !important;
+  margin: 0 !important;
+  height: 2.1em !important;
+  padding: 0.5em !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  font-family: inherit !important;
+}
+body.skin-timeless #searchInput:focus { outline: none !important; }
+
+/* =========================
+   Personal / username smaller (support both ids)
+   ========================= */
+body.skin-timeless #personal,
+body.skin-timeless #personal *,
+body.skin-timeless #p-personal,
+body.skin-timeless #p-personal * {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+}
+body.skin-timeless #personal h2,
+body.skin-timeless #p-personal h2 { margin: 0 !important; }
+body.skin-timeless #personal h2 span,
+body.skin-timeless #p-personal h2 span { font-weight: 400 !important; }
+
+/* =========================
+   Links: darker blue, visited SAME color
+   ========================= */
+body.skin-timeless a,
+body.skin-timeless a:visited {
+  color: #1d4ed8 !important;
+  text-decoration: none;
+}
+body.skin-timeless a:hover { text-decoration: underline; }
+
+/* Redlinks */
+body.skin-timeless a.new,
+body.skin-timeless a.new:visited { color: #d92d20 !important; }
+
+/* =========================
+   Headings: NOT bold, Inter
+   ========================= */
+body.skin-timeless #firstHeading,
+body.skin-timeless .mw-parser-output h1,
+body.skin-timeless .mw-parser-output h2,
+body.skin-timeless .mw-parser-output h3,
+body.skin-timeless .mw-parser-output h4,
+body.skin-timeless .mw-parser-output h5,
+body.skin-timeless .mw-parser-output h6 {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-weight: 400 !important;
+}
+
+/* Thicker divider below H2 */
+body.skin-timeless .mw-parser-output h2 {
+  border-bottom: 2px solid #e5e7eb !important;
+  padding-bottom: 10px;
+}
+
+/* Section edit links: only on hover */
+.mw-editsection { opacity: 0; transition: opacity .15s ease; }
+h1:hover .mw-editsection, h1:focus-within .mw-editsection,
+h2:hover .mw-editsection, h2:focus-within .mw-editsection,
+h3:hover .mw-editsection, h3:focus-within .mw-editsection,
+h4:hover .mw-editsection, h4:focus-within .mw-editsection,
+h5:hover .mw-editsection, h5:focus-within .mw-editsection,
+h6:hover .mw-editsection, h6:focus-within .mw-editsection { opacity: 1; }
+
+/* =========================
+   Sidebars
+   ========================= */
+body.skin-timeless .mw-portlet {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+body.skin-timeless .sidebar-chunk > h2 {
+  font-size: 12px;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+/* Navigation links spacing (your exact desired block) */
+body.skin-timeless .mw-portlet-body ul { margin: 0 !important; padding: 0 !important; }
+body.skin-timeless .mw-portlet-body ul li { margin: 2px 0 !important; padding: 0 !important; }
+body.skin-timeless .mw-portlet-body ul li a {
+  display: block;
+  padding: 4px 0px !important;
+  border-radius: 8px;
+}
+body.skin-timeless .mw-portlet-body ul li a:hover { background: #f3f4f6; }
+
+/* Smaller logo above Navigation */
+body.skin-timeless #mw-navigation #p-logo img,
+body.skin-timeless #mw-navigation #p-logo .mw-wiki-logo {
+  max-width: 92px !important;
+  height: auto !important;
+  margin-bottom: 6px !important;
+}
+
+/* =========================
+   Header actions row layout:
+   Breadcrumb left, buttons RIGHT (show on hover)
+   Works best if your wrapper #dr-header-row exists.
+   ========================= */
+
+/* Make header row behave predictably */
+body.skin-timeless #dr-header-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+/* Push namespaces + views to the right */
+body.skin-timeless #dr-header-row #p-namespaces { margin-left: auto !important; }
+body.skin-timeless #dr-header-row #p-views { margin-left: 6px !important; }
+
+/* Horizontal lists */
+body.skin-timeless #dr-header-row #p-namespaces ul,
+body.skin-timeless #dr-header-row #p-views ul {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Consistent button typography */
+body.skin-timeless #dr-header-row #p-namespaces a,
+body.skin-timeless #dr-header-row #p-views a {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+}
+
+/* Hide Page/Discussion + view items (except Read) by default */
+body.skin-timeless #dr-header-row #p-namespaces li,
+body.skin-timeless #dr-header-row #p-views li:not(#ca-view) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .15s ease, visibility .15s ease;
+}
+
+/* Fallback hide behavior (if dr-header-row is absent) */
+body.skin-timeless #p-views li:not(#ca-view) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .15s ease, visibility .15s ease;
+}
+
+/* Reveal everything when hovering header links area */
+body.skin-timeless #mw-page-header-links:hover #p-namespaces li,
+body.skin-timeless #mw-page-header-links:focus-within #p-namespaces li,
+body.skin-timeless #mw-page-header-links:hover #p-views li:not(#ca-view),
+body.skin-timeless #mw-page-header-links:focus-within #p-views li:not(#ca-view),
+body.skin-timeless #dr-header-row:hover #p-namespaces li,
+body.skin-timeless #dr-header-row:focus-within #p-namespaces li,
+body.skin-timeless #dr-header-row:hover #p-views li:not(#ca-view),
+body.skin-timeless #dr-header-row:focus-within #p-views li:not(#ca-view) {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Keep Read always visible */
+body.skin-timeless #p-views #ca-view,
+body.skin-timeless #dr-header-row #p-views #ca-view {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Pill styling for all header buttons */
+body.skin-timeless #p-namespaces a,
+body.skin-timeless #p-views a,
+body.skin-timeless #dr-header-row #p-namespaces a,
+body.skin-timeless #dr-header-row #p-views a {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 6px 10px !important;
+  border-radius: 10px !important;
+  color: #1d4ed8 !important;
+  text-decoration: none !important;
+  background-image: none !important;
+}
+body.skin-timeless #p-namespaces a:hover,
+body.skin-timeless #p-views a:hover,
+body.skin-timeless #dr-header-row #p-namespaces a:hover,
+body.skin-timeless #dr-header-row #p-views a:hover {
+  background: #f3f4f6 !important;
+}
+
+/* Selected Page/Discussion tab subtle */
+body.skin-timeless #p-namespaces li.selected a {
+  background: #f3f4f6 !important;
+}
+
+/* Remove icons from Page/Discussion and from Edit/Edit source/History (pseudo + any icon spans) */
+body.skin-timeless #p-namespaces a::before,
+body.skin-timeless #p-namespaces a::after,
+body.skin-timeless #p-views a::before,
+body.skin-timeless #p-views a::after {
+  content: none !important;
+  display: none !important;
+}
+body.skin-timeless #ca-ve-edit .mw-ui-icon,
+body.skin-timeless #ca-edit .mw-ui-icon,
+body.skin-timeless #ca-history .mw-ui-icon,
+body.skin-timeless #ca-talk .mw-ui-icon,
+body.skin-timeless #ca-nstab-main .mw-ui-icon {
+  display: none !important;
+}
+
+/* =========================
+   Watch star
+   - Ensure it appears and doesn’t collapse (even if theme icon vanishes)
+   ========================= */
+
+/* Keep watch items participating (they still reveal on hover like others) */
+body.skin-timeless #ca-watch,
+body.skin-timeless #ca-unwatch {
+  display: inline-flex !important;
+}
+
+/* Replace missing icon with a star glyph */
+body.skin-timeless #ca-watch a span,
+body.skin-timeless #ca-unwatch a span {
+  display: none !important; /* hide text label if any */
+}
+body.skin-timeless #ca-watch a::before,
+body.skin-timeless #ca-unwatch a::before {
+  content: "★" !important;
+  display: inline-block !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  color: #1d4ed8 !important;
+}
+
+/* =========================
+   Footer
+   ========================= */
+body.skin-timeless #mw-footer-container {
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+/* =========================================================
+   MINIMAL FIX: Hide Page/Discussion by default on ALL pages
+   (your issue: on pages without .subpages, they were staying visible)
+   ========================================================= */
+
+/* Hide namespaces portlet by default everywhere */
+body.skin-timeless #p-namespaces {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity .15s ease, visibility .15s ease;
+}
+
+/* Reveal namespaces on hover/focus of the header area */
+body.skin-timeless #mw-page-header-links:hover #p-namespaces,
+body.skin-timeless #mw-page-header-links:focus-within #p-namespaces {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   SMALL PATCH
+   1) dr-row: less vertical space
+   2) buttons: tab shape (rounded top, square bottom)
+   ========================================================= */
+
+/* 1) Less top/bottom space around the header row area */
+body.skin-timeless #dr-header-row,
+body.skin-timeless #mw-page-header-links {
+  margin-top: 2px !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* If the inner row itself has extra spacing */
+body.skin-timeless #dr-header-row > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Breadcrumb line: tighten vertical rhythm */
+body.skin-timeless #mw-content-subtitle .subpages {
+  margin-top: 10px !important;   /* was 14 */
+  margin-bottom: 4px !important; /* was 6  */
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+/* 2) Tab shape: rounded only on top, square bottom */
+body.skin-timeless #p-namespaces a,
+body.skin-timeless #p-views a,
+body.skin-timeless #dr-header-row #p-namespaces a,
+body.skin-timeless #dr-header-row #p-views a {
+  border-radius: 10px 10px 0 0 !important; /* top-left, top-right, bottom-right, bottom-left */
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+/* Optional: make selected tab look more "attached" */
+body.skin-timeless #p-namespaces li.selected a {
+  border-bottom: 2px solid #fff !important; /* hides any seam if there is a line below */
+}
+
+/* =========================================================
+   FIX: actually reduce header-row height (Timeless overrides)
+   Paste at END of CSS
+   ========================================================= */
+
+body.skin-timeless #mw-page-header-links,
+body.skin-timeless #mw-page-header-links * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+body.skin-timeless #mw-page-header-links {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Your row */
+body.skin-timeless #dr-header-row {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  line-height: 1 !important;
+}
+
+/* The Timeless “tools-inline” portlets inside the row */
+body.skin-timeless #dr-header-row .mw-portlet.tools-inline,
+body.skin-timeless #dr-header-row .mw-portlet.tools-inline .mw-portlet-body,
+body.skin-timeless #dr-header-row .mw-portlet.tools-inline ul,
+body.skin-timeless #dr-header-row .mw-portlet.tools-inline li {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  line-height: 1 !important;
+}
+
+/* Tabs/actions: reduce vertical padding + force tab shape */
+body.skin-timeless #dr-header-row #p-namespaces a,
+body.skin-timeless #dr-header-row #p-views a,
+body.skin-timeless #mw-page-header-links #p-namespaces a,
+body.skin-timeless #mw-page-header-links #p-views a {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  line-height: 1 !important;
+  border-radius: 10px 10px 0 0 !important; /* rounded top only */
+}
+
+/* Breadcrumb pill: reduce vertical footprint */
+body.skin-timeless #mw-content-subtitle .subpages {
+  margin-top: 8px !important;
+  margin-bottom: 4px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  line-height: 1 !important;
+}
+
+/* If Timeless is reserving space for the (hidden) namespaces label */
+body.skin-timeless #p-namespaces-label {
+  display: none !important;
+}
+
+/* =========================
+   FIX: show Watch / Unwatch as a real button (star)
+   ========================= */
+
+body.skin-timeless #ca-watch,
+body.skin-timeless #ca-unwatch {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Hide the text label but keep the button */
+body.skin-timeless #ca-watch a span,
+body.skin-timeless #ca-unwatch a span {
+  display: none !important;
+}
+
+/* Force visible star icon */
+body.skin-timeless #ca-watch a::before,
+body.skin-timeless #ca-unwatch a::before {
+  content: "★" !important;
+  display: inline-block !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  color: #1d4ed8 !important;
+}
+
+/* Make it look like the other header pills */
+body.skin-timeless #ca-watch a,
+body.skin-timeless #ca-unwatch a {
+  padding: 4px 10px !important;
+  border-radius: 10px 10px 0 0 !important; /* tab shape */
+}
+
+/* =========================
+   Make breadcrumb arrow look like a link
+   ========================= */
+
+body.skin-timeless #mw-content-subtitle .subpages {
+  color: #1d4ed8 !important; /* arrow inherits this */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Breadcrumb styling must also apply after JS moves .subpages into #dr-header-row */
+body.skin-timeless #mw-page-header-links .subpages,
+body.skin-timeless #dr-header-row .subpages,
+body.skin-timeless #mw-content-subtitle .subpages {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  white-space: nowrap !important;
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+
+  /* makes "<" blue too */
+  color: #1d4ed8 !important;
+}
+
+body.skin-timeless #mw-page-header-links .subpages a,
+body.skin-timeless #dr-header-row .subpages a,
+body.skin-timeless #mw-content-subtitle .subpages a,
+body.skin-timeless #mw-page-header-links .subpages a:visited,
+body.skin-timeless #dr-header-row .subpages a:visited,
+body.skin-timeless #mw-content-subtitle .subpages a:visited {
+  color: #1d4ed8 !important;
+  text-decoration: none !important;
+}
+body.skin-timeless #mw-page-header-links .subpages a:hover,
+body.skin-timeless #dr-header-row .subpages a:hover,
+body.skin-timeless #mw-content-subtitle .subpages a:hover {
+  text-decoration: underline !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   Fade-in for Page/Discussion + Edit buttons (tabs)
+   Put at END of CSS
+   ========================================================= */
+
+/* Base hidden state: invisible + slightly lifted */
+body.skin-timeless #mw-page-header-links #p-namespaces li,
+body.skin-timeless #mw-page-header-links #p-views li:not(#ca-view),
+body.skin-timeless #dr-header-row #p-namespaces li,
+body.skin-timeless #dr-header-row #p-views li:not(#ca-view) {
+  opacity: 0 !important;
+  transform: translateY(-2px) !important;
+
+  visibility: hidden !important;
+  pointer-events: none !important;
+
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease,
+    visibility 0s linear 500ms !important; /* delay hiding until fade finishes */
+}
+
+/* Shown state: fade in + settle */
+body.skin-timeless #mw-page-header-links:hover #p-namespaces li,
+body.skin-timeless #mw-page-header-links:focus-within #p-namespaces li,
+body.skin-timeless #mw-page-header-links:hover #p-views li:not(#ca-view),
+body.skin-timeless #mw-page-header-links:focus-within #p-views li:not(#ca-view),
+body.skin-timeless #dr-header-row:hover #p-namespaces li,
+body.skin-timeless #dr-header-row:focus-within #p-namespaces li,
+body.skin-timeless #dr-header-row:hover #p-views li:not(#ca-view),
+body.skin-timeless #dr-header-row:focus-within #p-views li:not(#ca-view) {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+
+  visibility: visible !important;
+  pointer-events: auto !important;
+
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease,
+    visibility 0s linear 0s !important; /* show immediately */
+}
+
+/* Keep Read always visible and not animated */
+body.skin-timeless #p-views #ca-view,
+body.skin-timeless #dr-header-row #p-views #ca-view {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: none !important;
+}

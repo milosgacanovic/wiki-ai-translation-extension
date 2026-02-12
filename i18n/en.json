@@ -7,5 +7,21 @@
 	"druls-languages": "Languages",
 	"druls-translation-not-available": "Translation not available yet.",
 	"druls-help-translate": "Help improve this translation",
-	"druls-search-languages": "Search languages"
+	"druls-search-languages": "Search languages",
+	"aits-status-machine": "Machine",
+	"aits-status-reviewed": "Human reviewed",
+	"aits-status-outdated": "Outdated",
+	"aits-status-unknown": "Missing metadata",
+	"aits-banner-machine-title": "Machine translation",
+	"aits-banner-machine-body": "This page was translated automatically. Help improve it by reviewing.",
+	"aits-banner-machine-cta": "Edit this translation",
+	"aits-banner-outdated-title": "Translation outdated",
+	"aits-banner-outdated-body": "The English page changed. This translation may be behind.",
+	"aits-banner-outdated-cta": "Edit to update",
+	"aits-open-source": "Open English source",
+	"aits-tooltip-status": "Status",
+	"aits-tooltip-source-rev": "Source baseline revision",
+	"aits-tooltip-outdated-rev": "Outdated by source revision",
+	"aits-tooltip-reviewed-by": "Reviewed by",
+	"aits-tooltip-reviewed-at": "Reviewed at"
 }

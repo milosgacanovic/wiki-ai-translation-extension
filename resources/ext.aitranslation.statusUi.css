@@ -1,0 +1,73 @@
+.ai-translation-status-dot {
+	width: 12px;
+	height: 12px;
+	border: 0;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 8px;
+	vertical-align: middle;
+	cursor: pointer;
+	padding: 0;
+}
+
+.ai-translation-status-dot-machine {
+	background: #f0c419;
+}
+
+.ai-translation-status-dot-reviewed {
+	background: #14866d;
+}
+
+.ai-translation-status-dot-outdated {
+	background: linear-gradient( 90deg, #f0c419 50%, #14866d 50% );
+}
+
+.ai-translation-status-dot-unknown {
+	background: #d73333;
+}
+
+.ai-translation-status-banner {
+	position: relative;
+	padding: 10px 36px 10px 12px;
+	margin: 0 0 12px;
+	border: 1px solid #c8ccd1;
+	border-radius: 4px;
+	font-size: 0.95em;
+}
+
+.ai-translation-status-banner-machine {
+	background: #fff8db;
+	border-color: #e7cf6b;
+}
+
+.ai-translation-status-banner-outdated {
+	background: #fff3cd;
+	border-color: #d8b56a;
+}
+
+.ai-translation-status-title {
+	margin-right: 6px;
+}
+
+.ai-translation-status-actions {
+	margin-left: 10px;
+	white-space: nowrap;
+}
+
+.ai-translation-status-close {
+	position: absolute;
+	top: 6px;
+	right: 8px;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	color: #54595d;
+	font-size: 14px;
+	line-height: 1;
+	padding: 2px;
+}
+
+.ai-translation-status-close:hover,
+.ai-translation-status-close:focus {
+	color: #202122;
+}

@@ -51,7 +51,9 @@
 	},
 	"AutoloadClasses": {
 		"MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus": "src/ApiLanguageStatus.php",
-		"MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php"
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php",
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationInfo": "src/ApiTranslationInfo.php",
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationStatus": "src/ApiTranslationStatus.php"
 	},
 	"ResourceModules": {
 		"ext.danceresource.common": {
@@ -60,6 +62,35 @@
 			],
 			"styles": [
 				"resources/ext.danceresource.common.css"
+			]
+		},
+		"ext.aitranslation.statusUi": {
+			"scripts": [
+				"resources/ext.aitranslation.statusUi.js"
+			],
+			"styles": [
+				"resources/ext.aitranslation.statusUi.css"
+			],
+			"messages": [
+				"aits-status-machine",
+				"aits-status-reviewed",
+				"aits-status-outdated",
+				"aits-banner-machine-title",
+				"aits-banner-machine-body",
+				"aits-banner-machine-cta",
+				"aits-banner-outdated-title",
+				"aits-banner-outdated-body",
+				"aits-banner-outdated-cta",
+				"aits-open-source",
+				"aits-tooltip-status",
+				"aits-tooltip-source-rev",
+				"aits-tooltip-outdated-rev",
+				"aits-tooltip-reviewed-by",
+				"aits-tooltip-reviewed-at"
+			],
+			"dependencies": [
+				"mediawiki.api",
+				"mediawiki.util"
 			]
 		},
 		"ext.danceresource.unifiedLangSwitcher": {
@@ -85,6 +116,8 @@
 	},
 	"APIModules": {
 		"markfortranslation": "MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation",
-		"danceresource-languagestatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus"
+		"danceresource-languagestatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus",
+		"aitranslationinfo": "MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationInfo",
+		"aitranslationstatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationStatus"
 	}
 }

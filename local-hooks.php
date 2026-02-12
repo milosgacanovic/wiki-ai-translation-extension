@@ -13,6 +13,38 @@ $wgHooks['SkinBuildSidebar'][] = static function ( $skin, &$bar ) {
 	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onSkinBuildSidebar( $skin, $bar );
 };
 
+$wgHooks['PageSaveComplete'][] = static function (
+	$wikiPage,
+	$user,
+	$summary,
+	$flags,
+	$revisionRecord,
+	$editResult
+) {
+	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onPageSaveComplete(
+		$wikiPage,
+		$user,
+		$summary,
+		$flags,
+		$revisionRecord,
+		$editResult
+	);
+};
+
+$wgHooks['Translate:newTranslation'][] = static function (
+	$handle,
+	$revisionId,
+	$text,
+	$user
+) {
+	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onTranslateNewTranslation(
+		$handle,
+		$revisionId,
+		$text,
+		$user
+	);
+};
+
 // Unified language switcher hooks (registered locally to avoid autoload conflicts).
 $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {
@@ -41,7 +73,9 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	$handle = new \MessageHandle( $title );
 	$baseTitle = $title;
 	$currentLanguage = '';
+	$isTranslationPage = false;
 	if ( \MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $handle ) ) {
+		$isTranslationPage = true;
 		$baseTitle = $handle->getTitleForBase();
 		if ( !$baseTitle ) {
 			return true;
@@ -63,6 +97,15 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	$out->addModuleStyles( [ 'ext.danceresource.unifiedLangSwitcher' ] );
 	$out->addModules( [ 'ext.danceresource.common' ] );
 	$out->addModules( [ 'ext.danceresource.unifiedLangSwitcher' ] );
+	if ( $isTranslationPage ) {
+		$out->addModuleStyles( [ 'ext.aitranslation.statusUi' ] );
+		$out->addModules( [ 'ext.aitranslation.statusUi' ] );
+		$out->addJsConfigVars( 'aiTranslationStatus', [
+			'enabled' => true,
+			'title' => $title->getPrefixedText(),
+			'sourceTitle' => $baseTitle->getPrefixedText(),
+		] );
+	}
 	$out->addJsConfigVars( 'drUls', [
 		'enabled' => true,
 		'position' => $GLOBALS['wgDRUnifiedLangSwitcherPosition'] ?? 'sidebar',

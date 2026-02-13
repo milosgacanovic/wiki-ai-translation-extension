@@ -3,6 +3,42 @@
 ( function () {
 	'use strict';
 
+	// iOS Safari: prevent horizontal rubber-band while keeping vertical scrolling.
+	(function preventIosSafariHorizontalRubberBand() {
+		var ua = navigator.userAgent || '';
+		var isIOS = /iP(ad|hone|od)/.test( ua ) ||
+			( navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 );
+		var isSafari = /Safari/.test( ua ) && !/CriOS|FxiOS|EdgiOS/.test( ua );
+		if ( !( isIOS && isSafari ) ) {
+			return;
+		}
+
+		var startX = 0;
+		var startY = 0;
+
+		document.addEventListener( 'touchstart', function ( e ) {
+			if ( !e.touches || e.touches.length !== 1 ) {
+				return;
+			}
+			startX = e.touches[0].clientX;
+			startY = e.touches[0].clientY;
+		}, { passive: true } );
+
+		document.addEventListener( 'touchmove', function ( e ) {
+			if ( !e.touches || e.touches.length !== 1 ) {
+				return;
+			}
+
+			var dx = e.touches[0].clientX - startX;
+			var dy = e.touches[0].clientY - startY;
+
+			// If gesture is primarily horizontal, block it to stop sideways rubber-band.
+			if ( Math.abs( dx ) > Math.abs( dy ) ) {
+				e.preventDefault();
+			}
+		}, { passive: false } );
+	}() );
+
 	mw.hook( 'wikipage.content' ).add( function () {
 		var subpages = document.querySelector( '#mw-content-subtitle .subpages' );
 		replaceBreadcrumbLeadGlyph( subpages );

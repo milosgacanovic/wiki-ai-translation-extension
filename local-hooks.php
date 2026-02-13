@@ -98,15 +98,13 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	$out->addModuleStyles( [ 'ext.danceresource.unifiedLangSwitcher' ] );
 	$out->addModules( [ 'ext.danceresource.common' ] );
 	$out->addModules( [ 'ext.danceresource.unifiedLangSwitcher' ] );
-	if ( $isTranslationPage ) {
-		$out->addModuleStyles( [ 'ext.aitranslation.statusUi' ] );
-		$out->addModules( [ 'ext.aitranslation.statusUi' ] );
-		$out->addJsConfigVars( 'aiTranslationStatus', [
-			'enabled' => true,
-			'title' => $title->getPrefixedText(),
-			'sourceTitle' => $baseTitle->getPrefixedText(),
-		] );
-	}
+	$out->addModuleStyles( [ 'ext.aitranslation.statusUi' ] );
+	$out->addModules( [ 'ext.aitranslation.statusUi' ] );
+	$out->addJsConfigVars( 'aiTranslationStatus', [
+		'enabled' => true,
+		'title' => $title->getPrefixedText(),
+		'sourceTitle' => $baseTitle->getPrefixedText(),
+	] );
 	$out->addJsConfigVars( 'drUls', [
 		'enabled' => true,
 		'position' => $GLOBALS['wgDRUnifiedLangSwitcherPosition'] ?? 'sidebar',

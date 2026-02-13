@@ -9,7 +9,7 @@
 	cursor: pointer;
 	padding: 0;
 	position: relative;
-	top: -2px;
+	top: 8px;
 }
 
 .ai-translation-status-dot-machine {
@@ -17,11 +17,11 @@
 }
 
 .ai-translation-status-dot-reviewed {
-	background: #14866d;
+	background: #3aa78d;
 }
 
 .ai-translation-status-dot-outdated {
-	background: linear-gradient( 90deg, #f0c419 50%, #14866d 50% );
+	background: linear-gradient( 90deg, #f0c419 50%, #3aa78d 50% );
 }
 
 .ai-translation-status-dot-unknown {

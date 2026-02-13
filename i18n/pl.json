@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Ta strona zostala przetlumaczona automatycznie. To tlumaczenie moze zawierac bledy lub niescislosci. <br />Mozesz pomoc ja poprawic, $1.",
-	"aits-banner-machine-link-text": "edytujac strone"
+	"aits-banner-machine-link-text": "edytujac strone",
+	"aits-status-machine": "Maszyna",
+	"aits-status-reviewed": "Recenzja człowieka",
+	"aits-status-outdated": "Przestarzały",
+	"aits-status-unknown": "Brakujące metadane",
+	"aits-tooltip-translation-status": "Stan tłumaczenia",
+	"aits-tooltip-source-rev": "Wersja podstawowa źródła",
+	"aits-tooltip-outdated-rev": "Nieaktualne ze względu na wersję źródła",
+	"aits-tooltip-reviewed-by": "Oceniony przez",
+	"aits-tooltip-reviewed-at": "Recenzja o godz",
+	"aits-open-translate-editor": "Otwórz edytor tłumaczeń",
+	"aits-open-direct-edit-warning": "Bezpośrednia edycja strony (ostrzeżenie)",
+	"aits-open-page-source": "Kod źródłowy strony",
+	"aits-open-source": "Otwarte źródło angielskie",
+	"aits-show-machine-banner": "Pokaż baner z tłumaczeniem maszynowym",
+	"aits-close": "Zamknąć"
 }

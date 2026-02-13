@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "یہ صفحہ خودکار طور پر ترجمہ کیا گیا ہے۔ اس ترجمے میں غلطیاں یا عدم درستگی ہو سکتی ہے۔ <br />آپ $1 کے ذریعے اسے بہتر بنانے میں مدد کر سکتے ہیں۔",
-	"aits-banner-machine-link-text": "صفحہ میں ترمیم"
+	"aits-banner-machine-link-text": "صفحہ میں ترمیم",
+	"aits-status-machine": "مشین",
+	"aits-status-reviewed": "انسانی جائزہ لیا گیا۔",
+	"aits-status-outdated": "فرسودہ",
+	"aits-status-unknown": "میٹا ڈیٹا غائب ہے۔",
+	"aits-tooltip-translation-status": "ترجمہ کی حیثیت",
+	"aits-tooltip-source-rev": "ماخذ بیس لائن نظرثانی",
+	"aits-tooltip-outdated-rev": "ماخذ کی نظرثانی کے ذریعہ پرانی",
+	"aits-tooltip-reviewed-by": "کی طرف سے جائزہ لیا",
+	"aits-tooltip-reviewed-at": "پر جائزہ لیا گیا۔",
+	"aits-open-translate-editor": "ترجمہ ایڈیٹر کھولیں۔",
+	"aits-open-direct-edit-warning": "براہ راست صفحہ میں ترمیم (انتباہ)",
+	"aits-open-page-source": "صفحہ کا سورس کوڈ",
+	"aits-open-source": "انگریزی ذریعہ کھولیں۔",
+	"aits-show-machine-banner": "مشین ترجمہ بینر دکھائیں۔",
+	"aits-close": "بند"
 }

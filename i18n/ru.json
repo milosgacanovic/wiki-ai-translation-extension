@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Эта страница была автоматически переведена. Этот перевод может содержать ошибки или неточности. <br />Вы можете помочь улучшить её, $1.",
-	"aits-banner-machine-link-text": "редактируя страницу"
+	"aits-banner-machine-link-text": "редактируя страницу",
+	"aits-status-machine": "Машина",
+	"aits-status-reviewed": "Проверено человеком",
+	"aits-status-outdated": "Устаревший",
+	"aits-status-unknown": "Отсутствуют метаданные",
+	"aits-tooltip-translation-status": "Статус перевода",
+	"aits-tooltip-source-rev": "Исходная базовая версия",
+	"aits-tooltip-outdated-rev": "Устарело по исходной версии",
+	"aits-tooltip-reviewed-by": "Проверено пользователем",
+	"aits-tooltip-reviewed-at": "Проверено на",
+	"aits-open-translate-editor": "Открыть редактор переводов",
+	"aits-open-direct-edit-warning": "Прямое редактирование страницы (предупреждение)",
+	"aits-open-page-source": "Исходный код страницы",
+	"aits-open-source": "Открытый англоязычный источник",
+	"aits-show-machine-banner": "Показать баннер машинного перевода",
+	"aits-close": "Закрывать"
 }

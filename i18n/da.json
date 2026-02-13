@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Denne side blev oversat automatisk. Denne oversaettelse kan indeholde fejl eller unojagtigheder. <br />Du kan hjaelpe med at forbedre den ved at $1.",
-	"aits-banner-machine-link-text": "redigere siden"
+	"aits-banner-machine-link-text": "redigere siden",
+	"aits-status-machine": "Maskine",
+	"aits-status-reviewed": "Mennesket gennemgået",
+	"aits-status-outdated": "Forældet",
+	"aits-status-unknown": "Manglende metadata",
+	"aits-tooltip-translation-status": "Oversættelsesstatus",
+	"aits-tooltip-source-rev": "Kildebaselinerevision",
+	"aits-tooltip-outdated-rev": "Forældet ved kilderevision",
+	"aits-tooltip-reviewed-by": "Anmeldt af",
+	"aits-tooltip-reviewed-at": "Anmeldt kl",
+	"aits-open-translate-editor": "Åbn oversættelseseditor",
+	"aits-open-direct-edit-warning": "Direkte sideredigering (advarsel)",
+	"aits-open-page-source": "Sidens kildekode",
+	"aits-open-source": "Åben engelsk kilde",
+	"aits-show-machine-banner": "Vis maskinoversættelsesbanner",
+	"aits-close": "Tæt"
 }

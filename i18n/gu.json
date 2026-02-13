@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "આ પાનું આપમેળે અનુવાદિત થયું છે. આ અનુવાદમાં ભૂલો અથવા અચોક્કસતાઓ હોઈ શકે છે. <br />તમે $1 દ્વારા તેને સુધારવામાં મદદ કરી શકો છો.",
-	"aits-banner-machine-link-text": "પાનું સંપાદિત કરીને"
+	"aits-banner-machine-link-text": "પાનું સંપાદિત કરીને",
+	"aits-status-machine": "મશીન",
+	"aits-status-reviewed": "માનવ સમીક્ષા",
+	"aits-status-outdated": "જૂનું",
+	"aits-status-unknown": "મેટાડેટા ખૂટે છે",
+	"aits-tooltip-translation-status": "અનુવાદ સ્થિતિ",
+	"aits-tooltip-source-rev": "સ્ત્રોત આધારરેખા પુનરાવર્તન",
+	"aits-tooltip-outdated-rev": "સ્ત્રોત પુનરાવર્તન દ્વારા જૂનું",
+	"aits-tooltip-reviewed-by": "દ્વારા સમીક્ષા કરવામાં આવી હતી",
+	"aits-tooltip-reviewed-at": "ખાતે સમીક્ષા કરી",
+	"aits-open-translate-editor": "અનુવાદ સંપાદક ખોલો",
+	"aits-open-direct-edit-warning": "પ્રત્યક્ષ પૃષ્ઠ સંપાદન (ચેતવણી)",
+	"aits-open-page-source": "પૃષ્ઠ સ્રોત કોડ",
+	"aits-open-source": "અંગ્રેજી સ્ત્રોત ખોલો",
+	"aits-show-machine-banner": "મશીન અનુવાદ બેનર બતાવો",
+	"aits-close": "બંધ કરો"
 }

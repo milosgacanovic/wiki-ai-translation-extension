@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Des Sait gouf automatesch iwwersat. Des Iwwersetzung kann Feeler oder Ongenauegkeeten enthalen. <br />Dir kennt hëllefen se ze verbesseren andeems Dir $1.",
-	"aits-banner-machine-link-text": "d'Sait aennert"
+	"aits-banner-machine-link-text": "d'Sait aennert",
+	"aits-status-machine": "Maschinn",
+	"aits-status-reviewed": "Mënsch iwwerpréift",
+	"aits-status-outdated": "Veroudert",
+	"aits-status-unknown": "Vermësst Metadaten",
+	"aits-tooltip-translation-status": "Iwwersetzung Status",
+	"aits-tooltip-source-rev": "Source Baseline Versioun",
+	"aits-tooltip-outdated-rev": "Verännert duerch Quellrevisioun",
+	"aits-tooltip-reviewed-by": "Iwwerpréift vun",
+	"aits-tooltip-reviewed-at": "Iwwerpréift am",
+	"aits-open-translate-editor": "Open Iwwersetzungseditor",
+	"aits-open-direct-edit-warning": "Direkt Säit änneren (Warnung)",
+	"aits-open-page-source": "Säit Quellcode",
+	"aits-open-source": "Open Englesch Quell",
+	"aits-show-machine-banner": "Show Maschinn Iwwersetzung Banner",
+	"aits-close": "Zoumaachen"
 }

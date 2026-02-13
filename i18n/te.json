@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "ఈ పేజీ ఆటోమేటిక్‌గా అనువదించబడింది. ఈ అనువాదంలో తప్పులు లేదా అస్పష్టతలు ఉండవచ్చు. <br />మీరు $1 ద్వారా మెరుగుపరచడంలో సహాయం చేయవచ్చు.",
-	"aits-banner-machine-link-text": "పేజీని సవరించడం"
+	"aits-banner-machine-link-text": "పేజీని సవరించడం",
+	"aits-status-machine": "యంత్రం",
+	"aits-status-reviewed": "మానవ సమీక్షించారు",
+	"aits-status-outdated": "కాలం చెల్లినది",
+	"aits-status-unknown": "మెటాడేటా లేదు",
+	"aits-tooltip-translation-status": "అనువాద స్థితి",
+	"aits-tooltip-source-rev": "మూలం బేస్లైన్ పునర్విమర్శ",
+	"aits-tooltip-outdated-rev": "సోర్స్ రివిజన్ ద్వారా పాతది",
+	"aits-tooltip-reviewed-by": "ద్వారా సమీక్షించబడింది",
+	"aits-tooltip-reviewed-at": "వద్ద సమీక్షించబడింది",
+	"aits-open-translate-editor": "అనువాద ఎడిటర్‌ని తెరవండి",
+	"aits-open-direct-edit-warning": "ప్రత్యక్ష పేజీ సవరణ (హెచ్చరిక)",
+	"aits-open-page-source": "పేజీ సోర్స్ కోడ్",
+	"aits-open-source": "ఆంగ్ల మూలాన్ని తెరవండి",
+	"aits-show-machine-banner": "యంత్ర అనువాద బ్యానర్‌ను చూపు",
+	"aits-close": "మూసివేయి"
 }

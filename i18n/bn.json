@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "এই পৃষ্ঠাটি স্বয়ংক্রিয়ভাবে অনুবাদ করা হয়েছে। এই অনুবাদে ভুল বা অযথার্থতা থাকতে পারে। <br />আপনি $1 এর মাধ্যমে এটি উন্নত করতে সাহায্য করতে পারেন।",
-	"aits-banner-machine-link-text": "পৃষ্ঠা সম্পাদনা করে"
+	"aits-banner-machine-link-text": "পৃষ্ঠা সম্পাদনা করে",
+	"aits-status-machine": "মেশিন",
+	"aits-status-reviewed": "মানুষের পর্যালোচনা",
+	"aits-status-outdated": "সেকেলে",
+	"aits-status-unknown": "মেটাডেটা অনুপস্থিত",
+	"aits-tooltip-translation-status": "অনুবাদের অবস্থা",
+	"aits-tooltip-source-rev": "উৎস বেসলাইন সংশোধন",
+	"aits-tooltip-outdated-rev": "উত্স সংশোধন দ্বারা পুরানো",
+	"aits-tooltip-reviewed-by": "দ্বারা পর্যালোচনা",
+	"aits-tooltip-reviewed-at": "এ পর্যালোচনা করা হয়েছে",
+	"aits-open-translate-editor": "অনুবাদ সম্পাদক খুলুন",
+	"aits-open-direct-edit-warning": "সরাসরি পৃষ্ঠা সম্পাদনা (সতর্কতা)",
+	"aits-open-page-source": "পৃষ্ঠা সোর্স কোড",
+	"aits-open-source": "ইংরেজি উৎস খুলুন",
+	"aits-show-machine-banner": "মেশিন অনুবাদ ব্যানার দেখান",
+	"aits-close": "বন্ধ"
 }

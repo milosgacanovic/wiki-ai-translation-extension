@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "این صفحه به صورت خودکار ترجمه شده است. این ترجمه ممکن است حاوی خطاها یا نادقیق‌ها باشد. <br />می‌توانید با $1 به بهبود آن کمک کنید.",
-	"aits-banner-machine-link-text": "ویرایش صفحه"
+	"aits-banner-machine-link-text": "ویرایش صفحه",
+	"aits-status-machine": "ماشین",
+	"aits-status-reviewed": "انسان بررسی شد",
+	"aits-status-outdated": "منسوخ شده",
+	"aits-status-unknown": "متادیتا موجود نیست",
+	"aits-tooltip-translation-status": "وضعیت ترجمه",
+	"aits-tooltip-source-rev": "بازبینی پایه منبع",
+	"aits-tooltip-outdated-rev": "منسوخ شده توسط تجدید نظر منبع",
+	"aits-tooltip-reviewed-by": "بررسی شده توسط",
+	"aits-tooltip-reviewed-at": "بررسی شده در",
+	"aits-open-translate-editor": "ویرایشگر ترجمه را باز کنید",
+	"aits-open-direct-edit-warning": "ویرایش مستقیم صفحه (هشدار)",
+	"aits-open-page-source": "کد منبع صفحه",
+	"aits-open-source": "منبع باز انگلیسی",
+	"aits-show-machine-banner": "نمایش بنر ترجمه ماشینی",
+	"aits-close": "بستن"
 }

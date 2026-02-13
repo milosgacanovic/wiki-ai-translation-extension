@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "דף זה תורגם אוטומטית. תרגום זה עשוי להכיל שגיאות או אי־דיוקים. <br />אפשר לעזור לשפר אותו על ידי $1.",
-	"aits-banner-machine-link-text": "עריכת הדף"
+	"aits-banner-machine-link-text": "עריכת הדף",
+	"aits-status-machine": "מְכוֹנָה",
+	"aits-status-reviewed": "אדם נבדק",
+	"aits-status-outdated": "מְיוּשָׁן",
+	"aits-status-unknown": "חסרים מטא נתונים",
+	"aits-tooltip-translation-status": "מצב תרגום",
+	"aits-tooltip-source-rev": "עדכון קו הבסיס של המקור",
+	"aits-tooltip-outdated-rev": "מיושן על ידי עדכון המקור",
+	"aits-tooltip-reviewed-by": "נבדק על ידי",
+	"aits-tooltip-reviewed-at": "נבדק ב-",
+	"aits-open-translate-editor": "פתח את עורך התרגום",
+	"aits-open-direct-edit-warning": "עריכת עמוד ישירה (אזהרה)",
+	"aits-open-page-source": "קוד מקור הדף",
+	"aits-open-source": "פתח מקור באנגלית",
+	"aits-show-machine-banner": "הצג באנר של תרגום מכונה",
+	"aits-close": "לִסְגוֹר"
 }

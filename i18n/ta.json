@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "இந்தப் பக்கம் தானாக மொழிபெயர்க்கப்பட்டுள்ளது. இந்த மொழிபெயர்ப்பில் பிழைகள் அல்லது துல்லியமின்மை இருக்கலாம். <br />நீங்கள் $1 மூலம் மேம்படுத்த உதவலாம்.",
-	"aits-banner-machine-link-text": "பக்கத்தைத் திருத்துவது"
+	"aits-banner-machine-link-text": "பக்கத்தைத் திருத்துவது",
+	"aits-status-machine": "இயந்திரம்",
+	"aits-status-reviewed": "மனித மதிப்பாய்வு செய்யப்பட்டது",
+	"aits-status-outdated": "காலாவதியானது",
+	"aits-status-unknown": "மெட்டாடேட்டா இல்லை",
+	"aits-tooltip-translation-status": "மொழிபெயர்ப்பு நிலை",
+	"aits-tooltip-source-rev": "மூல அடிப்படை திருத்தம்",
+	"aits-tooltip-outdated-rev": "மூல திருத்தத்தால் காலாவதியானது",
+	"aits-tooltip-reviewed-by": "மதிப்பாய்வு செய்யப்பட்டது",
+	"aits-tooltip-reviewed-at": "இல் மதிப்பாய்வு செய்யப்பட்டது",
+	"aits-open-translate-editor": "மொழிபெயர்ப்பு எடிட்டரைத் திறக்கவும்",
+	"aits-open-direct-edit-warning": "நேரடி பக்க திருத்தம் (எச்சரிக்கை)",
+	"aits-open-page-source": "பக்க மூல குறியீடு",
+	"aits-open-source": "ஆங்கில மூலத்தைத் திறக்கவும்",
+	"aits-show-machine-banner": "இயந்திர மொழிபெயர்ப்பு பேனரைக் காட்டு",
+	"aits-close": "மூடு"
 }

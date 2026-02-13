@@ -5,8 +5,70 @@
 
 	mw.hook( 'wikipage.content' ).add( function () {
 		var subpages = document.querySelector( '#mw-content-subtitle .subpages' );
+		replaceBreadcrumbLeadGlyph( subpages );
+		replaceBreadcrumbPipeSeparators( subpages );
 		localizeSubpageBreadcrumb( subpages );
 	} );
+
+	function replaceBreadcrumbLeadGlyph( subpages ) {
+		if ( !subpages ) {
+			return;
+		}
+
+		var first = subpages.firstChild;
+		if ( first && first.nodeType === Node.TEXT_NODE ) {
+			first.nodeValue = first.nodeValue.replace( /^\s*</, '' ).trimStart();
+		}
+
+		if ( subpages.querySelector( '.dr-breadcrumb-icon' ) ) {
+			return;
+		}
+
+		var icon = document.createElement( 'span' );
+		icon.className = 'dr-breadcrumb-icon';
+		icon.setAttribute( 'aria-hidden', 'true' );
+		icon.textContent = '‹';
+		subpages.insertBefore( icon, subpages.firstChild );
+	}
+
+	function replaceBreadcrumbPipeSeparators( subpages ) {
+		if ( !subpages ) {
+			return;
+		}
+
+		var nodes = Array.prototype.slice.call( subpages.childNodes );
+		nodes.forEach( function ( node ) {
+			if ( node.nodeType !== Node.TEXT_NODE ) {
+				return;
+			}
+
+			var value = node.nodeValue || '';
+			if ( value.indexOf( '|' ) === -1 ) {
+				return;
+			}
+
+			var parts = value.split( '|' );
+			var frag = document.createDocumentFragment();
+			parts.forEach( function ( part, idx ) {
+				var cleaned = part.replace( /\u200e/g, '' );
+				if ( cleaned.trim() ) {
+					frag.appendChild( document.createTextNode( ' ' ) );
+					frag.appendChild( document.createTextNode( cleaned.trim() ) );
+				}
+				if ( idx < parts.length - 1 ) {
+					var sep = document.createElement( 'span' );
+					sep.className = 'dr-breadcrumb-sep';
+					sep.setAttribute( 'aria-hidden', 'true' );
+					sep.textContent = '‹';
+					frag.appendChild( document.createTextNode( ' ' ) );
+					frag.appendChild( sep );
+					frag.appendChild( document.createTextNode( ' ' ) );
+				}
+			} );
+
+			node.parentNode.replaceChild( frag, node );
+		} );
+	}
 
 	function localizeSubpageBreadcrumb( subpages ) {
 		if ( !subpages || !window.mw || !mw.Api ) {

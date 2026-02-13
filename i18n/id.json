@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Halaman ini diterjemahkan secara otomatis. Terjemahan ini mungkin mengandung kesalahan atau ketidakakuratan. <br />Anda dapat membantu memperbaikinya dengan $1.",
-	"aits-banner-machine-link-text": "mengedit halaman"
+	"aits-banner-machine-link-text": "mengedit halaman",
+	"aits-status-machine": "Mesin",
+	"aits-status-reviewed": "Manusia ditinjau",
+	"aits-status-outdated": "Kedaluwarsa",
+	"aits-status-unknown": "Metadata tidak ada",
+	"aits-tooltip-translation-status": "Status terjemahan",
+	"aits-tooltip-source-rev": "Revisi dasar sumber",
+	"aits-tooltip-outdated-rev": "Kedaluwarsa karena revisi sumber",
+	"aits-tooltip-reviewed-by": "Ditinjau oleh",
+	"aits-tooltip-reviewed-at": "Ditinjau di",
+	"aits-open-translate-editor": "Buka editor terjemahan",
+	"aits-open-direct-edit-warning": "Pengeditan halaman langsung (peringatan)",
+	"aits-open-page-source": "Kode sumber halaman",
+	"aits-open-source": "Sumber bahasa Inggris terbuka",
+	"aits-show-machine-banner": "Tampilkan spanduk terjemahan mesin",
+	"aits-close": "Menutup"
 }

@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Leli khasi lihunyushwe ngokuzenzakalelayo. Lolu hlelo lokuhumusha lungase luqukathe amaphutha noma ukungaqondile. <br />Ungasiza ukuluthuthukisa ngokuthi $1.",
-	"aits-banner-machine-link-text": "uhlele ikhasi"
+	"aits-banner-machine-link-text": "uhlele ikhasi",
+	"aits-status-machine": "Umshini",
+	"aits-status-reviewed": "Umuntu ubuyekeziwe",
+	"aits-status-outdated": "Isiphelelwe yisikhathi",
+	"aits-status-unknown": "Imethadatha engekho",
+	"aits-tooltip-translation-status": "Isimo sokuhumusha",
+	"aits-tooltip-source-rev": "Umthombo wokubuyekeza okuyisisekelo",
+	"aits-tooltip-outdated-rev": "Iphelelwe yisikhathi ngokubuyekezwa komthombo",
+	"aits-tooltip-reviewed-by": "Ibuyekezwe ngu",
+	"aits-tooltip-reviewed-at": "Ibuyekezwe kokuthi",
+	"aits-open-translate-editor": "Vula umhleli wokuhumusha",
+	"aits-open-direct-edit-warning": "Ukuhlela ikhasi okuqondile (isixwayiso)",
+	"aits-open-page-source": "Ikhodi yomthombo wekhasi",
+	"aits-open-source": "Vula umthombo wesiNgisi",
+	"aits-show-machine-banner": "Bonisa isibhengezo sokuhumusha somshini",
+	"aits-close": "Vala"
 }

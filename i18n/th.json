@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "หน้านี้ถูกแปลโดยอัตโนมัติ การแปลนี้อาจมีข้อผิดพลาดหรือความไม่ถูกต้อง <br />คุณสามารถช่วยปรับปรุงได้โดย $1.",
-	"aits-banner-machine-link-text": "แก้ไขหน้า"
+	"aits-banner-machine-link-text": "แก้ไขหน้า",
+	"aits-status-machine": "เครื่องจักร",
+	"aits-status-reviewed": "ตรวจสอบโดยมนุษย์",
+	"aits-status-outdated": "ล้าสมัย",
+	"aits-status-unknown": "ข้อมูลเมตาหายไป",
+	"aits-tooltip-translation-status": "สถานะการแปล",
+	"aits-tooltip-source-rev": "การแก้ไขพื้นฐานแหล่งที่มา",
+	"aits-tooltip-outdated-rev": "ล้าสมัยโดยการแก้ไขแหล่งที่มา",
+	"aits-tooltip-reviewed-by": "ตรวจสอบโดย",
+	"aits-tooltip-reviewed-at": "รีวิวที่",
+	"aits-open-translate-editor": "เปิดตัวแก้ไขการแปล",
+	"aits-open-direct-edit-warning": "แก้ไขหน้าโดยตรง (คำเตือน)",
+	"aits-open-page-source": "ซอร์สโค้ดหน้า",
+	"aits-open-source": "เปิดแหล่งที่มาภาษาอังกฤษ",
+	"aits-show-machine-banner": "แสดงแบนเนอร์การแปลด้วยเครื่อง",
+	"aits-close": "ปิด"
 }

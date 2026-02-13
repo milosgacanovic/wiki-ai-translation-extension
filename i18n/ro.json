@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Aceasta pagina a fost tradusa automat. Aceasta traducere poate contine erori sau inexactitati. <br />Poti ajuta la imbunatatire $1.",
-	"aits-banner-machine-link-text": "editand pagina"
+	"aits-banner-machine-link-text": "editand pagina",
+	"aits-status-machine": "Maşină",
+	"aits-status-reviewed": "Omul revizuit",
+	"aits-status-outdated": "Învechit",
+	"aits-status-unknown": "Lipsesc metadate",
+	"aits-tooltip-translation-status": "Starea traducerii",
+	"aits-tooltip-source-rev": "Revizuirea liniei de bază a sursei",
+	"aits-tooltip-outdated-rev": "Învechit de revizuirea sursei",
+	"aits-tooltip-reviewed-by": "Revizuit de",
+	"aits-tooltip-reviewed-at": "Revizuit la",
+	"aits-open-translate-editor": "Deschideți editorul de traduceri",
+	"aits-open-direct-edit-warning": "Editare directă a paginii (avertisment)",
+	"aits-open-page-source": "Codul sursă al paginii",
+	"aits-open-source": "Deschideți sursa engleză",
+	"aits-show-machine-banner": "Afișați bannerul cu traducere automată",
+	"aits-close": "Aproape"
 }

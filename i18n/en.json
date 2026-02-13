@@ -9,6 +9,7 @@
 	"druls-help-translate": "Help improve this translation",
 	"druls-search-languages": "Search languages",
 	"aits-status-machine": "Machine",
+	"aits-status-source-language": "Original language",
 	"aits-status-reviewed": "Human reviewed",
 	"aits-status-outdated": "Outdated",
 	"aits-status-unknown": "Missing metadata",

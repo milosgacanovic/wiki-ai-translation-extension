@@ -11,27 +11,30 @@ var debugUls = ( /\bdebuguls=1\b/ ).test( window.location.search );
 var api = new mw.Api();
 
 	function getContainer() {
-		var $container = $( '.dr-uls-container' ).first();
-		if ( $container.length ) {
-			if ( config.position === 'header' ) {
-				var $headerLinks = $( '#mw-page-header-links' );
-				if ( $headerLinks.length && !$container.closest( '#mw-page-header-links' ).length ) {
-					$headerLinks.append( $container );
-					$container.attr( 'data-dr-uls-position', 'header' );
-				}
-			}
-			return $container;
-		}
-
 		if ( config.position === 'header' ) {
-			var $headerLinks = $( '#mw-page-header-links' );
-			if ( $headerLinks.length ) {
-				$container = $( '<div>' )
-					.addClass( 'dr-uls-container' )
-					.attr( 'data-dr-uls-position', 'header' );
-				$headerLinks.append( $container );
+			var $title = $( '#firstHeading' );
+			if ( $title.length ) {
+				var $headingWrap = $title.parent();
+				var $tools = $headingWrap.find( '> .dr-titlebar-tools' );
+				if ( !$tools.length ) {
+					$tools = $( '<div>' ).addClass( 'dr-titlebar-tools' );
+					$title.after( $tools );
+				}
+
+				var $container = $tools.find( '> .dr-uls-container[data-dr-uls-position="header"]' );
+				if ( !$container.length ) {
+					$container = $( '<div>' )
+						.addClass( 'dr-uls-container' )
+						.attr( 'data-dr-uls-position', 'header' );
+					$tools.append( $container );
+				}
 				return $container;
 			}
+		}
+
+		var $container = $( '.dr-uls-container' ).first();
+		if ( $container.length ) {
+			return $container;
 		}
 
 		if ( config.position === 'personal' ) {
@@ -72,12 +75,26 @@ var api = new mw.Api();
 
 	function getCurrentContentLanguage( data ) {
 		var pageName = mw.config.get( 'wgPageName' ) || '';
-		var match = pageName.match( /\/([a-z-]+)$/i );
-		var current = ( match ? match[1].toLowerCase() : '' ) ||
-			( data && data.currentLanguage ) ||
-			mw.config.get( 'wgPageContentLanguage' ) ||
-			mw.config.get( 'wgUserLanguage' ) ||
-			data.sourceLanguage;
+		// Only treat a trailing segment as language if it looks like a lang code
+		// and is known for this page.
+		var match = pageName.match( /\/([a-z]{2,3}(?:-[a-z0-9]{2,8})?)$/i );
+		var candidate = match ? match[1].toLowerCase() : '';
+		var known = {};
+		known[ data.sourceLanguage ] = true;
+		( data.languages || [] ).forEach( function ( item ) {
+			known[ item.code ] = true;
+		} );
+
+		var current = '';
+		if ( candidate && ( known[candidate] || known[ normalizeContentCode( candidate ) ] ) ) {
+			current = candidate;
+		}
+		if ( !current ) {
+			current = ( data && data.currentLanguage ) ||
+				mw.config.get( 'wgPageContentLanguage' ) ||
+				mw.config.get( 'wgUserLanguage' ) ||
+				data.sourceLanguage;
+		}
 
 		var variant = mw.config.get( 'wgUserVariant' );
 		if ( current === 'sr' && variant && variant.indexOf( 'sr-' ) === 0 ) {
@@ -109,6 +126,14 @@ var api = new mw.Api();
 		} );
 
 		available[ data.sourceLanguage ] = true;
+		if ( !languages.some( function ( item ) { return item.code === data.sourceLanguage; } ) ) {
+			languages.push( {
+				code: data.sourceLanguage,
+				contentCode: data.sourceLanguage,
+				autonym: getAutonym( data.sourceLanguage ),
+				name: getAutonym( data.sourceLanguage )
+			} );
+		}
 
 		if ( available.sr ) {
 			languages = languages.map( function ( item ) {
@@ -201,34 +226,6 @@ var api = new mw.Api();
 		var $variants = $( '#p-variants-desktop' );
 		if ( $variants.length ) {
 			$variants.addClass( 'dr-header-dropdown' );
-		}
-
-		if ( config.position === 'header' ) {
-			var $title = $( '#firstHeading' );
-			if ( $title.length ) {
-				var $headingWrap = $title.parent();
-				if ( $headingWrap.length ) {
-					// Remove any old misplaced containers
-					$( '#mw-page-header-links .dr-lang-tools' ).remove();
-
-					var $tools = $headingWrap.find( '> .dr-titlebar-tools' );
-					if ( !$tools.length ) {
-						$tools = $( '<div>' ).addClass( 'dr-titlebar-tools' );
-						$title.after( $tools );
-					}
-
-					if ( $headingWrap.attr( 'id' ) !== 'content' ) {
-						$headingWrap.addClass( 'dr-titlebar' );
-					}
-
-					if ( !$portlet.closest( '.dr-titlebar-tools' ).length ) {
-						$tools.append( $portlet );
-					}
-
-					// Clean up any stray tool containers outside the heading wrapper
-					$( '.dr-titlebar-tools' ).not( $tools ).remove();
-				}
-			}
 		}
 
 		$( document ).off( 'click.drLangCompact' ).on( 'click.drLangCompact', function () {

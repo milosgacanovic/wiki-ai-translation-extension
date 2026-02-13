@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "このページは自動翻訳されました。この翻訳には誤りや不正確さが含まれる場合があります。<br />$1ことで改善に協力できます。",
-	"aits-banner-machine-link-text": "ページを編集する"
+	"aits-banner-machine-link-text": "ページを編集する",
+	"aits-status-machine": "機械",
+	"aits-status-reviewed": "人間によるレビュー",
+	"aits-status-outdated": "時代遅れ",
+	"aits-status-unknown": "メタデータが欠落しています",
+	"aits-tooltip-translation-status": "翻訳ステータス",
+	"aits-tooltip-source-rev": "ソースベースラインリビジョン",
+	"aits-tooltip-outdated-rev": "ソース リビジョンが古い",
+	"aits-tooltip-reviewed-by": "レビュー者",
+	"aits-tooltip-reviewed-at": "レビュー先",
+	"aits-open-translate-editor": "翻訳エディタを開く",
+	"aits-open-direct-edit-warning": "ページの直接編集 (警告)",
+	"aits-open-page-source": "ページのソースコード",
+	"aits-open-source": "オープン英語ソース",
+	"aits-show-machine-banner": "機械翻訳バナーを表示",
+	"aits-close": "近い"
 }

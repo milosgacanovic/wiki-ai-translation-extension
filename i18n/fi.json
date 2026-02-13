@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Tama sivu on kaannetty automaattisesti. Tama kaannos voi sisaltaa virheita tai epatarkkuuksia. <br />Voit auttaa parantamaan sita $1.",
-	"aits-banner-machine-link-text": "muokkaamalla sivua"
+	"aits-banner-machine-link-text": "muokkaamalla sivua",
+	"aits-status-machine": "Kone",
+	"aits-status-reviewed": "Ihmisen arvosteltu",
+	"aits-status-outdated": "Vanhentunut",
+	"aits-status-unknown": "Puuttuvat metatiedot",
+	"aits-tooltip-translation-status": "Käännöksen tila",
+	"aits-tooltip-source-rev": "Lähteen perusversio",
+	"aits-tooltip-outdated-rev": "Vanhentunut lähdeversion vuoksi",
+	"aits-tooltip-reviewed-by": "Arvostellut",
+	"aits-tooltip-reviewed-at": "Arvosteltu klo",
+	"aits-open-translate-editor": "Avaa käännöseditori",
+	"aits-open-direct-edit-warning": "Suora sivun muokkaus (varoitus)",
+	"aits-open-page-source": "Sivun lähdekoodi",
+	"aits-open-source": "Avoin englanninkielinen lähde",
+	"aits-show-machine-banner": "Näytä konekäännösbanneri",
+	"aits-close": "Lähellä"
 }

@@ -38,7 +38,7 @@ body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-titlebar-tools {
 
 /*  fixing first p on all pages  */ 
 .mw-body-content p:first-of-type {
-	margin-top:0.4rem;
+	margin-top: 2.5rem;
 }
 
 
@@ -604,7 +604,7 @@ body.skin-timeless .mw-parser-output h6 {
 
 /* Thicker divider below H2 */
 body.skin-timeless .mw-parser-output h2 {
-  border-bottom: 2px solid #e5e7eb !important;
+  border-bottom: 0 !important;
   padding-bottom: 10px;
 }
 
@@ -814,7 +814,61 @@ body.skin-timeless #mw-content-subtitle .subpages {
   color: #1d4ed8 !important; /* arrow inherits this */
 }
 
+body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-icon {
+  display: inline-block;
+  margin-right: 2px;
+  font-size: 16px;
+  line-height: 1;
+  color: #6b7280;
+  vertical-align: middle;
+  transform: translateY( -1px );
+}
+
+body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-sep {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  color: #6b7280;
+  vertical-align: middle;
+  transform: translateY( -1px );
+}
+
+/* Breadcrumb links: gray by default, blue on hover/focus */
+body.skin-timeless #mw-content-subtitle .subpages,
+body.skin-timeless #mw-content-subtitle .subpages a,
+body.skin-timeless #mw-content-subtitle .subpages a:visited {
+  color: #6b7280 !important;
+}
+
+body.skin-timeless #mw-content-subtitle .subpages a:hover,
+body.skin-timeless #mw-content-subtitle .subpages a:focus {
+  color: #1d4ed8 !important;
+}
+
 /* Hide default Timeless page header links row globally */
 body.skin-timeless #mw-page-header-links {
   display: none !important;
+}
+
+/* Keep content subtitle out of document flow (no content push-down) */
+body.skin-timeless #contentSub {
+  position: relative !important;
+  top: -44px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: visible !important;
+}
+
+body.skin-timeless #mw-content-subtitle {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 3 !important;
+  opacity: 0.4 !important;
+}
+
+body.skin-timeless #mw-content-subtitle:hover,
+body.skin-timeless #mw-content-subtitle:focus-within {
+  opacity: 1 !important;
 }

@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Denne siden ble automatisk oversatt. Denne oversettelsen kan inneholde feil eller unoyaktigheter. <br />Du kan hjelpe til med a forbedre den ved a $1.",
-	"aits-banner-machine-link-text": "redigere siden"
+	"aits-banner-machine-link-text": "redigere siden",
+	"aits-status-machine": "Maskin",
+	"aits-status-reviewed": "Mennesket anmeldt",
+	"aits-status-outdated": "Foreldet",
+	"aits-status-unknown": "Manglende metadata",
+	"aits-tooltip-translation-status": "Oversettelsesstatus",
+	"aits-tooltip-source-rev": "Revisjon av kilden",
+	"aits-tooltip-outdated-rev": "Utdatert av kilderevisjonen",
+	"aits-tooltip-reviewed-by": "Anmeldt av",
+	"aits-tooltip-reviewed-at": "Anmeldt kl",
+	"aits-open-translate-editor": "Åpne oversettelseseditor",
+	"aits-open-direct-edit-warning": "Direkte sideredigering (advarsel)",
+	"aits-open-page-source": "Sidens kildekode",
+	"aits-open-source": "Åpen engelsk kilde",
+	"aits-show-machine-banner": "Vis maskinoversettelsesbanner",
+	"aits-close": "Lukke"
 }

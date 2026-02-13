@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Trang nay duoc dich tu dong. Ban dich nay co the chua loi hoac thieu chinh xac. <br />Ban co the giup cai thien bang cach $1.",
-	"aits-banner-machine-link-text": "chinh sua trang"
+	"aits-banner-machine-link-text": "chinh sua trang",
+	"aits-status-machine": "Máy móc",
+	"aits-status-reviewed": "Con người đã xem xét",
+	"aits-status-outdated": "lỗi thời",
+	"aits-status-unknown": "Thiếu siêu dữ liệu",
+	"aits-tooltip-translation-status": "Trạng thái dịch",
+	"aits-tooltip-source-rev": "Bản sửa đổi cơ sở nguồn",
+	"aits-tooltip-outdated-rev": "Đã lỗi thời do sửa đổi nguồn",
+	"aits-tooltip-reviewed-by": "Được đánh giá bởi",
+	"aits-tooltip-reviewed-at": "Được đánh giá tại",
+	"aits-open-translate-editor": "Mở trình soạn thảo bản dịch",
+	"aits-open-direct-edit-warning": "Chỉnh sửa trang trực tiếp (cảnh báo)",
+	"aits-open-page-source": "Mã nguồn trang",
+	"aits-open-source": "Nguồn tiếng Anh mở",
+	"aits-show-machine-banner": "Hiển thị biểu ngữ dịch máy",
+	"aits-close": "Đóng"
 }

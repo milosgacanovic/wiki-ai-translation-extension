@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Tato stranka byla automaticky prelozena. Tento preklad muze obsahovat chyby nebo nepresnosti. <br />Muzete pomoci ji zlepsit $1.",
-	"aits-banner-machine-link-text": "upravou stranky"
+	"aits-banner-machine-link-text": "upravou stranky",
+	"aits-status-machine": "Stroj",
+	"aits-status-reviewed": "Zkontrolováno člověkem",
+	"aits-status-outdated": "Zastaralý",
+	"aits-status-unknown": "Chybí metadata",
+	"aits-tooltip-translation-status": "Stav překladu",
+	"aits-tooltip-source-rev": "Revize výchozího stavu zdroje",
+	"aits-tooltip-outdated-rev": "Zastaralé revizí zdroje",
+	"aits-tooltip-reviewed-by": "Recenzováno uživatelem",
+	"aits-tooltip-reviewed-at": "Recenzováno na",
+	"aits-open-translate-editor": "Otevřete editor překladů",
+	"aits-open-direct-edit-warning": "Přímá úprava stránky (varování)",
+	"aits-open-page-source": "Zdrojový kód stránky",
+	"aits-open-source": "Otevřený anglický zdroj",
+	"aits-show-machine-banner": "Zobrazit banner strojového překladu",
+	"aits-close": "Blízko"
 }

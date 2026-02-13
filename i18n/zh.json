@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "此页面为自动翻译。该翻译可能包含错误或不准确之处。<br />你可以通过$1来帮助改进。",
-	"aits-banner-machine-link-text": "编辑页面"
+	"aits-banner-machine-link-text": "编辑页面",
+	"aits-status-machine": "机器",
+	"aits-status-reviewed": "人工审核",
+	"aits-status-outdated": "过时的",
+	"aits-status-unknown": "缺少元数据",
+	"aits-tooltip-translation-status": "翻译状态",
+	"aits-tooltip-source-rev": "源基线修订",
+	"aits-tooltip-outdated-rev": "源版本已过时",
+	"aits-tooltip-reviewed-by": "审阅者",
+	"aits-tooltip-reviewed-at": "评论于",
+	"aits-open-translate-editor": "打开翻译编辑器",
+	"aits-open-direct-edit-warning": "直接页面编辑（警告）",
+	"aits-open-page-source": "页面源代码",
+	"aits-open-source": "开放英文源代码",
+	"aits-show-machine-banner": "显示机器翻译横幅",
+	"aits-close": "关闭"
 }

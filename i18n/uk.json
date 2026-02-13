@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Цю сторінку перекладено автоматично. Цей переклад може містити помилки або неточності. <br />Ви можете допомогти покращити її, $1.",
-	"aits-banner-machine-link-text": "редагуючи сторінку"
+	"aits-banner-machine-link-text": "редагуючи сторінку",
+	"aits-status-machine": "машина",
+	"aits-status-reviewed": "Переглянуто людиною",
+	"aits-status-outdated": "Застаріла",
+	"aits-status-unknown": "Відсутні метадані",
+	"aits-tooltip-translation-status": "Статус перекладу",
+	"aits-tooltip-source-rev": "Перегляд базової лінії джерела",
+	"aits-tooltip-outdated-rev": "Застаріла версія джерела",
+	"aits-tooltip-reviewed-by": "Переглянуто",
+	"aits-tooltip-reviewed-at": "Переглянуто на",
+	"aits-open-translate-editor": "Відкрити редактор перекладу",
+	"aits-open-direct-edit-warning": "Пряме редагування сторінки (попередження)",
+	"aits-open-page-source": "Вихідний код сторінки",
+	"aits-open-source": "Відкритий англійський джерело",
+	"aits-show-machine-banner": "Показати банер машинного перекладу",
+	"aits-close": "Закрити"
 }

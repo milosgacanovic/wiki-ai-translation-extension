@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "تمت ترجمة هذه الصفحة تلقائياً. قد تحتوي هذه الترجمة على أخطاء أو عدم دقة. <br />يمكنك المساعدة في تحسينها عبر $1.",
-	"aits-banner-machine-link-text": "تحرير الصفحة"
+	"aits-banner-machine-link-text": "تحرير الصفحة",
+	"aits-status-machine": "آلة",
+	"aits-status-reviewed": "تمت مراجعة الإنسان",
+	"aits-status-outdated": "عفا عليها الزمن",
+	"aits-status-unknown": "البيانات الوصفية مفقودة",
+	"aits-tooltip-translation-status": "حالة الترجمة",
+	"aits-tooltip-source-rev": "مراجعة خط الأساس المصدر",
+	"aits-tooltip-outdated-rev": "عفا عليها الزمن من خلال مراجعة المصدر",
+	"aits-tooltip-reviewed-by": "تمت المراجعة بواسطة",
+	"aits-tooltip-reviewed-at": "تمت المراجعة في",
+	"aits-open-translate-editor": "افتح محرر الترجمة",
+	"aits-open-direct-edit-warning": "تحرير الصفحة المباشرة (تحذير)",
+	"aits-open-page-source": "كود مصدر الصفحة",
+	"aits-open-source": "فتح المصدر الإنجليزي",
+	"aits-show-machine-banner": "عرض شعار الترجمة الآلية",
+	"aits-close": "يغلق"
 }

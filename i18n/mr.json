@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "हा पृष्ठ स्वयंचलितपणे अनुवादित केला आहे. या अनुवादात चुका किंवा अचूकतेचा अभाव असू शकतो. <br />तुम्ही $1 करून सुधारण्यात मदत करू शकता.",
-	"aits-banner-machine-link-text": "पृष्ठ संपादित"
+	"aits-banner-machine-link-text": "पृष्ठ संपादित",
+	"aits-status-machine": "यंत्र",
+	"aits-status-reviewed": "मानवी पुनरावलोकन",
+	"aits-status-outdated": "कालबाह्य",
+	"aits-status-unknown": "गहाळ मेटाडेटा",
+	"aits-tooltip-translation-status": "भाषांतर स्थिती",
+	"aits-tooltip-source-rev": "स्रोत बेसलाइन पुनरावृत्ती",
+	"aits-tooltip-outdated-rev": "स्त्रोत पुनरावृत्तीद्वारे कालबाह्य",
+	"aits-tooltip-reviewed-by": "द्वारे पुनरावलोकन केले",
+	"aits-tooltip-reviewed-at": "येथे पुनरावलोकन केले",
+	"aits-open-translate-editor": "अनुवाद संपादक उघडा",
+	"aits-open-direct-edit-warning": "थेट पृष्ठ संपादन (चेतावणी)",
+	"aits-open-page-source": "पृष्ठ स्त्रोत कोड",
+	"aits-open-source": "इंग्रजी स्रोत उघडा",
+	"aits-show-machine-banner": "मशीन भाषांतर बॅनर दर्शवा",
+	"aits-close": "बंद करा"
 }

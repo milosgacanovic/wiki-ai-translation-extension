@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Thessi sida var sjalfvirkt thydd. Thessi thyding kann innihaldid villur eda onakvaemni. <br />Thu getur hjalpad til vid ad baeta hana med thvi ad $1.",
-	"aits-banner-machine-link-text": "breyta sidunni"
+	"aits-banner-machine-link-text": "breyta sidunni",
+	"aits-status-machine": "Vél",
+	"aits-status-reviewed": "Mannlegur yfirfarinn",
+	"aits-status-outdated": "Gamaldags",
+	"aits-status-unknown": "Vantar lýsigögn",
+	"aits-tooltip-translation-status": "Þýðingarstaða",
+	"aits-tooltip-source-rev": "Uppruni grunnlínu endurskoðun",
+	"aits-tooltip-outdated-rev": "Úrelt með heimildarendurskoðun",
+	"aits-tooltip-reviewed-by": "Metið af",
+	"aits-tooltip-reviewed-at": "Skoðað kl",
+	"aits-open-translate-editor": "Opinn þýðingar ritstjóri",
+	"aits-open-direct-edit-warning": "Bein síðubreyting (viðvörun)",
+	"aits-open-page-source": "Frumkóði síðu",
+	"aits-open-source": "Opinn enskur heimild",
+	"aits-show-machine-banner": "Sýna vélþýðingarborða",
+	"aits-close": "Loka"
 }

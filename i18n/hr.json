@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Ova stranica je automatski prevedena. Ovaj prijevod moze sadrzavati pogreske ili netocnosti. <br />Mozete pomoci da se poboljsa $1.",
-	"aits-banner-machine-link-text": "uredivanjem stranice"
+	"aits-banner-machine-link-text": "uredivanjem stranice",
+	"aits-status-machine": "Stroj",
+	"aits-status-reviewed": "Pregledano od strane ljudi",
+	"aits-status-outdated": "Zastario",
+	"aits-status-unknown": "Nedostaju metapodaci",
+	"aits-tooltip-translation-status": "Status prijevoda",
+	"aits-tooltip-source-rev": "Revizija osnovne linije izvora",
+	"aits-tooltip-outdated-rev": "Zastarjelo revizijom izvora",
+	"aits-tooltip-reviewed-by": "Pregledao",
+	"aits-tooltip-reviewed-at": "Pregledano na",
+	"aits-open-translate-editor": "Otvorite uređivač prijevoda",
+	"aits-open-direct-edit-warning": "Izravno uređivanje stranice (upozorenje)",
+	"aits-open-page-source": "Izvorni kod stranice",
+	"aits-open-source": "Otvoreni engleski izvor",
+	"aits-show-machine-banner": "Prikaži banner strojnog prijevoda",
+	"aits-close": "Zatvoriti"
 }

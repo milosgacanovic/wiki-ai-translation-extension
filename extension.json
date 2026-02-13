@@ -76,6 +76,7 @@
 			],
 			"messages": [
 				"aits-status-machine",
+				"aits-status-source-language",
 				"aits-status-reviewed",
 				"aits-status-outdated",
 				"aits-banner-machine-title",

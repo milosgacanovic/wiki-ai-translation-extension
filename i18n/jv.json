@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Kaca iki diterjemahake kanthi otomatis. Terjemahan iki bisa uga ngemot kesalahan utawa ketidakakuratan. <br />Sampeyan bisa mbantu ngapikake kanthi $1.",
-	"aits-banner-machine-link-text": "nyunting kaca"
+	"aits-banner-machine-link-text": "nyunting kaca",
+	"aits-status-machine": "Mesin",
+	"aits-status-reviewed": "Manungsa dideleng",
+	"aits-status-outdated": "ketinggalan jaman",
+	"aits-status-unknown": "Metadata ilang",
+	"aits-tooltip-translation-status": "Status terjemahan",
+	"aits-tooltip-source-rev": "Revisi dhasar sumber",
+	"aits-tooltip-outdated-rev": "Lawas dening revisi sumber",
+	"aits-tooltip-reviewed-by": "Dideleng dening",
+	"aits-tooltip-reviewed-at": "Dideleng ing",
+	"aits-open-translate-editor": "Bukak editor terjemahan",
+	"aits-open-direct-edit-warning": "Suntingan kaca langsung (warning)",
+	"aits-open-page-source": "Kode sumber kaca",
+	"aits-open-source": "Bukak sumber Inggris",
+	"aits-show-machine-banner": "Tampilake spanduk terjemahan mesin",
+	"aits-close": "Nutup"
 }

@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Αυτή η σελίδα μεταφράστηκε αυτόματα. Αυτή η μετάφραση μπορεί να περιέχει λάθη ή ανακρίβειες. <br />Μπορείτε να βοηθήσετε να βελτιωθεί $1.",
-	"aits-banner-machine-link-text": "επεξεργαζόμενοι τη σελίδα"
+	"aits-banner-machine-link-text": "επεξεργαζόμενοι τη σελίδα",
+	"aits-status-machine": "Μηχανή",
+	"aits-status-reviewed": "Ανθρώπινη αναθεώρηση",
+	"aits-status-outdated": "Απαρχαιωμένος",
+	"aits-status-unknown": "Λείπουν μεταδεδομένα",
+	"aits-tooltip-translation-status": "Κατάσταση μετάφρασης",
+	"aits-tooltip-source-rev": "Αναθεώρηση βασικής γραμμής πηγής",
+	"aits-tooltip-outdated-rev": "Ξεπερασμένο από την αναθεώρηση πηγής",
+	"aits-tooltip-reviewed-by": "Αξιολογήθηκε από",
+	"aits-tooltip-reviewed-at": "Αξιολογήθηκε στο",
+	"aits-open-translate-editor": "Ανοίξτε το πρόγραμμα επεξεργασίας μετάφρασης",
+	"aits-open-direct-edit-warning": "Απευθείας επεξεργασία σελίδας (προειδοποίηση)",
+	"aits-open-page-source": "Πηγαίος κώδικας σελίδας",
+	"aits-open-source": "Ανοιχτή αγγλική πηγή",
+	"aits-show-machine-banner": "Εμφάνιση πανό αυτόματης μετάφρασης",
+	"aits-close": "Κοντά"
 }

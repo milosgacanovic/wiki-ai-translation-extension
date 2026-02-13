@@ -230,6 +230,7 @@
 		var tooltip = document.createElement( 'div' );
 		tooltip.className = 'ai-translation-status-tooltip';
 		tooltip.setAttribute( 'role', 'tooltip' );
+		var isSourcePage = cfg && cfg.title && cfg.sourceTitle && cfg.title === cfg.sourceTitle;
 
 		function addRow( labelMsg, value ) {
 			if ( !value ) {
@@ -257,21 +258,40 @@
 		} );
 		var links = document.createElement( 'div' );
 		links.className = 'ai-translation-status-tooltip-links';
-		var menuLinks = [
-			{
-				href: translateEditorUrl(),
-				label: mw.message( 'aits-open-translate-editor' ).text()
-			},
-			{
-				href: sourceUrl(),
-				label: mw.message( 'aits-open-source' ).text()
-			},
-			getPortletLink(
-				'#ca-talk',
-				talkFallbackHref,
-				mw.message( 'talk' ).exists() ? mw.message( 'talk' ).text() : 'Talk'
-			)
-		];
+		var menuLinks = [];
+		if ( isSourcePage ) {
+			menuLinks = [
+				{
+					href: mw.util.getUrl( pageName, { veaction: 'edit' } ),
+					label: mw.message( 'edit' ).exists() ? mw.message( 'edit' ).text() : 'Edit'
+				},
+				{
+					href: mw.util.getUrl( pageName, { action: 'edit' } ),
+					label: mw.message( 'viewsource' ).exists() ? mw.message( 'viewsource' ).text() : 'Edit source'
+				},
+				getPortletLink(
+					'#ca-talk',
+					talkFallbackHref,
+					mw.message( 'talk' ).exists() ? mw.message( 'talk' ).text() : 'Talk'
+				)
+			];
+		} else {
+			menuLinks = [
+				{
+					href: translateEditorUrl(),
+					label: mw.message( 'aits-open-translate-editor' ).text()
+				},
+				{
+					href: sourceUrl(),
+					label: mw.message( 'aits-open-source' ).text()
+				},
+				getPortletLink(
+					'#ca-talk',
+					talkFallbackHref,
+					mw.message( 'talk' ).exists() ? mw.message( 'talk' ).text() : 'Talk'
+				)
+			];
+		}
 		menuLinks.forEach( function ( item ) {
 			var link = document.createElement( 'a' );
 			link.href = item.href;
@@ -280,7 +300,15 @@
 		} );
 		tooltip.appendChild( links );
 
-		if ( info.status === STATUS_MACHINE ) {
+		if ( isSourcePage ) {
+			var sourcePref = document.createElement( 'div' );
+			sourcePref.className = 'ai-translation-status-tooltip-pref';
+			var sourcePrefActions = document.createElement( 'div' );
+			sourcePrefActions.className = 'ai-translation-status-tooltip-pref-actions';
+			sourcePrefActions.appendChild( buildWatchCheckboxItem() );
+			sourcePref.appendChild( sourcePrefActions );
+			tooltip.appendChild( sourcePref );
+		} else if ( info.status === STATUS_MACHINE ) {
 			var pref = document.createElement( 'div' );
 			pref.className = 'ai-translation-status-tooltip-pref';
 			var prefActions = document.createElement( 'div' );
@@ -411,6 +439,10 @@
 	}
 
 	function getStatusLabel( status ) {
+		var isSourcePage = cfg && cfg.title && cfg.sourceTitle && cfg.title === cfg.sourceTitle;
+		if ( isSourcePage ) {
+			return mw.message( 'aits-status-source-language' ).text();
+		}
 		if ( status === STATUS_REVIEWED ) {
 			return mw.message( 'aits-status-reviewed' ).text();
 		}
@@ -559,7 +591,12 @@
 			return;
 		}
 		if ( !info.status ) {
-			info.status = STATUS_UNKNOWN;
+			// Source page can legitimately have no ai_* metadata; treat it as healthy.
+			if ( cfg && cfg.title && cfg.sourceTitle && cfg.title === cfg.sourceTitle ) {
+				info.status = STATUS_REVIEWED;
+			} else {
+				info.status = STATUS_UNKNOWN;
+			}
 		}
 		renderDotWithRetry( info );
 		renderBanner( info );

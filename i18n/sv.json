@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Den har sidan oversattes automatiskt. Den har oversattningen kan innehalla fel eller felaktigheter. <br />Du kan hjalpa till att forbattra den genom att $1.",
-	"aits-banner-machine-link-text": "redigera sidan"
+	"aits-banner-machine-link-text": "redigera sidan",
+	"aits-status-machine": "Maskin",
+	"aits-status-reviewed": "Människan granskas",
+	"aits-status-outdated": "Föråldrad",
+	"aits-status-unknown": "Saknar metadata",
+	"aits-tooltip-translation-status": "Översättningsstatus",
+	"aits-tooltip-source-rev": "Källa baslinjerevision",
+	"aits-tooltip-outdated-rev": "Föråldrad av källrevision",
+	"aits-tooltip-reviewed-by": "Recenserad av",
+	"aits-tooltip-reviewed-at": "Recenserad kl",
+	"aits-open-translate-editor": "Öppna översättningsredigeraren",
+	"aits-open-direct-edit-warning": "Direkt sidaredigering (varning)",
+	"aits-open-page-source": "Sidans källkod",
+	"aits-open-source": "Öppen engelsk källa",
+	"aits-show-machine-banner": "Visa maskinöversättningsbanner",
+	"aits-close": "Nära"
 }

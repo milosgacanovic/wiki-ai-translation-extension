@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Ezt az oldalt automatikusan leforditottuk. Ez a forditas hibakat vagy pontatlansagokat tartalmazhat. <br />Segithet javitani rajta, ha $1.",
-	"aits-banner-machine-link-text": "szerkeszted az oldalt"
+	"aits-banner-machine-link-text": "szerkeszted az oldalt",
+	"aits-status-machine": "Gép",
+	"aits-status-reviewed": "Human felülvizsgálta",
+	"aits-status-outdated": "Elavult",
+	"aits-status-unknown": "Hiányzó metaadatok",
+	"aits-tooltip-translation-status": "A fordítás állapota",
+	"aits-tooltip-source-rev": "Forrás alapállapotának átdolgozása",
+	"aits-tooltip-outdated-rev": "A forrás felülvizsgálata miatt elavult",
+	"aits-tooltip-reviewed-by": "Értékelte",
+	"aits-tooltip-reviewed-at": "Értékelve itt:",
+	"aits-open-translate-editor": "Fordításszerkesztő megnyitása",
+	"aits-open-direct-edit-warning": "Közvetlen oldalszerkesztés (figyelmeztetés)",
+	"aits-open-page-source": "Az oldal forráskódja",
+	"aits-open-source": "Nyílt angol forrás",
+	"aits-show-machine-banner": "Gépi fordítási szalaghirdetés megjelenítése",
+	"aits-close": "Közeli"
 }

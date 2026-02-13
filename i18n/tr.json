@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Bu sayfa otomatik olarak cevrildi. Bu ceviri hatalar veya yanlisliklar icerebilir. <br />$1 yaparak iyilestirmeye yardimci olabilirsiniz.",
-	"aits-banner-machine-link-text": "sayfayi duzenleyerek"
+	"aits-banner-machine-link-text": "sayfayi duzenleyerek",
+	"aits-status-machine": "Makine",
+	"aits-status-reviewed": "İnsan tarafından incelendi",
+	"aits-status-outdated": "Modası geçmiş",
+	"aits-status-unknown": "Eksik meta veriler",
+	"aits-tooltip-translation-status": "Çeviri durumu",
+	"aits-tooltip-source-rev": "Kaynak temel revizyonu",
+	"aits-tooltip-outdated-rev": "Kaynak revizyonu nedeniyle güncel değil",
+	"aits-tooltip-reviewed-by": "İnceleyen",
+	"aits-tooltip-reviewed-at": "Şu tarihte incelendi:",
+	"aits-open-translate-editor": "Çeviri düzenleyiciyi aç",
+	"aits-open-direct-edit-warning": "Doğrudan sayfa düzenleme (uyarı)",
+	"aits-open-page-source": "Sayfa kaynak kodu",
+	"aits-open-source": "İngilizce kaynağı aç",
+	"aits-show-machine-banner": "Makine çevirisi başlığını göster",
+	"aits-close": "Kapalı"
 }

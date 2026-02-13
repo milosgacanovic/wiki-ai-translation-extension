@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "이 페이지는 자동 번역되었습니다. 이 번역에는 오류나 부정확한 내용이 있을 수 있습니다. <br />$1을 통해 개선하는 데 도움을 줄 수 있습니다.",
-	"aits-banner-machine-link-text": "페이지를 편집"
+	"aits-banner-machine-link-text": "페이지를 편집",
+	"aits-status-machine": "기계",
+	"aits-status-reviewed": "사람이 검토함",
+	"aits-status-outdated": "구식",
+	"aits-status-unknown": "메타데이터 누락",
+	"aits-tooltip-translation-status": "번역현황",
+	"aits-tooltip-source-rev": "소스 기준선 개정",
+	"aits-tooltip-outdated-rev": "소스 개정으로 인해 오래됨",
+	"aits-tooltip-reviewed-by": "검토자",
+	"aits-tooltip-reviewed-at": "검토 날짜:",
+	"aits-open-translate-editor": "번역 편집기 열기",
+	"aits-open-direct-edit-warning": "직접 페이지 편집(경고)",
+	"aits-open-page-source": "페이지 소스 코드",
+	"aits-open-source": "영어 소스 공개",
+	"aits-show-machine-banner": "기계 번역 배너 표시",
+	"aits-close": "닫다"
 }

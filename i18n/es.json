@@ -5,5 +5,20 @@
 		]
 	},
 	"aits-banner-machine-body": "Esta pagina fue traducida automaticamente. Esta traduccion puede contener errores o inexactitudes. <br />Puedes ayudar a mejorarla $1.",
-	"aits-banner-machine-link-text": "editando la pagina"
+	"aits-banner-machine-link-text": "editando la pagina",
+	"aits-status-machine": "Máquina",
+	"aits-status-reviewed": "Humano revisado",
+	"aits-status-outdated": "Anticuado",
+	"aits-status-unknown": "Metadatos faltantes",
+	"aits-tooltip-translation-status": "Estado de traducción",
+	"aits-tooltip-source-rev": "Revisión de la línea base de la fuente",
+	"aits-tooltip-outdated-rev": "Desactualizado por revisión de fuente",
+	"aits-tooltip-reviewed-by": "Revisado por",
+	"aits-tooltip-reviewed-at": "Revisado en",
+	"aits-open-translate-editor": "Abrir editor de traducción",
+	"aits-open-direct-edit-warning": "Edición directa de página (advertencia)",
+	"aits-open-page-source": "Código fuente de la página",
+	"aits-open-source": "Abrir fuente en inglés",
+	"aits-show-machine-banner": "Mostrar banner de traducción automática",
+	"aits-close": "Cerca"
 }

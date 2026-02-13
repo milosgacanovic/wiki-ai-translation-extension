@@ -489,6 +489,10 @@ body.skin-timeless #mw-content {
   max-width: none !important;
 }
 
+body.skin-timeless #mw-content {
+  padding: 1em 2em 1.3em;
+}
+
 body.skin-timeless #mw-content-container .ts-inner,
 body.skin-timeless #mw-header-container .ts-inner,
 body.skin-timeless #mw-footer-container .ts-inner {
@@ -812,6 +816,51 @@ body.skin-timeless #ca-unwatch a {
 
 body.skin-timeless #mw-content-subtitle .subpages {
   color: #1d4ed8 !important; /* arrow inherits this */
+}
+
+/* Subpage previous/parent/next navigation: left | center | right */
+body.skin-timeless .subpage-nav {
+  margin-top: 0.7rem;
+  opacity: 0.4;
+  padding-top: 0.7rem;
+  border-top: 1px #ccc solid;
+  color: #6b7280;
+}
+
+body.skin-timeless .dr-subpage-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  column-gap: 10px;
+}
+
+body.skin-timeless .dr-subpage-nav-left {
+  text-align: left;
+}
+
+body.skin-timeless .dr-subpage-nav-center {
+  text-align: center;
+}
+
+body.skin-timeless .dr-subpage-nav-right {
+  text-align: right;
+}
+
+body.skin-timeless .subpage-nav a,
+body.skin-timeless .subpage-nav a:visited {
+  color: #6b7280 !important;
+  text-decoration: none;
+}
+
+body.skin-timeless .subpage-nav a:hover,
+body.skin-timeless .subpage-nav a:focus {
+  color: #1d4ed8 !important;
+  text-decoration: underline;
+}
+
+body.skin-timeless .subpage-nav:hover,
+body.skin-timeless .subpage-nav:focus-within {
+  opacity: 1;
 }
 
 body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-icon {

@@ -8,7 +8,44 @@
 		replaceBreadcrumbLeadGlyph( subpages );
 		replaceBreadcrumbPipeSeparators( subpages );
 		localizeSubpageBreadcrumb( subpages );
+		enhanceSubpageNav();
 	} );
+
+	function enhanceSubpageNav() {
+		var containers = document.querySelectorAll( '.subpage-nav' );
+		containers.forEach( function ( container ) {
+			if ( container.querySelector( '.dr-subpage-nav-grid' ) ) {
+				return;
+			}
+			var links = container.querySelectorAll( 'a' );
+			if ( links.length < 3 ) {
+				return;
+			}
+
+			var grid = document.createElement( 'div' );
+			grid.className = 'dr-subpage-nav-grid';
+
+			var left = document.createElement( 'div' );
+			left.className = 'dr-subpage-nav-left';
+			left.appendChild( document.createTextNode( '← ' ) );
+			left.appendChild( links[0].cloneNode( true ) );
+
+			var center = document.createElement( 'div' );
+			center.className = 'dr-subpage-nav-center';
+			center.appendChild( links[1].cloneNode( true ) );
+
+			var right = document.createElement( 'div' );
+			right.className = 'dr-subpage-nav-right';
+			right.appendChild( links[2].cloneNode( true ) );
+			right.appendChild( document.createTextNode( ' →' ) );
+
+			grid.appendChild( left );
+			grid.appendChild( center );
+			grid.appendChild( right );
+			container.innerHTML = '';
+			container.appendChild( grid );
+		} );
+	}
 
 	function replaceBreadcrumbLeadGlyph( subpages ) {
 		if ( !subpages ) {

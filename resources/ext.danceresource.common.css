@@ -474,33 +474,33 @@ body.approvedRevs-approved .approvingUser,
 /* =========================
    Remove “wiki-ish” clutter + old bars
    ========================= */
-body.skin-timeless #siteSub,
-body.skin-timeless .printfooter { display: none !important; }
+body.skin-danceresourcetimeless #siteSub,
+body.skin-danceresourcetimeless .printfooter { display: none !important; }
 
-body.skin-timeless #mw-header-hack,
-body.skin-timeless #mw-header-nav-hack { display: none !important; }
+body.skin-danceresourcetimeless #mw-header-hack,
+body.skin-danceresourcetimeless #mw-header-nav-hack { display: none !important; }
 
 /* =========================
    Full width + modest outer padding
    ========================= */
-body.skin-timeless #mw-content-block,
-body.skin-timeless #mw-content-wrapper,
-body.skin-timeless #mw-content {
+body.skin-danceresourcetimeless #mw-content-block,
+body.skin-danceresourcetimeless #mw-content-wrapper,
+body.skin-danceresourcetimeless #mw-content {
   max-width: none !important;
 }
 
-body.skin-timeless #mw-content {
+body.skin-danceresourcetimeless #mw-content {
   padding: 1em 2em 1.3em;
 }
 
-body.skin-timeless #mw-content-container .ts-inner,
-body.skin-timeless #mw-header-container .ts-inner,
-body.skin-timeless #mw-footer-container .ts-inner {
+body.skin-danceresourcetimeless #mw-content-container .ts-inner,
+body.skin-danceresourcetimeless #mw-header-container .ts-inner,
+body.skin-danceresourcetimeless #mw-footer-container .ts-inner {
   padding-left: 14px !important;
   padding-right: 14px !important;
 }
 
-body.skin-timeless #mw-header-container {
+body.skin-danceresourcetimeless #mw-header-container {
   background: #fff;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -508,24 +508,24 @@ body.skin-timeless #mw-header-container {
 /* =========================
    Inter everywhere (except text logo, which we hide anyway)
    ========================= */
-body.skin-timeless,
-body.skin-timeless #mw-content-container,
-body.skin-timeless #mw-content-container *,
-body.skin-timeless #mw-navigation,
-body.skin-timeless #mw-navigation *,
-body.skin-timeless #mw-related-navigation,
-body.skin-timeless #mw-related-navigation * {
+body.skin-danceresourcetimeless,
+body.skin-danceresourcetimeless #mw-content-container,
+body.skin-danceresourcetimeless #mw-content-container *,
+body.skin-danceresourcetimeless #mw-navigation,
+body.skin-danceresourcetimeless #mw-navigation *,
+body.skin-danceresourcetimeless #mw-related-navigation,
+body.skin-danceresourcetimeless #mw-related-navigation * {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
 }
 
-body.skin-timeless #mw-content-container {
+body.skin-danceresourcetimeless #mw-content-container {
   color: #111827;
   font-size: 16px;
   line-height: 1.65;
 }
 
 /* Request: push content down a bit */
-body.skin-timeless #mw-content-container {
+body.skin-danceresourcetimeless #mw-content-container {
   margin-top: 3.2em;
 }
 
@@ -543,12 +543,12 @@ body.skin-timeless #mw-content-container {
   font-size: 1.3em;
   padding: 0.4em 0.75em 0 0;
 }
-body.skin-timeless #p-logo-text { display: none !important; }
+body.skin-danceresourcetimeless #p-logo-text { display: none !important; }
 
 /* =========================
    Search input — your exact “flat” block
    ========================= */
-body.skin-timeless #searchInput {
+body.skin-danceresourcetimeless #searchInput {
   border: 0 !important;
   margin: 0 !important;
   height: 2.1em !important;
@@ -559,55 +559,55 @@ body.skin-timeless #searchInput {
   min-height: 0 !important;
   font-family: inherit !important;
 }
-body.skin-timeless #searchInput:focus { outline: none !important; }
+body.skin-danceresourcetimeless #searchInput:focus { outline: none !important; }
 
 /* =========================
    Personal / username smaller (support both ids)
    ========================= */
-body.skin-timeless #personal,
-body.skin-timeless #personal *,
-body.skin-timeless #p-personal,
-body.skin-timeless #p-personal * {
+body.skin-danceresourcetimeless #personal,
+body.skin-danceresourcetimeless #personal *,
+body.skin-danceresourcetimeless #p-personal,
+body.skin-danceresourcetimeless #p-personal * {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   text-transform: none !important;
 }
-body.skin-timeless #personal h2,
-body.skin-timeless #p-personal h2 { margin: 0 !important; }
-body.skin-timeless #personal h2 span,
-body.skin-timeless #p-personal h2 span { font-weight: 400 !important; }
+body.skin-danceresourcetimeless #personal h2,
+body.skin-danceresourcetimeless #p-personal h2 { margin: 0 !important; }
+body.skin-danceresourcetimeless #personal h2 span,
+body.skin-danceresourcetimeless #p-personal h2 span { font-weight: 400 !important; }
 
 /* =========================
    Links: darker blue, visited SAME color
    ========================= */
-body.skin-timeless a,
-body.skin-timeless a:visited {
+body.skin-danceresourcetimeless a,
+body.skin-danceresourcetimeless a:visited {
   color: #1d4ed8 !important;
   text-decoration: none;
 }
-body.skin-timeless a:hover { text-decoration: underline; }
+body.skin-danceresourcetimeless a:hover { text-decoration: underline; }
 
 /* Redlinks */
-body.skin-timeless a.new,
-body.skin-timeless a.new:visited { color: #d92d20 !important; }
+body.skin-danceresourcetimeless a.new,
+body.skin-danceresourcetimeless a.new:visited { color: #d92d20 !important; }
 
 /* =========================
    Headings: NOT bold, Inter
    ========================= */
-body.skin-timeless #firstHeading,
-body.skin-timeless .mw-parser-output h1,
-body.skin-timeless .mw-parser-output h2,
-body.skin-timeless .mw-parser-output h3,
-body.skin-timeless .mw-parser-output h4,
-body.skin-timeless .mw-parser-output h5,
-body.skin-timeless .mw-parser-output h6 {
+body.skin-danceresourcetimeless #firstHeading,
+body.skin-danceresourcetimeless .mw-parser-output h1,
+body.skin-danceresourcetimeless .mw-parser-output h2,
+body.skin-danceresourcetimeless .mw-parser-output h3,
+body.skin-danceresourcetimeless .mw-parser-output h4,
+body.skin-danceresourcetimeless .mw-parser-output h5,
+body.skin-danceresourcetimeless .mw-parser-output h6 {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
   font-weight: 400 !important;
 }
 
 /* Thicker divider below H2 */
-body.skin-timeless .mw-parser-output h2 {
+body.skin-danceresourcetimeless .mw-parser-output h2 {
   border-bottom: 0 !important;
   padding-bottom: 10px;
 }
@@ -624,13 +624,13 @@ h6:hover .mw-editsection, h6:focus-within .mw-editsection { opacity: 1; }
 /* =========================
    Sidebars
    ========================= */
-body.skin-timeless .mw-portlet {
+body.skin-danceresourcetimeless .mw-portlet {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-body.skin-timeless .sidebar-chunk > h2 {
+body.skin-danceresourcetimeless .sidebar-chunk > h2 {
   font-size: 12px;
   font-weight: 500 !important;
   letter-spacing: 0.06em;
@@ -640,41 +640,41 @@ body.skin-timeless .sidebar-chunk > h2 {
 }
 
 /* Navigation links spacing (your exact desired block) */
-body.skin-timeless .mw-portlet-body ul { margin: 0 !important; padding: 0 !important; }
-body.skin-timeless .mw-portlet-body ul li { margin: 2px 0 !important; padding: 0 !important; }
-body.skin-timeless .mw-portlet-body ul li a {
+body.skin-danceresourcetimeless .mw-portlet-body ul { margin: 0 !important; padding: 0 !important; }
+body.skin-danceresourcetimeless .mw-portlet-body ul li { margin: 2px 0 !important; padding: 0 !important; }
+body.skin-danceresourcetimeless .mw-portlet-body ul li a {
   display: block;
   padding: 4px 0px !important;
   border-radius: 8px;
 }
-body.skin-timeless .mw-portlet-body ul li a:hover { background: #f3f4f6; }
+body.skin-danceresourcetimeless .mw-portlet-body ul li a:hover { background: #f3f4f6; }
 
 /* Smaller logo above Navigation */
-body.skin-timeless #mw-navigation #p-logo img,
-body.skin-timeless #mw-navigation #p-logo .mw-wiki-logo {
+body.skin-danceresourcetimeless #mw-navigation #p-logo img,
+body.skin-danceresourcetimeless #mw-navigation #p-logo .mw-wiki-logo {
   max-width: 92px !important;
   height: auto !important;
   margin-bottom: 6px !important;
 }
 
 /* Selected Page/Discussion tab subtle */
-body.skin-timeless #p-namespaces li.selected a {
+body.skin-danceresourcetimeless #p-namespaces li.selected a {
   background: #f3f4f6 !important;
 }
 
 /* Remove icons from Page/Discussion and from Edit/Edit source/History (pseudo + any icon spans) */
-body.skin-timeless #p-namespaces a::before,
-body.skin-timeless #p-namespaces a::after,
-body.skin-timeless #p-views a::before,
-body.skin-timeless #p-views a::after {
+body.skin-danceresourcetimeless #p-namespaces a::before,
+body.skin-danceresourcetimeless #p-namespaces a::after,
+body.skin-danceresourcetimeless #p-views a::before,
+body.skin-danceresourcetimeless #p-views a::after {
   content: none !important;
   display: none !important;
 }
-body.skin-timeless #ca-ve-edit .mw-ui-icon,
-body.skin-timeless #ca-edit .mw-ui-icon,
-body.skin-timeless #ca-history .mw-ui-icon,
-body.skin-timeless #ca-talk .mw-ui-icon,
-body.skin-timeless #ca-nstab-main .mw-ui-icon {
+body.skin-danceresourcetimeless #ca-ve-edit .mw-ui-icon,
+body.skin-danceresourcetimeless #ca-edit .mw-ui-icon,
+body.skin-danceresourcetimeless #ca-history .mw-ui-icon,
+body.skin-danceresourcetimeless #ca-talk .mw-ui-icon,
+body.skin-danceresourcetimeless #ca-nstab-main .mw-ui-icon {
   display: none !important;
 }
 
@@ -684,18 +684,18 @@ body.skin-timeless #ca-nstab-main .mw-ui-icon {
    ========================= */
 
 /* Keep watch items participating (they still reveal on hover like others) */
-body.skin-timeless #ca-watch,
-body.skin-timeless #ca-unwatch {
+body.skin-danceresourcetimeless #ca-watch,
+body.skin-danceresourcetimeless #ca-unwatch {
   display: inline-flex !important;
 }
 
 /* Replace missing icon with a star glyph */
-body.skin-timeless #ca-watch a span,
-body.skin-timeless #ca-unwatch a span {
+body.skin-danceresourcetimeless #ca-watch a span,
+body.skin-danceresourcetimeless #ca-unwatch a span {
   display: none !important; /* hide text label if any */
 }
-body.skin-timeless #ca-watch a::before,
-body.skin-timeless #ca-unwatch a::before {
+body.skin-danceresourcetimeless #ca-watch a::before,
+body.skin-danceresourcetimeless #ca-unwatch a::before {
   content: "★" !important;
   display: inline-block !important;
   font-size: 14px !important;
@@ -706,7 +706,7 @@ body.skin-timeless #ca-unwatch a::before {
 /* =========================
    Footer
    ========================= */
-body.skin-timeless #mw-footer-container {
+body.skin-danceresourcetimeless #mw-footer-container {
   background: #fff;
   border-top: 1px solid #e5e7eb;
   color: #6b7280;
@@ -718,7 +718,7 @@ body.skin-timeless #mw-footer-container {
    ========================================================= */
 
 /* Hide namespaces portlet by default everywhere */
-body.skin-timeless #p-namespaces {
+body.skin-danceresourcetimeless #p-namespaces {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
@@ -726,15 +726,15 @@ body.skin-timeless #p-namespaces {
 }
 
 /* Reveal namespaces on hover/focus of the header area */
-body.skin-timeless #mw-page-header-links:hover #p-namespaces,
-body.skin-timeless #mw-page-header-links:focus-within #p-namespaces {
+body.skin-danceresourcetimeless #mw-page-header-links:hover #p-namespaces,
+body.skin-danceresourcetimeless #mw-page-header-links:focus-within #p-namespaces {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
 }
 
 /* Breadcrumb line: tighten vertical rhythm */
-body.skin-timeless #mw-content-subtitle .subpages {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages {
   margin-top: 10px !important;   /* was 14 */
   margin-bottom: 4px !important; /* was 6  */
   padding-top: 5px !important;
@@ -742,7 +742,7 @@ body.skin-timeless #mw-content-subtitle .subpages {
 }
 
 /* Optional: make selected tab look more "attached" */
-body.skin-timeless #p-namespaces li.selected a {
+body.skin-danceresourcetimeless #p-namespaces li.selected a {
   border-bottom: 2px solid #fff !important; /* hides any seam if there is a line below */
 }
 
@@ -751,19 +751,19 @@ body.skin-timeless #p-namespaces li.selected a {
    Paste at END of CSS
    ========================================================= */
 
-body.skin-timeless #mw-page-header-links,
-body.skin-timeless #mw-page-header-links * {
+body.skin-danceresourcetimeless #mw-page-header-links,
+body.skin-danceresourcetimeless #mw-page-header-links * {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
 
-body.skin-timeless #mw-page-header-links {
+body.skin-danceresourcetimeless #mw-page-header-links {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
 
 /* Breadcrumb pill: reduce vertical footprint */
-body.skin-timeless #mw-content-subtitle .subpages {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages {
   margin-top: 8px !important;
   margin-bottom: 4px !important;
   padding-top: 4px !important;
@@ -772,7 +772,7 @@ body.skin-timeless #mw-content-subtitle .subpages {
 }
 
 /* If Timeless is reserving space for the (hidden) namespaces label */
-body.skin-timeless #p-namespaces-label {
+body.skin-danceresourcetimeless #p-namespaces-label {
   display: none !important;
 }
 
@@ -780,22 +780,22 @@ body.skin-timeless #p-namespaces-label {
    FIX: show Watch / Unwatch as a real button (star)
    ========================= */
 
-body.skin-timeless #ca-watch,
-body.skin-timeless #ca-unwatch {
+body.skin-danceresourcetimeless #ca-watch,
+body.skin-danceresourcetimeless #ca-unwatch {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
 }
 
 /* Hide the text label but keep the button */
-body.skin-timeless #ca-watch a span,
-body.skin-timeless #ca-unwatch a span {
+body.skin-danceresourcetimeless #ca-watch a span,
+body.skin-danceresourcetimeless #ca-unwatch a span {
   display: none !important;
 }
 
 /* Force visible star icon */
-body.skin-timeless #ca-watch a::before,
-body.skin-timeless #ca-unwatch a::before {
+body.skin-danceresourcetimeless #ca-watch a::before,
+body.skin-danceresourcetimeless #ca-unwatch a::before {
   content: "★" !important;
   display: inline-block !important;
   font-size: 14px !important;
@@ -804,8 +804,8 @@ body.skin-timeless #ca-unwatch a::before {
 }
 
 /* Make it look like the other header pills */
-body.skin-timeless #ca-watch a,
-body.skin-timeless #ca-unwatch a {
+body.skin-danceresourcetimeless #ca-watch a,
+body.skin-danceresourcetimeless #ca-unwatch a {
   padding: 4px 10px !important;
   border-radius: 10px 10px 0 0 !important; /* tab shape */
 }
@@ -814,12 +814,12 @@ body.skin-timeless #ca-unwatch a {
    Make breadcrumb arrow look like a link
    ========================= */
 
-body.skin-timeless #mw-content-subtitle .subpages {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages {
   color: #1d4ed8 !important; /* arrow inherits this */
 }
 
 /* Subpage previous/parent/next navigation: left | center | right */
-body.skin-timeless .subpage-nav {
+body.skin-danceresourcetimeless .subpage-nav {
   margin-top: 0.7rem;
   opacity: 0.4;
   padding-top: 0.7rem;
@@ -827,43 +827,43 @@ body.skin-timeless .subpage-nav {
   color: #6b7280;
 }
 
-body.skin-timeless .dr-subpage-nav-grid {
+body.skin-danceresourcetimeless .dr-subpage-nav-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   column-gap: 10px;
 }
 
-body.skin-timeless .dr-subpage-nav-left {
+body.skin-danceresourcetimeless .dr-subpage-nav-left {
   text-align: left;
 }
 
-body.skin-timeless .dr-subpage-nav-center {
+body.skin-danceresourcetimeless .dr-subpage-nav-center {
   text-align: center;
 }
 
-body.skin-timeless .dr-subpage-nav-right {
+body.skin-danceresourcetimeless .dr-subpage-nav-right {
   text-align: right;
 }
 
-body.skin-timeless .subpage-nav a,
-body.skin-timeless .subpage-nav a:visited {
+body.skin-danceresourcetimeless .subpage-nav a,
+body.skin-danceresourcetimeless .subpage-nav a:visited {
   color: #6b7280 !important;
   text-decoration: none;
 }
 
-body.skin-timeless .subpage-nav a:hover,
-body.skin-timeless .subpage-nav a:focus {
+body.skin-danceresourcetimeless .subpage-nav a:hover,
+body.skin-danceresourcetimeless .subpage-nav a:focus {
   color: #1d4ed8 !important;
   text-decoration: underline;
 }
 
-body.skin-timeless .subpage-nav:hover,
-body.skin-timeless .subpage-nav:focus-within {
+body.skin-danceresourcetimeless .subpage-nav:hover,
+body.skin-danceresourcetimeless .subpage-nav:focus-within {
   opacity: 1;
 }
 
-body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-icon {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages .dr-breadcrumb-icon {
   display: inline-block;
   margin-right: 2px;
   font-size: 16px;
@@ -873,7 +873,7 @@ body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-icon {
   transform: translateY( -1px );
 }
 
-body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-sep {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages .dr-breadcrumb-sep {
   display: inline-block;
   font-size: 16px;
   line-height: 1;
@@ -883,24 +883,24 @@ body.skin-timeless #mw-content-subtitle .subpages .dr-breadcrumb-sep {
 }
 
 /* Breadcrumb links: gray by default, blue on hover/focus */
-body.skin-timeless #mw-content-subtitle .subpages,
-body.skin-timeless #mw-content-subtitle .subpages a,
-body.skin-timeless #mw-content-subtitle .subpages a:visited {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages,
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages a,
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages a:visited {
   color: #6b7280 !important;
 }
 
-body.skin-timeless #mw-content-subtitle .subpages a:hover,
-body.skin-timeless #mw-content-subtitle .subpages a:focus {
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages a:hover,
+body.skin-danceresourcetimeless #mw-content-subtitle .subpages a:focus {
   color: #1d4ed8 !important;
 }
 
 /* Hide default Timeless page header links row globally */
-body.skin-timeless #mw-page-header-links {
+body.skin-danceresourcetimeless #mw-page-header-links {
   display: none !important;
 }
 
 /* Keep content subtitle out of document flow (no content push-down) */
-body.skin-timeless #contentSub {
+body.skin-danceresourcetimeless #contentSub {
   position: relative !important;
   top: -44px !important;
   margin: 0 !important;
@@ -909,7 +909,7 @@ body.skin-timeless #contentSub {
   overflow: visible !important;
 }
 
-body.skin-timeless #mw-content-subtitle {
+body.skin-danceresourcetimeless #mw-content-subtitle {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
@@ -917,7 +917,7 @@ body.skin-timeless #mw-content-subtitle {
   opacity: 0.4 !important;
 }
 
-body.skin-timeless #mw-content-subtitle:hover,
-body.skin-timeless #mw-content-subtitle:focus-within {
+body.skin-danceresourcetimeless #mw-content-subtitle:hover,
+body.skin-danceresourcetimeless #mw-content-subtitle:focus-within {
   opacity: 1 !important;
 }

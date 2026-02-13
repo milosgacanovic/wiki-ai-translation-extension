@@ -144,10 +144,6 @@ var api = new mw.Api();
 	}
 
 	function render( data ) {
-		if ( window.matchMedia && window.matchMedia( '(max-width: 720px)' ).matches ) {
-			return;
-		}
-
 		var $container = getContainer();
 		if ( !$container.length ) {
 			return;

@@ -76,6 +76,7 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	$isTranslationPage = false;
 	if ( \MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $handle ) ) {
 		$isTranslationPage = true;
+		\MediaWiki\Extension\AiTranslationExtension\HookHandler::ensureTranslationStatusForTranslatedPage( $title );
 		$baseTitle = $handle->getTitleForBase();
 		if ( !$baseTitle ) {
 			return true;

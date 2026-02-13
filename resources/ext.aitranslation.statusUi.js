@@ -11,107 +11,6 @@
 	var STATUS_OUTDATED = 'outdated';
 	var STATUS_UNKNOWN = 'unknown';
 	var HIDE_MACHINE_KEY = 'ai_hide_machine_translation_banner';
-	var MACHINE_DISCLAIMER_BY_LANG = {
-		sr: 'Ova stranica je automatski prevedena. Ovaj prevod moze sadrzati greske ili netacnosti.',
-		it: 'Questa pagina e stata tradotta automaticamente. Questa traduzione puo contenere errori o imprecisioni.',
-		de: 'Diese Seite wurde automatisch ubersetzt. Diese Ubersetzung kann Fehler oder Ungenauigkeiten enthalten.',
-		es: 'Esta pagina fue traducida automaticamente. Esta traduccion puede contener errores o inexactitudes.',
-		fr: 'Cette page a ete traduite automatiquement. Cette traduction peut contenir des erreurs ou des imprecisions.',
-		nl: 'Deze pagina is automatisch vertaald. Deze vertaling kan fouten of onnauwkeurigheden bevatten.',
-		he: 'דף זה תורגם אוטומטית. תרגום זה עשוי להכיל שגיאות או אי־דיוקים.',
-		da: 'Denne side blev oversat automatisk. Denne oversaettelse kan indeholde fejl eller unojagtigheder.',
-		pt: 'Esta pagina foi traduzida automaticamente. Esta traducao pode conter erros ou imprecisoes.',
-		pl: 'Ta strona zostala przetlumaczona automatycznie. To tlumaczenie moze zawierac bledy lub niescislosci.',
-		el: 'Αυτή η σελίδα μεταφράστηκε αυτόματα. Αυτή η μετάφραση μπορεί να περιέχει λάθη ή ανακρίβειες.',
-		hu: 'Ezt az oldalt automatikusan leforditottuk. Ez a forditas hiba kat vagy pontatlansagokat tartalmazhat.',
-		sv: 'Den har sidan oversattes automatiskt. Den har oversattningen kan innehalla fel eller felaktigheter.',
-		fi: 'Tama sivu on kaannetty automaattisesti. Tama kaannos voi sisaltaa virheita tai epatarkkuuksia.',
-		sk: 'Tato stranka bola automaticky prelozena. Tento preklad moze obsahovat chyby alebo nepresnosti.',
-		hr: 'Ova stranica je automatski prevedena. Ovaj prijevod moze sadrzavati pogreske ili netocnosti.',
-		id: 'Halaman ini diterjemahkan secara otomatis. Terjemahan ini mungkin mengandung kesalahan atau ketidakakuratan.',
-		ar: 'تمت ترجمة هذه الصفحة تلقائياً. قد تحتوي هذه الترجمة على أخطاء أو عدم دقة.',
-		hi: 'यह पृष्ठ स्वचालित रूप से अनुवादित किया गया है। इस अनुवाद में त्रुटियाँ या अशुद्धियाँ हो सकती हैं।',
-		no: 'Denne siden ble automatisk oversatt. Denne oversettelsen kan inneholde feil eller unoyaktigheter.',
-		cs: 'Tato stranka byla automaticky prelozena. Tento preklad muze obsahovat chyby nebo nepresnosti.',
-		ko: '이 페이지는 자동 번역되었습니다. 이 번역에는 오류나 부정확한 내용이 있을 수 있습니다.',
-		ja: 'このページは自動翻訳されました。この翻訳には誤りや不正確さが含まれる場合があります。',
-		ka: 'ეს გვერდი ავტომატურად იქნა თარგმნილი. ამ თარგმანს შეიძლება ჰქონდეს შეცდომები ან უზუსტობები.',
-		ro: 'Aceasta pagina a fost tradusa automat. Aceasta traducere poate contine erori sau inexactitati.',
-		sl: 'Ta stran je bila samodejno prevedena. Ta prevod lahko vsebuje napake ali netocnosti.',
-		lb: 'Des Säit gouf automatesch iwwersat. Dës Iwwersetzung kann Feeler oder Ongenauegkeeten enthalen.',
-		th: 'หน้านี้ถูกแปลโดยอัตโนมัติ การแปลนี้อาจมีข้อผิดพลาดหรือความไม่ถูกต้อง',
-		is: 'Thessi sida var sjalfvirkt thydd. Thessi thyding kann innihaldid villur eda onakvaemni.',
-		vi: 'Trang nay duoc dich tu dong. Ban dich nay co the chua loi hoac thieu chinh xac.',
-		zu: 'Leli khasi lihunyushwe ngokuzenzakalelayo. Lolu hlelo lokuhumusha lungase luqukathe amaphutha noma ukungaqondile.',
-		zh: '此页面为自动翻译。该翻译可能包含错误或不准确之处。',
-		ru: 'Эта страница была автоматически переведена. Этот перевод может содержать ошибки или неточности.',
-		uk: 'Цю сторінку перекладено автоматично. Цей переклад може містити помилки або неточності.',
-		fa: 'این صفحه به صورت خودکار ترجمه شده است. این ترجمه ممکن است حاوی خطاها یا نادقیق‌ها باشد.',
-		gu: 'આ પાનું આપમેળે અનુવાદિત થયું છે. આ અનુવાદમાં ભૂલો અથવા અચોક્કસતાઓ હોઈ શકે છે.',
-		ta: 'இந்தப் பக்கம் தானாக மொழிபெயர்க்கப்பட்டுள்ளது. இந்த மொழிபெயர்ப்பில் பிழைகள் அல்லது துல்லியமின்மை இருக்கலாம்.',
-		te: 'ఈ పేజీ ఆటోమేటిక్‌గా అనువదించబడింది. ఈ అనువాదంలో తప్పులు లేదా అస్పష్టతలు ఉండవచ్చు.',
-		mr: 'हा पृष्ठ स्वयंचलितपणे अनुवादित केला आहे. या अनुवादात चुका किंवा अचूकतेचा अभाव असू शकतो.',
-		tr: 'Bu sayfa otomatik olarak cevrildi. Bu ceviri hatalar veya yanlisliklar icerebilir.',
-		ur: 'یہ صفحہ خودکار طور پر ترجمہ کیا گیا ہے۔ اس ترجمے میں غلطیاں یا عدم درستگی ہو سکتی ہے۔',
-		bn: 'এই পৃষ্ঠাটি স্বয়ংক্রিয়ভাবে অনুবাদ করা হয়েছে। এই অনুবাদে ভুল বা অযথার্থতা থাকতে পারে।',
-		jv: 'Kaca iki diterjemahake kanthi otomatis. Terjemahan iki bisa uga ngemot kesalahan utawa ketidakakuratan.',
-		en: 'This page was automatically translated. This translation may contain errors or inaccuracies.'
-	};
-	var MACHINE_LINK_TEXT_BY_LANG = {
-		sr: 'urediti stranicu',
-		it: 'modificando la pagina',
-		de: 'die Seite bearbeiten',
-		es: 'editando la pagina',
-		fr: 'modifiant la page',
-		nl: 'de pagina te bewerken',
-		he: 'עריכת הדף',
-		da: 'redigere siden',
-		pt: 'editando a pagina',
-		pl: 'edytujac strone',
-		el: 'επεξεργαζόμενοι τη σελίδα',
-		hu: 'szerkeszted az oldalt',
-		sv: 'redigera sidan',
-		fi: 'muokkaamalla sivua',
-		sk: 'upravovanim stranky',
-		hr: 'uredivanjem stranice',
-		id: 'mengedit halaman',
-		ar: 'تحرير الصفحة',
-		hi: 'पृष्ठ संपादित करके',
-		no: 'redigere siden',
-		cs: 'upravou stranky',
-		ko: '페이지를 편집',
-		ja: 'ページを編集する',
-		ka: 'გვერდის რედაქტირებით',
-		ro: 'editand pagina',
-		sl: 'urejanjem strani',
-		lb: "d'Sait aennert",
-		th: 'แก้ไขหน้า',
-		is: 'breyta sidunni',
-		vi: 'chinh sua trang',
-		zu: 'uhlele ikhasi',
-		zh: '编辑页面',
-		ru: 'редактируя страницу',
-		uk: 'редагуючи сторінку',
-		fa: 'ویرایش صفحه',
-		gu: 'પાનું સંપાદિત કરીને',
-		ta: 'பக்கத்தைத் திருத்துவது',
-		te: 'పేజీని సవరించడం',
-		mr: 'पृष्ठ संपादित',
-		tr: 'sayfayi duzenleyerek',
-		ur: 'صفحہ میں ترمیم',
-		bn: 'পৃষ্ঠা সম্পাদনা করে',
-		jv: 'nyunting kaca',
-		en: 'editing the page'
-	};
-
-	function getLangCode() {
-		var code = ( mw.config.get( 'wgUserLanguage' ) || 'en' ).toLowerCase();
-		if ( MACHINE_DISCLAIMER_BY_LANG[code] ) {
-			return code;
-		}
-		var base = code.split( '-' )[0];
-		return MACHINE_DISCLAIMER_BY_LANG[base] ? base : 'en';
-	}
 
 	function getStorage() {
 		try {
@@ -133,6 +32,30 @@
 		}
 	}
 
+	function setMachineBannerHidden( hidden ) {
+		var storage = getStorage();
+		if ( !storage ) {
+			return;
+		}
+		if ( hidden ) {
+			storage.setItem( HIDE_MACHINE_KEY, '1' );
+		} else {
+			storage.removeItem( HIDE_MACHINE_KEY );
+		}
+	}
+
+	function appendTextWithBreaks( parent, text ) {
+		var parts = String( text || '' ).split( /<br\s*\/?>/i );
+		for ( var i = 0; i < parts.length; i++ ) {
+			if ( parts[i] ) {
+				parent.appendChild( document.createTextNode( parts[i] ) );
+			}
+			if ( i < parts.length - 1 ) {
+				parent.appendChild( document.createElement( 'br' ) );
+			}
+		}
+	}
+
 	function findLanguageSelector() {
 		var selectors = [
 			'.mw-interlanguage-selector',
@@ -149,9 +72,34 @@
 		return null;
 	}
 
+	function getContentLanguageCode() {
+		var page = mw.config.get( 'wgPageName' ) || '';
+		var match = page.match( /\/([a-z-]+)$/i );
+		if ( !match ) {
+			return 'en';
+		}
+		var code = match[1].toLowerCase();
+		if ( code === 'sr-el' || code === 'sr-ec' ) {
+			return 'sr';
+		}
+		return code.split( '-' )[0] || 'en';
+	}
+
+	function translateEditorUrl() {
+		var sourceTitle = cfg.sourceTitle ||
+			( mw.config.get( 'wgPageName' ) || '' ).replace( /\/[a-z-]+$/i, '' );
+		var group = 'page-' + String( sourceTitle ).replace( /_/g, ' ' );
+		return mw.util.getUrl( 'Special:Translate', {
+			group: group,
+			action: 'page',
+			filter: '',
+			language: getContentLanguageCode()
+		} );
+	}
+
 	function buildTooltipText( info ) {
 		var parts = [];
-		parts.push( mw.message( 'aits-tooltip-status' ).text() + ': ' + getStatusLabel( info.status ) );
+		parts.push( mw.message( 'aits-tooltip-translation-status' ).text() + ': ' + getStatusLabel( info.status ) );
 		if ( info.source_rev ) {
 			parts.push( mw.message( 'aits-tooltip-source-rev' ).text() + ': ' + info.source_rev );
 		}
@@ -165,6 +113,301 @@
 			parts.push( mw.message( 'aits-tooltip-reviewed-at' ).text() + ': ' + info.reviewed_at );
 		}
 		return parts.join( '\n' );
+	}
+
+	function getPageSourceLabel() {
+		var msg = mw.message( 'aits-open-page-source' );
+		if ( msg.exists() ) {
+			return msg.text();
+		}
+		return mw.message( 'viewsource' ).exists() ? mw.message( 'viewsource' ).text() : 'Page source';
+	}
+
+	function getPortletLink( id, fallbackHref, fallbackLabel ) {
+		var anchor = document.querySelector( id + ' a' );
+		if ( !anchor ) {
+			return {
+				href: fallbackHref,
+				label: fallbackLabel
+			};
+		}
+		return {
+			href: anchor.getAttribute( 'href' ) || anchor.href || fallbackHref,
+			label: ( anchor.textContent || '' ).trim() || fallbackLabel
+		};
+	}
+
+	function isUserLoggedIn() {
+		return !!mw.config.get( 'wgUserName' );
+	}
+
+	function getWatchStateFromDom() {
+		var tab = document.querySelector( '#ca-watch, #ca-unwatch' );
+		if ( !tab ) {
+			return false;
+		}
+		if ( tab.id === 'ca-unwatch' || tab.classList.contains( 'ca-unwatch' ) || tab.classList.contains( 'watched' ) ) {
+			return true;
+		}
+		var anchor = tab.querySelector( 'a' );
+		if ( !anchor ) {
+			return false;
+		}
+		var href = anchor.getAttribute( 'href' ) || '';
+		if ( /[?&]action=unwatch(?:&|$)/.test( href ) ) {
+			return true;
+		}
+		if ( /[?&]action=watch(?:&|$)/.test( href ) ) {
+			return false;
+		}
+		return false;
+	}
+
+	function syncWatchStateFromApi( checkbox ) {
+		new mw.Api().get( {
+			action: 'query',
+			titles: mw.config.get( 'wgPageName' ),
+			prop: 'info',
+			inprop: 'watched'
+		} ).then( function ( data ) {
+			var pages = ( data && data.query && data.query.pages ) || {};
+			var keys = Object.keys( pages );
+			if ( !keys.length ) {
+				return;
+			}
+			var page = pages[keys[0]] || {};
+			checkbox.checked = Object.prototype.hasOwnProperty.call( page, 'watched' );
+		} ).catch( function () {
+			// Ignore state sync errors; checkbox still works as toggle.
+		} );
+	}
+
+	function buildWatchCheckboxItem() {
+		var row = document.createElement( 'label' );
+		row.className = 'ai-translation-status-tooltip-watch';
+
+		var checkbox = document.createElement( 'input' );
+		checkbox.type = 'checkbox';
+		checkbox.checked = getWatchStateFromDom();
+		checkbox.disabled = !isUserLoggedIn();
+		row.appendChild( checkbox );
+
+		var labelText = mw.message( 'watch' ).exists() ? mw.message( 'watch' ).text() : 'Watch';
+		row.appendChild( document.createTextNode( ' ' + labelText ) );
+
+		if ( isUserLoggedIn() ) {
+			syncWatchStateFromApi( checkbox );
+			row.addEventListener( 'mousedown', function ( e ) {
+				e.stopPropagation();
+			} );
+			row.addEventListener( 'click', function ( e ) {
+				e.stopPropagation();
+			} );
+			checkbox.addEventListener( 'change', function () {
+				checkbox.disabled = true;
+				var params = {
+					action: 'watch',
+					format: 'json',
+					formatversion: 2,
+					titles: mw.config.get( 'wgPageName' )
+				};
+				if ( !checkbox.checked ) {
+					params.unwatch = 1;
+				}
+				new mw.Api().postWithToken( 'watch', params ).then( function () {
+					checkbox.disabled = false;
+				} ).catch( function () {
+					checkbox.checked = !checkbox.checked;
+					checkbox.disabled = false;
+				} );
+			} );
+		}
+
+		return row;
+	}
+
+	function createTooltip( info ) {
+		var tooltip = document.createElement( 'div' );
+		tooltip.className = 'ai-translation-status-tooltip';
+		tooltip.setAttribute( 'role', 'tooltip' );
+
+		function addRow( labelMsg, value ) {
+			if ( !value ) {
+				return;
+			}
+			var row = document.createElement( 'div' );
+			row.className = 'ai-translation-status-tooltip-row';
+			var label = document.createElement( 'strong' );
+			label.textContent = mw.message( labelMsg ).text() + ': ';
+			row.appendChild( label );
+			row.appendChild( document.createTextNode( String( value ) ) );
+			tooltip.appendChild( row );
+		}
+
+		addRow( 'aits-tooltip-translation-status', getStatusLabel( info.status ) );
+		addRow( 'aits-tooltip-source-rev', info.source_rev );
+		addRow( 'aits-tooltip-outdated-rev', info.outdated_source_rev );
+		addRow( 'aits-tooltip-reviewed-by', info.reviewed_by );
+		addRow( 'aits-tooltip-reviewed-at', info.reviewed_at );
+
+		var pageName = mw.config.get( 'wgPageName' ) || '';
+		var talkFallbackHref = mw.util.getUrl( 'Talk:' + pageName, {
+			action: 'edit',
+			redlink: 1
+		} );
+		var links = document.createElement( 'div' );
+		links.className = 'ai-translation-status-tooltip-links';
+		var menuLinks = [
+			{
+				href: translateEditorUrl(),
+				label: mw.message( 'aits-open-translate-editor' ).text()
+			},
+			{
+				href: sourceUrl(),
+				label: mw.message( 'aits-open-source' ).text()
+			},
+			getPortletLink(
+				'#ca-talk',
+				talkFallbackHref,
+				mw.message( 'talk' ).exists() ? mw.message( 'talk' ).text() : 'Talk'
+			)
+		];
+		menuLinks.forEach( function ( item ) {
+			var link = document.createElement( 'a' );
+			link.href = item.href;
+			link.textContent = item.label;
+			links.appendChild( link );
+		} );
+		tooltip.appendChild( links );
+
+		if ( info.status === STATUS_MACHINE ) {
+			var pref = document.createElement( 'div' );
+			pref.className = 'ai-translation-status-tooltip-pref';
+			var prefActions = document.createElement( 'div' );
+			prefActions.className = 'ai-translation-status-tooltip-pref-actions';
+			var pageSourceLink = document.createElement( 'a' );
+			pageSourceLink.href = mw.util.getUrl( pageName, { action: 'edit' } );
+			pageSourceLink.textContent = getPageSourceLabel();
+			prefActions.appendChild( pageSourceLink );
+			prefActions.appendChild( buildWatchCheckboxItem() );
+			pref.appendChild( prefActions );
+
+			var prefToggle = document.createElement( 'label' );
+			prefToggle.className = 'ai-translation-status-tooltip-pref-toggle';
+			var checkbox = document.createElement( 'input' );
+			checkbox.type = 'checkbox';
+			checkbox.checked = !isMachineBannerHidden();
+			checkbox.addEventListener( 'mousedown', function ( e ) {
+				e.stopPropagation();
+			} );
+			checkbox.addEventListener( 'click', function ( e ) {
+				e.stopPropagation();
+			} );
+			checkbox.addEventListener( 'change', function () {
+				setMachineBannerHidden( !checkbox.checked );
+				if ( checkbox.checked ) {
+					renderBanner( info );
+				} else {
+					var banner = document.getElementById( 'ai-translation-status-banner' );
+					if ( banner ) {
+						banner.remove();
+					}
+				}
+			} );
+			prefToggle.appendChild( checkbox );
+			prefToggle.appendChild( document.createTextNode( ' ' + mw.message( 'aits-show-machine-banner' ).text() ) );
+			pref.appendChild( prefToggle );
+			tooltip.appendChild( pref );
+		}
+
+		document.body.appendChild( tooltip );
+		return tooltip;
+	}
+
+	function positionTooltip( dot, tooltip ) {
+		var rect = dot.getBoundingClientRect();
+		var top = rect.bottom + window.scrollY + 8;
+		var left = rect.left + window.scrollX - 120;
+		if ( left < 8 ) {
+			left = 8;
+		}
+		tooltip.style.top = top + 'px';
+		tooltip.style.left = left + 'px';
+	}
+
+	function bindTooltip( dot, info ) {
+		var tooltip = null;
+		var hideTimer = null;
+
+		function ensureTooltip() {
+			if ( hideTimer ) {
+				clearTimeout( hideTimer );
+			}
+			if ( !tooltip ) {
+				tooltip = createTooltip( info );
+				tooltip.addEventListener( 'mouseenter', ensureTooltip );
+				tooltip.addEventListener( 'focusin', ensureTooltip );
+				tooltip.addEventListener( 'mouseleave', function ( e ) {
+					if ( e.relatedTarget && ( dot.contains( e.relatedTarget ) || tooltip.contains( e.relatedTarget ) ) ) {
+						return;
+					}
+					hideTooltip();
+				} );
+				tooltip.addEventListener( 'focusout', function ( e ) {
+					if ( e.relatedTarget && ( dot.contains( e.relatedTarget ) || tooltip.contains( e.relatedTarget ) ) ) {
+						return;
+					}
+					if ( tooltip.contains( document.activeElement ) || tooltip.matches( ':hover' ) ) {
+						return;
+					}
+					hideTooltip();
+				} );
+			}
+			positionTooltip( dot, tooltip );
+			tooltip.classList.add( 'is-open' );
+		}
+
+		function hideTooltip() {
+			if ( hideTimer ) {
+				clearTimeout( hideTimer );
+			}
+			hideTimer = setTimeout( function () {
+				if ( tooltip ) {
+					tooltip.classList.remove( 'is-open' );
+				}
+			}, 100 );
+		}
+
+		dot.addEventListener( 'mouseenter', ensureTooltip );
+		dot.addEventListener( 'focus', ensureTooltip );
+		dot.addEventListener( 'mouseleave', function ( e ) {
+			if ( tooltip && e.relatedTarget && tooltip.contains( e.relatedTarget ) ) {
+				return;
+			}
+			hideTooltip();
+		} );
+		dot.addEventListener( 'blur', function ( e ) {
+			if ( tooltip && e.relatedTarget && tooltip.contains( e.relatedTarget ) ) {
+				return;
+			}
+			hideTooltip();
+		} );
+
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( e.key === 'Escape' && tooltip ) {
+				tooltip.classList.remove( 'is-open' );
+			}
+		} );
+
+		document.addEventListener( 'click', function ( e ) {
+			if ( !tooltip || !tooltip.classList.contains( 'is-open' ) ) {
+				return;
+			}
+			if ( e.target === dot || dot.contains( e.target ) || tooltip.contains( e.target ) ) {
+				return;
+			}
+			tooltip.classList.remove( 'is-open' );
+		} );
 	}
 
 	function getStatusLabel( status ) {
@@ -183,10 +426,10 @@
 	function renderDot( info ) {
 		var anchor = findLanguageSelector();
 		if ( !anchor ) {
-			return;
+			return false;
 		}
 		if ( document.getElementById( 'ai-translation-status-dot' ) ) {
-			return;
+			return true;
 		}
 
 		var dot = document.createElement( 'button' );
@@ -194,10 +437,27 @@
 		dot.type = 'button';
 		dot.className = 'ai-translation-status-dot ai-translation-status-dot-' + info.status;
 		dot.setAttribute( 'aria-label', getStatusLabel( info.status ) );
-		dot.setAttribute( 'title', buildTooltipText( info ) );
+		dot.setAttribute( 'aria-description', buildTooltipText( info ) );
 		dot.setAttribute( 'tabindex', '0' );
 
 		anchor.parentNode.insertBefore( dot, anchor );
+		bindTooltip( dot, info );
+		return true;
+	}
+
+	function renderDotWithRetry( info ) {
+		if ( renderDot( info ) ) {
+			return;
+		}
+
+		var attempts = 0;
+		var maxAttempts = 24;
+		var timer = setInterval( function () {
+			attempts++;
+			if ( renderDot( info ) || attempts >= maxAttempts ) {
+				clearInterval( timer );
+			}
+		}, 250 );
 	}
 
 	function contentContainer() {
@@ -236,7 +496,7 @@
 		close.type = 'button';
 		close.className = 'ai-translation-status-close';
 		close.textContent = 'x';
-		close.setAttribute( 'aria-label', 'close' );
+		close.setAttribute( 'aria-label', mw.message( 'aits-close' ).text() );
 
 		var title = document.createElement( 'strong' );
 		title.className = 'ai-translation-status-title';
@@ -247,21 +507,26 @@
 		body.className = 'ai-translation-status-body';
 		if ( info.status === STATUS_OUTDATED ) {
 			body.textContent = mw.message( 'aits-banner-outdated-body' ).text();
-		} else {
-			body.textContent = MACHINE_DISCLAIMER_BY_LANG[getLangCode()] || mw.message( 'aits-banner-machine-body' ).text();
 		}
 
 		var editLink = document.createElement( 'a' );
-		editLink.href = mw.util.getUrl( mw.config.get( 'wgPageName' ), { action: 'edit' } );
+		editLink.href = translateEditorUrl();
 		if ( info.status === STATUS_OUTDATED ) {
 			editLink.textContent = mw.message( 'aits-banner-outdated-cta' ).text();
 		} else {
-			editLink.textContent = MACHINE_LINK_TEXT_BY_LANG[getLangCode()] || mw.message( 'aits-banner-machine-cta' ).text();
+			editLink.textContent = mw.message( 'aits-banner-machine-link-text' ).text();
+			var machineTemplate = mw.message( 'aits-banner-machine-body' ).text();
+			var machineParts = machineTemplate.split( '$1' );
+			appendTextWithBreaks( body, machineParts[0] || '' );
+			body.appendChild( editLink );
+			appendTextWithBreaks( body, machineParts.slice( 1 ).join( '$1' ) || '' );
 		}
 
 		var actions = document.createElement( 'span' );
 		actions.className = 'ai-translation-status-actions';
-		actions.appendChild( editLink );
+		if ( info.status === STATUS_OUTDATED ) {
+			actions.appendChild( editLink );
+		}
 
 		if ( info.status === STATUS_OUTDATED ) {
 			var sourceLink = document.createElement( 'a' );
@@ -296,8 +561,24 @@
 		if ( !info.status ) {
 			info.status = STATUS_UNKNOWN;
 		}
-		renderDot( info );
+		renderDotWithRetry( info );
 		renderBanner( info );
+		hideClassicPageTabs();
+	}
+
+	function hideClassicPageTabs() {
+		var selectors = [
+			'#ca-nstab-main',
+			'#ca-talk',
+			'#ca-watch',
+			'#ca-history'
+		];
+		selectors.forEach( function ( selector ) {
+			var el = document.querySelector( selector );
+			if ( el ) {
+				el.style.display = 'none';
+			}
+		} );
 	}
 
 	function load() {

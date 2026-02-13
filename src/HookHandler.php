@@ -249,8 +249,51 @@ class HookHandler {
 		}
 
 		$values = self::extractTranslationStatusProps( $text );
+		if ( $values === [] ) {
+			// Render/update saves of translated pages may not include template text.
+			// Try reading the status template from the first translation unit page.
+			$values = self::extractTranslationStatusFromFirstUnitPage( $title );
+			if ( $values === [] ) {
+				// Do not clear existing ai_* metadata when no explicit status is found.
+				return true;
+			}
+		}
 		self::persistTranslationStatusProps( (int)$title->getArticleID(), $values );
 		return true;
+	}
+
+	private static function extractTranslationStatusFromFirstUnitPage( Title $translatedTitle ): array {
+		$translatedHandle = new \MessageHandle( $translatedTitle );
+		if ( !\MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $translatedHandle ) ) {
+			return [];
+		}
+
+		$base = $translatedHandle->getTitleForBase();
+		$lang = $translatedHandle->getCode();
+		if ( !$base || $lang === '' ) {
+			return [];
+		}
+
+		$unitTitle = Title::makeTitle(
+			NS_TRANSLATIONS,
+			$base->getPrefixedDBkey() . '/1/' . $lang
+		);
+		if ( !$unitTitle || !$unitTitle->exists() ) {
+			return [];
+		}
+
+		$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $unitTitle );
+		$content = $page->getContent();
+		if ( !$content ) {
+			return [];
+		}
+
+		$text = ContentHandler::getContentText( $content );
+		if ( !is_string( $text ) || $text === '' ) {
+			return [];
+		}
+
+		return self::extractTranslationStatusProps( $text );
 	}
 
 	private static function syncFromTranslationUnitSave( WikiPage $wikiPage, \MessageHandle $handle ): void {
@@ -488,5 +531,51 @@ class HookHandler {
 			$out[(string)$row->pp_propname] = (string)$row->pp_value;
 		}
 		return $out;
+	}
+
+	public static function ensureTranslationStatusForTranslatedPage( Title $translatedTitle ): void {
+		$translatedHandle = new \MessageHandle( $translatedTitle );
+		if (
+			!class_exists( \MediaWiki\Extension\Translate\Utilities\Utilities::class ) ||
+			!\MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $translatedHandle )
+		) {
+			return;
+		}
+
+		$pageId = (int)$translatedTitle->getArticleID();
+		if ( $pageId <= 0 ) {
+			return;
+		}
+
+		$existing = self::loadTranslationStatusProps( $pageId );
+		if ( !empty( $existing[self::PROP_STATUS] ) ) {
+			return;
+		}
+
+		$base = $translatedHandle->getTitleForBase();
+		$lang = $translatedHandle->getCode();
+		if ( !$base || $lang === '' ) {
+			return;
+		}
+
+		$values = self::extractTranslationStatusFromFirstUnitPage( $translatedTitle );
+		if ( $values === [] ) {
+			$values[self::PROP_STATUS] = 'machine';
+		}
+
+		if ( empty( $values[self::PROP_SOURCE_REV] ) ) {
+			$sourceRev = (int)$base->getLatestRevID();
+			if ( $sourceRev > 0 ) {
+				$values[self::PROP_SOURCE_REV] = (string)$sourceRev;
+			}
+		}
+		if ( empty( $values[self::PROP_SOURCE_TITLE] ) ) {
+			$values[self::PROP_SOURCE_TITLE] = $base->getPrefixedText();
+		}
+		if ( empty( $values[self::PROP_SOURCE_LANG] ) ) {
+			$values[self::PROP_SOURCE_LANG] = 'en';
+		}
+
+		self::persistTranslationStatusProps( $pageId, $values );
 	}
 }

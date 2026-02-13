@@ -62,6 +62,9 @@
 			],
 			"styles": [
 				"resources/ext.danceresource.common.css"
+			],
+			"dependencies": [
+				"mediawiki.api"
 			]
 		},
 		"ext.aitranslation.statusUi": {
@@ -77,16 +80,23 @@
 				"aits-status-outdated",
 				"aits-banner-machine-title",
 				"aits-banner-machine-body",
+				"aits-banner-machine-link-text",
 				"aits-banner-machine-cta",
 				"aits-banner-outdated-title",
 				"aits-banner-outdated-body",
 				"aits-banner-outdated-cta",
+				"aits-open-translate-editor",
+				"aits-open-direct-edit-warning",
+				"aits-open-page-source",
 				"aits-open-source",
 				"aits-tooltip-status",
+				"aits-tooltip-translation-status",
 				"aits-tooltip-source-rev",
 				"aits-tooltip-outdated-rev",
 				"aits-tooltip-reviewed-by",
-				"aits-tooltip-reviewed-at"
+				"aits-tooltip-reviewed-at",
+				"aits-show-machine-banner",
+				"aits-close"
 			],
 			"dependencies": [
 				"mediawiki.api",

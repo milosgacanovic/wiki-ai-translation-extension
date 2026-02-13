@@ -82,6 +82,23 @@
 	max-width: max-content;
 	flex: 0 0 auto;
 	position: relative;
+	opacity: 0;
+	transform: translateY( -6px );
+	transition: opacity 280ms ease-out, transform 280ms ease-out;
+}
+
+.dr-lang-portlet.dr-ready {
+	opacity: 1;
+	transform: translateY( 0 );
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.dr-lang-portlet,
+	.dr-lang-portlet.dr-ready {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
 }
 
 .dr-lang-portlet .dr-lang-dropdown {

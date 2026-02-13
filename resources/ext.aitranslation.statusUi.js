@@ -460,21 +460,58 @@
 		if ( !anchor ) {
 			return false;
 		}
-		if ( document.getElementById( 'ai-translation-status-dot' ) ) {
-			return true;
+
+		var dot = document.getElementById( 'ai-translation-status-dot' );
+		if ( !dot ) {
+			dot = document.createElement( 'button' );
+			dot.id = 'ai-translation-status-dot';
+			dot.type = 'button';
+			anchor.parentNode.insertBefore( dot, anchor );
 		}
 
-		var dot = document.createElement( 'button' );
-		dot.id = 'ai-translation-status-dot';
-		dot.type = 'button';
 		dot.className = 'ai-translation-status-dot ai-translation-status-dot-' + info.status;
 		dot.setAttribute( 'aria-label', getStatusLabel( info.status ) );
 		dot.setAttribute( 'aria-description', buildTooltipText( info ) );
 		dot.setAttribute( 'tabindex', '0' );
+		dot.removeAttribute( 'aria-hidden' );
 
-		anchor.parentNode.insertBefore( dot, anchor );
-		bindTooltip( dot, info );
+		if ( !dot.dataset.bound ) {
+			bindTooltip( dot, info );
+			dot.dataset.bound = '1';
+		}
 		return true;
+	}
+
+	function ensureDotPlaceholder() {
+		var anchor = findLanguageSelector();
+		if ( !anchor ) {
+			return false;
+		}
+		if ( document.getElementById( 'ai-translation-status-dot' ) ) {
+			return true;
+		}
+		var dot = document.createElement( 'button' );
+		dot.id = 'ai-translation-status-dot';
+		dot.type = 'button';
+		dot.className = 'ai-translation-status-dot ai-translation-status-dot-unknown ai-translation-status-dot-pending';
+		dot.setAttribute( 'aria-hidden', 'true' );
+		dot.setAttribute( 'tabindex', '-1' );
+		anchor.parentNode.insertBefore( dot, anchor );
+		return true;
+	}
+
+	function ensureDotPlaceholderWithRetry() {
+		if ( ensureDotPlaceholder() ) {
+			return;
+		}
+		var attempts = 0;
+		var maxAttempts = 24;
+		var timer = setInterval( function () {
+			attempts++;
+			if ( ensureDotPlaceholder() || attempts >= maxAttempts ) {
+				clearInterval( timer );
+			}
+		}, 250 );
 	}
 
 	function renderDotWithRetry( info ) {
@@ -619,6 +656,8 @@
 	}
 
 	function load() {
+		ensureDotPlaceholderWithRetry();
+
 		new mw.Api().get( {
 			action: 'aitranslationinfo',
 			title: cfg.title || mw.config.get( 'wgPageName' )

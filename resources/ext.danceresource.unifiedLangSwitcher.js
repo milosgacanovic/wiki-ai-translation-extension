@@ -66,6 +66,45 @@ var api = new mw.Api();
 		return code;
 	}
 
+	function animatePortletIn( $portlet ) {
+		if ( !$portlet || !$portlet.length ) {
+			return;
+		}
+		var el = $portlet[ 0 ];
+		el.style.opacity = '0';
+		el.style.transform = 'translateY(-8px)';
+		el.style.transition = 'opacity 1000ms ease-out, transform 1000ms ease-out';
+		el.style.willChange = 'opacity, transform';
+
+		window.setTimeout( function () {
+			el.style.opacity = '1';
+			el.style.transform = 'translateY(0)';
+			window.setTimeout( function () {
+				el.style.willChange = '';
+			}, 1100 );
+		}, 50 );
+	}
+
+	function animateContainerIn( $container ) {
+		if ( !$container || !$container.length ) {
+			return;
+		}
+		var el = $container[ 0 ];
+		if ( el.animate ) {
+			el.animate(
+				[
+					{ opacity: 0 },
+					{ opacity: 1 }
+				],
+				{
+					duration: 1000,
+					easing: 'ease-out',
+					fill: 'both'
+				}
+			);
+		}
+	}
+
 	function getAutonym( code ) {
 		if ( window.$ && $.uls && $.uls.data && $.uls.data.getAutonym ) {
 			return $.uls.data.getAutonym( code );
@@ -219,9 +258,21 @@ var api = new mw.Api();
 				.attr( 'aria-labelledby', 'p-language-compact-label' );
 		}
 
-		$portlet.removeClass( 'dr-open' ).empty().append( $label ).append( $body );
+		$portlet.removeClass( 'dr-open dr-ready' ).empty().append( $label ).append( $body );
 
-		$container.empty().append( $portlet );
+		var $dot = $( '#ai-translation-status-dot' );
+		if ( !$dot.length ) {
+			$dot = $( '<button>' )
+				.attr( 'id', 'ai-translation-status-dot' )
+				.attr( 'type', 'button' )
+				.attr( 'aria-hidden', 'true' )
+				.attr( 'tabindex', '-1' )
+				.addClass( 'ai-translation-status-dot ai-translation-status-dot-unknown ai-translation-status-dot-pending' );
+		}
+
+		$container.empty().append( $dot ).append( $portlet );
+		animateContainerIn( $container );
+		animatePortletIn( $portlet );
 
 		var $variants = $( '#p-variants-desktop' );
 		if ( $variants.length ) {

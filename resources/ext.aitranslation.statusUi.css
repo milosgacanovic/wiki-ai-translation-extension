@@ -10,6 +10,13 @@
 	padding: 0;
 	position: relative;
 	top: 8px;
+	opacity: 1;
+	transition: opacity 180ms ease-out;
+}
+
+.ai-translation-status-dot-pending {
+	opacity: 0;
+	pointer-events: none;
 }
 
 .ai-translation-status-dot-machine {

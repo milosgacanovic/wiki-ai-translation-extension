@@ -58,7 +58,7 @@ body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-titlebar-tools {
   right: 0;
   top: 4px;
   margin: 0;
-  padding: 0 14px;
+  padding: 0;
   z-index: 80;
 }
 
@@ -254,7 +254,7 @@ body.rootpage-Welcome_to_the_DanceResource_Wiki .mw-parser-output > h2 {
    --------------------------------- */
 @media (max-width: 859px) {
   body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-titlebar-tools {
-    padding: 0 12px;
+    padding: 0;
   }
 
   body.rootpage-Welcome_to_the_DanceResource_Wiki .dr-hero {

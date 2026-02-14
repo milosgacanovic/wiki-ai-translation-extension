@@ -40,12 +40,79 @@
 	}() );
 
 	mw.hook( 'wikipage.content' ).add( function () {
+		updateLogoHrefForCurrentLanguage();
 		var subpages = document.querySelector( '#mw-content-subtitle .subpages' );
 		replaceBreadcrumbLeadGlyph( subpages );
 		replaceBreadcrumbPipeSeparators( subpages );
 		localizeSubpageBreadcrumb( subpages );
 		enhanceSubpageNav();
 	} );
+
+	function normalizeContentLanguageCode( code ) {
+		var normalized = ( code || '' ).toLowerCase();
+		if ( normalized === 'sr-ec' || normalized === 'sr-el' ) {
+			return 'sr';
+		}
+		return normalized;
+	}
+
+	function getCurrentContentLanguageCode() {
+		var pageName = mw.config.get( 'wgPageName' ) || '';
+		var match = pageName.match( /\/([a-z]{2,3}(?:-[a-z0-9]+)?)$/i );
+		if ( match ) {
+			return normalizeContentLanguageCode( match[1] );
+		}
+		return normalizeContentLanguageCode( mw.config.get( 'wgPageContentLanguage' ) || 'en' ) || 'en';
+	}
+
+	function updateLogoHrefForCurrentLanguage() {
+		var logo = document.querySelector( '#p-logo a.mw-wiki-logo' );
+		if ( !logo ) {
+			return;
+		}
+
+		var currentLanguage = getCurrentContentLanguageCode();
+		resolveMainPageTitle( function ( mainPageTitle ) {
+			if ( !mainPageTitle ) {
+				return;
+			}
+			var targetTitle = currentLanguage === 'en' ?
+				mainPageTitle :
+				mainPageTitle + '/' + currentLanguage;
+
+			logo.setAttribute( 'href', mw.util.getUrl( targetTitle ) );
+		} );
+	}
+
+	function resolveMainPageTitle( callback ) {
+		var configured = mw.config.get( 'wgMainPageTitle' ) || mw.config.get( 'wgMainPage' );
+		if ( configured ) {
+			callback( configured );
+			return;
+		}
+
+		if ( window.drMainPageTitle ) {
+			callback( window.drMainPageTitle );
+			return;
+		}
+
+		new mw.Api().get( {
+			action: 'query',
+			meta: 'siteinfo',
+			siprop: 'general',
+			formatversion: 2
+		} ).then( function ( res ) {
+			var mainPageTitle = ( ( res || {} ).query || {} ).general ?
+				( ( res || {} ).query || {} ).general.mainpage :
+				null;
+			if ( mainPageTitle ) {
+				window.drMainPageTitle = mainPageTitle;
+			}
+			callback( mainPageTitle || null );
+		} ).catch( function () {
+			callback( null );
+		} );
+	}
 
 	function enhanceSubpageNav() {
 		var containers = document.querySelectorAll( '.subpage-nav' );

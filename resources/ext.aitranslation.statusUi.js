@@ -281,10 +281,6 @@
 					href: translateEditorUrl(),
 					label: mw.message( 'aits-open-translate-editor' ).text()
 				},
-				{
-					href: sourceUrl(),
-					label: mw.message( 'aits-open-source' ).text()
-				},
 				getPortletLink(
 					'#ca-talk',
 					talkFallbackHref,
@@ -545,6 +541,15 @@
 
 	function renderBanner( info ) {
 		if ( info.status !== STATUS_MACHINE && info.status !== STATUS_OUTDATED ) {
+			return;
+		}
+
+		// Outdated banner is intentionally disabled.
+		// Keep all supporting code below for future re-enable.
+		// if ( info.status === STATUS_OUTDATED ) {
+		// 	return;
+		// }
+		if ( info.status === STATUS_OUTDATED ) {
 			return;
 		}
 

@@ -5,7 +5,9 @@ namespace MediaWiki\Extension\AiTranslationExtension;
 
 use ContentHandler;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Title\Title;
+use SearchEngine;
 use WikiPage;
 
 class HookHandler {
@@ -206,6 +208,43 @@ class HookHandler {
 	private static function getUnifiedLangSwitcherPlaceholder( string $position ): string {
 		return '<div class="dr-uls-container" data-dr-uls-position="' .
 			htmlspecialchars( $position ) . '"></div>';
+	}
+
+	public static function onSearchDataForIndex2(
+		array &$fields,
+		ContentHandler $handler,
+		WikiPage $page,
+		ParserOutput $output,
+		SearchEngine $engine,
+		$revision
+	): bool {
+		$displayTitleHtml = $output->getDisplayTitle();
+		if ( !$displayTitleHtml || !is_string( $displayTitleHtml ) ) {
+			return true;
+		}
+
+		$displayTitle = html_entity_decode( strip_tags( $displayTitleHtml ), ENT_QUOTES | ENT_HTML5 );
+		$displayTitle = preg_replace( '/\s+/u', ' ', trim( $displayTitle ) );
+		if ( !$displayTitle ) {
+			return true;
+		}
+
+		$existingText = (string)( $fields['text'] ?? '' );
+		if ( $existingText === '' ) {
+			return true;
+		}
+
+		// Boost search recall for translated/display titles by indexing plain display title text.
+		if ( stripos( $existingText, $displayTitle ) === false ) {
+			$fields['text'] = $existingText . "\n" . $displayTitle;
+		}
+		if ( isset( $fields['source_text'] ) && is_string( $fields['source_text'] ) &&
+			stripos( $fields['source_text'], $displayTitle ) === false
+		) {
+			$fields['source_text'] .= "\n" . $displayTitle;
+		}
+
+		return true;
 	}
 
 	public static function onPageSaveComplete(

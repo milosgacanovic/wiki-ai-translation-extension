@@ -45,6 +45,24 @@ $wgHooks['Translate:newTranslation'][] = static function (
 	);
 };
 
+$wgHooks['SearchDataForIndex2'][] = static function (
+	array &$fields,
+	$handler,
+	$page,
+	$output,
+	$engine,
+	$revision
+) {
+	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onSearchDataForIndex2(
+		$fields,
+		$handler,
+		$page,
+		$output,
+		$engine,
+		$revision
+	);
+};
+
 // Unified language switcher hooks (registered locally to avoid autoload conflicts).
 $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {

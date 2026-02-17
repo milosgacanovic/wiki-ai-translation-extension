@@ -269,6 +269,10 @@
 					href: mw.util.getUrl( pageName, { action: 'edit' } ),
 					label: mw.message( 'viewsource' ).exists() ? mw.message( 'viewsource' ).text() : 'Edit source'
 				},
+				{
+					href: mw.util.getUrl( pageName, { action: 'history' } ),
+					label: mw.message( 'history' ).exists() ? mw.message( 'history' ).text() : 'History'
+				},
 				getPortletLink(
 					'#ca-talk',
 					talkFallbackHref,

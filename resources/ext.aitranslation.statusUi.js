@@ -72,6 +72,20 @@
 		return null;
 	}
 
+	function findDotAnchorContext() {
+		var selector = findLanguageSelector();
+		if ( selector ) {
+			return { anchor: selector, mode: 'before-selector' };
+		}
+
+		var heading = document.getElementById( 'firstHeading' );
+		if ( heading ) {
+			return { anchor: heading, mode: 'append-heading' };
+		}
+
+		return null;
+	}
+
 	function getContentLanguageCode() {
 		var page = mw.config.get( 'wgPageName' ) || '';
 		var match = page.match( /\/([a-z-]+)$/i );
@@ -229,6 +243,9 @@
 	function createTooltip( info ) {
 		var tooltip = document.createElement( 'div' );
 		tooltip.className = 'ai-translation-status-tooltip';
+		if ( info.status === STATUS_UNKNOWN ) {
+			tooltip.classList.add( 'ai-translation-status-tooltip-unknown' );
+		}
 		tooltip.setAttribute( 'role', 'tooltip' );
 		var isSourcePage = cfg && cfg.title && cfg.sourceTitle && cfg.title === cfg.sourceTitle;
 
@@ -245,7 +262,9 @@
 			tooltip.appendChild( row );
 		}
 
-		addRow( 'aits-tooltip-translation-status', getStatusLabel( info.status ) );
+		if ( info.status !== STATUS_UNKNOWN ) {
+			addRow( 'aits-tooltip-translation-status', getStatusLabel( info.status ) );
+		}
 		addRow( 'aits-tooltip-source-rev', info.source_rev );
 		addRow( 'aits-tooltip-outdated-rev', info.outdated_source_rev );
 		addRow( 'aits-tooltip-reviewed-by', info.reviewed_by );
@@ -259,7 +278,23 @@
 		var links = document.createElement( 'div' );
 		links.className = 'ai-translation-status-tooltip-links';
 		var menuLinks = [];
-		if ( isSourcePage ) {
+		if ( info.status === STATUS_UNKNOWN ) {
+			menuLinks = [
+				{
+					href: mw.util.getUrl( pageName, { action: 'edit' } ),
+					label: mw.message( 'viewsource' ).exists() ? mw.message( 'viewsource' ).text() : 'Edit source'
+				},
+				{
+					href: mw.util.getUrl( pageName, { action: 'history' } ),
+					label: mw.message( 'history' ).exists() ? mw.message( 'history' ).text() : 'History'
+				},
+				getPortletLink(
+					'#ca-talk',
+					talkFallbackHref,
+					mw.message( 'talk' ).exists() ? mw.message( 'talk' ).text() : 'Talk'
+				)
+			];
+		} else if ( isSourcePage ) {
 			menuLinks = [
 				{
 					href: mw.util.getUrl( pageName, { veaction: 'edit' } ),
@@ -356,6 +391,9 @@
 		var rect = dot.getBoundingClientRect();
 		var top = rect.bottom + window.scrollY + 8;
 		var left = rect.left + window.scrollX - 120;
+		if ( tooltip.classList.contains( 'ai-translation-status-tooltip-unknown' ) ) {
+			left = rect.left + window.scrollX - 42;
+		}
 		if ( left < 8 ) {
 			left = 8;
 		}
@@ -450,30 +488,55 @@
 			return mw.message( 'aits-status-outdated' ).text();
 		}
 		if ( status === STATUS_UNKNOWN ) {
-			return mw.message( 'aits-status-unknown' ).text();
+			if ( mw.message( 'aits-status-unknown' ).exists() ) {
+				return mw.message( 'aits-status-unknown' ).text();
+			}
+			return 'Unknown';
 		}
 		return mw.message( 'aits-status-machine' ).text();
 	}
 
 	function renderDot( info ) {
-		var anchor = findLanguageSelector();
-		if ( !anchor ) {
+		var context = findDotAnchorContext();
+		if ( !context || !context.anchor ) {
 			return false;
 		}
 
 		var dot = document.getElementById( 'ai-translation-status-dot' );
+		var isNewDot = false;
 		if ( !dot ) {
 			dot = document.createElement( 'button' );
 			dot.id = 'ai-translation-status-dot';
 			dot.type = 'button';
-			anchor.parentNode.insertBefore( dot, anchor );
+			isNewDot = true;
+		}
+
+		if ( context.mode === 'before-selector' ) {
+			if ( dot.parentNode !== context.anchor.parentNode || dot.nextSibling !== context.anchor ) {
+				context.anchor.parentNode.insertBefore( dot, context.anchor );
+			}
+		} else if ( dot.parentNode !== context.anchor ) {
+			context.anchor.appendChild( dot );
 		}
 
 		dot.className = 'ai-translation-status-dot ai-translation-status-dot-' + info.status;
+		if ( context.mode === 'append-heading' ) {
+			dot.classList.add( 'ai-translation-status-dot-inline' );
+		}
 		dot.setAttribute( 'aria-label', getStatusLabel( info.status ) );
 		dot.setAttribute( 'aria-description', buildTooltipText( info ) );
 		dot.setAttribute( 'tabindex', '0' );
 		dot.removeAttribute( 'aria-hidden' );
+
+		if ( info.status === STATUS_UNKNOWN && !dot.dataset.unknownFaded ) {
+			dot.classList.add( 'ai-translation-status-dot-pending' );
+			requestAnimationFrame( function () {
+				requestAnimationFrame( function () {
+					dot.classList.remove( 'ai-translation-status-dot-pending' );
+					dot.dataset.unknownFaded = '1';
+				} );
+			} );
+		}
 
 		if ( !dot.dataset.bound ) {
 			bindTooltip( dot, info );
@@ -483,8 +546,8 @@
 	}
 
 	function ensureDotPlaceholder() {
-		var anchor = findLanguageSelector();
-		if ( !anchor ) {
+		var context = findDotAnchorContext();
+		if ( !context || !context.anchor ) {
 			return false;
 		}
 		if ( document.getElementById( 'ai-translation-status-dot' ) ) {
@@ -496,7 +559,12 @@
 		dot.className = 'ai-translation-status-dot ai-translation-status-dot-unknown ai-translation-status-dot-pending';
 		dot.setAttribute( 'aria-hidden', 'true' );
 		dot.setAttribute( 'tabindex', '-1' );
-		anchor.parentNode.insertBefore( dot, anchor );
+		if ( context.mode === 'before-selector' ) {
+			context.anchor.parentNode.insertBefore( dot, context.anchor );
+		} else {
+			dot.classList.add( 'ai-translation-status-dot-inline' );
+			context.anchor.appendChild( dot );
+		}
 		return true;
 	}
 

@@ -35,6 +35,18 @@
 	background: #d73333;
 }
 
+.ai-translation-status-dot-inline {
+	float: right;
+	margin-left: 12px;
+	margin-right: 12px;
+	top: 6px;
+}
+
+.ai-translation-status-dot-inline.ai-translation-status-dot-unknown {
+	background: #36c;
+	top: 14px;
+}
+
 .ai-translation-status-banner {
 	position: relative;
 	padding: 10px 36px 10px 12px;
@@ -118,6 +130,12 @@
 
 .ai-translation-status-tooltip-links a:last-child {
 	margin-bottom: 0;
+}
+
+.ai-translation-status-tooltip-unknown .ai-translation-status-tooltip-links {
+	margin-top: 0;
+	border-top: 0;
+	padding-top: 0;
 }
 
 .ai-translation-status-tooltip-watch {

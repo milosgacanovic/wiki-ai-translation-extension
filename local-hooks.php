@@ -65,16 +65,8 @@ $wgHooks['SearchDataForIndex2'][] = static function (
 
 // Unified language switcher hooks (registered locally to avoid autoload conflicts).
 $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
-	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {
-		return true;
-	}
-
-	if ( !class_exists( \MediaWiki\Extension\Translate\PageTranslation\TranslatablePage::class ) ) {
-		return true;
-	}
-
 	$title = $out->getTitle();
-	if ( !$title || $title->isSpecialPage() ) {
+	if ( !$title ) {
 		return true;
 	}
 
@@ -83,46 +75,64 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		return true;
 	}
 
+	$hasTranslate = class_exists( \MediaWiki\Extension\Translate\PageTranslation\TranslatablePage::class ) &&
+		class_exists( \MediaWiki\Extension\Translate\Utilities\Utilities::class ) &&
+		class_exists( \MessageHandle::class );
+
+	$baseTitle = $title;
+	$currentLanguage = '';
+	$sourceLanguage = '';
+	$isMarkedTranslatable = false;
+
+	if ( $hasTranslate && !$title->isSpecialPage() ) {
+		$handle = new \MessageHandle( $title );
+		if ( \MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $handle ) ) {
+			\MediaWiki\Extension\AiTranslationExtension\HookHandler::ensureTranslationStatusForTranslatedPage( $title );
+			$baseTitle = $handle->getTitleForBase();
+			if ( !$baseTitle ) {
+				$baseTitle = $title;
+			} else {
+				$currentLanguage = $handle->getCode();
+			}
+		}
+
+		$translatable = \MediaWiki\Extension\Translate\PageTranslation\TranslatablePage::newFromTitle( $baseTitle );
+		if ( $translatable->getMarkedTag() !== null ) {
+			$isMarkedTranslatable = true;
+			$sourceLanguage = $translatable->getSourceLanguageCode();
+			if ( $currentLanguage === '' ) {
+				$currentLanguage = $sourceLanguage;
+			}
+		}
+	}
+
+	$out->addModuleStyles( [ 'ext.aitranslation.statusUi' ] );
+	$out->addModules( [ 'ext.aitranslation.statusUi' ] );
+	$out->addJsConfigVars( 'aiTranslationStatus', [
+		'enabled' => true,
+		'title' => $title->getPrefixedText(),
+		'sourceTitle' => $isMarkedTranslatable ? $baseTitle->getPrefixedText() : '',
+	] );
+
+	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {
+		return true;
+	}
+	if ( !$hasTranslate || $title->isSpecialPage() ) {
+		return true;
+	}
+
 	$allowed = $GLOBALS['wgDRUnifiedLangSwitcherNamespaces'] ?? [ NS_MAIN ];
 	if ( !in_array( $title->getNamespace(), $allowed, true ) ) {
 		return true;
 	}
-
-	$handle = new \MessageHandle( $title );
-	$baseTitle = $title;
-	$currentLanguage = '';
-	$isTranslationPage = false;
-	if ( \MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $handle ) ) {
-		$isTranslationPage = true;
-		\MediaWiki\Extension\AiTranslationExtension\HookHandler::ensureTranslationStatusForTranslatedPage( $title );
-		$baseTitle = $handle->getTitleForBase();
-		if ( !$baseTitle ) {
-			return true;
-		}
-		$currentLanguage = $handle->getCode();
-	}
-
-	$translatable = \MediaWiki\Extension\Translate\PageTranslation\TranslatablePage::newFromTitle( $baseTitle );
-	if ( $translatable->getMarkedTag() === null ) {
+	if ( !$isMarkedTranslatable ) {
 		return true;
-	}
-
-	$sourceLanguage = $translatable->getSourceLanguageCode();
-	if ( $currentLanguage === '' ) {
-		$currentLanguage = $sourceLanguage;
 	}
 
 	$out->addModuleStyles( [ 'ext.danceresource.common' ] );
 	$out->addModuleStyles( [ 'ext.danceresource.unifiedLangSwitcher' ] );
 	$out->addModules( [ 'ext.danceresource.common' ] );
 	$out->addModules( [ 'ext.danceresource.unifiedLangSwitcher' ] );
-	$out->addModuleStyles( [ 'ext.aitranslation.statusUi' ] );
-	$out->addModules( [ 'ext.aitranslation.statusUi' ] );
-	$out->addJsConfigVars( 'aiTranslationStatus', [
-		'enabled' => true,
-		'title' => $title->getPrefixedText(),
-		'sourceTitle' => $baseTitle->getPrefixedText(),
-	] );
 	$out->addJsConfigVars( 'drUls', [
 		'enabled' => true,
 		'position' => $GLOBALS['wgDRUnifiedLangSwitcherPosition'] ?? 'sidebar',

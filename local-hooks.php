@@ -70,6 +70,86 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		return true;
 	}
 
+	// Optional: silent background SSO probe on anonymous page views.
+	// If the user already has a Keycloak session, redirect to local wiki login flow.
+	if (
+		!empty( $GLOBALS['wgDRSSOSilentCheckEnabled'] ) &&
+		$out->getUser()->isAnon() &&
+		!$title->isSpecialPage()
+	) {
+		$request = $out->getRequest();
+		$bypassParam = $GLOBALS['wgDRSSOAutoRedirectBypassParam'] ?? 'local';
+		$issuer = isset( $GLOBALS['wgDanceResourceKeycloakIssuer'] ) ? trim( (string)$GLOBALS['wgDanceResourceKeycloakIssuer'] ) : '';
+		$clientId = isset( $GLOBALS['wgDanceResourceKeycloakClientId'] ) ? trim( (string)$GLOBALS['wgDanceResourceKeycloakClientId'] ) : '';
+
+		if ( !$request->getBool( $bypassParam ) && $issuer !== '' && $clientId !== '' ) {
+			$callbackUrl = isset( $GLOBALS['wgDRSSOSilentCheckCallbackUrl'] ) &&
+				is_string( $GLOBALS['wgDRSSOSilentCheckCallbackUrl'] ) &&
+				$GLOBALS['wgDRSSOSilentCheckCallbackUrl'] !== ''
+				? $GLOBALS['wgDRSSOSilentCheckCallbackUrl']
+				: rtrim( $GLOBALS['wgServer'] ?? '', '/' ) . '/extensions/AiTranslationExtension/resources/sso-probe-callback.html';
+
+			$authEndpoint = rtrim( $issuer, '/' ) . '/protocol/openid-connect/auth';
+			$fallbackLoginUrl = \SpecialPage::getTitleFor( 'Userlogin' )->getFullURL( [
+				'returnto' => $title->getPrefixedText(),
+				'returntoquery' => $request->getRawQueryString()
+			] );
+
+			$out->addInlineScript(
+				"(function(){"
+				. "if(window.__drSsoProbeInitialized){return;}window.__drSsoProbeInitialized=true;"
+				. "var storageKey='dr_sso_silent_probe_v1';"
+				. "if(window.sessionStorage&&sessionStorage.getItem(storageKey)==='done'){return;}"
+				. "var callbackUrl=" . json_encode( $callbackUrl ) . ";"
+				. "var authEndpoint=" . json_encode( $authEndpoint ) . ";"
+				. "var clientId=" . json_encode( $clientId ) . ";"
+				. "var fallbackLoginUrl=" . json_encode( $fallbackLoginUrl ) . ";"
+				. "var state='drsso_'+Math.random().toString(36).slice(2)+Date.now().toString(36);"
+				. "var nonce='drnonce_'+Math.random().toString(36).slice(2)+Date.now().toString(36);"
+				. "var authUrl=new URL(authEndpoint);"
+				. "authUrl.searchParams.set('client_id',clientId);"
+				. "authUrl.searchParams.set('redirect_uri',callbackUrl);"
+				. "authUrl.searchParams.set('response_type','code');"
+				. "authUrl.searchParams.set('scope','openid');"
+				. "authUrl.searchParams.set('prompt','none');"
+				. "authUrl.searchParams.set('state',state);"
+				. "authUrl.searchParams.set('nonce',nonce);"
+				. "var iframe=document.createElement('iframe');"
+				. "iframe.style.display='none';"
+				. "iframe.setAttribute('aria-hidden','true');"
+				. "var done=false;"
+				. "var cleanup=function(){"
+				. "if(done){return;}done=true;"
+				. "window.removeEventListener('message',onMessage);"
+				. "if(window.sessionStorage){sessionStorage.setItem(storageKey,'done');}"
+				. "if(iframe&&iframe.parentNode){iframe.parentNode.removeChild(iframe);}"
+				. "};"
+				. "var onMessage=function(ev){"
+				. "if(ev.origin!==window.location.origin){return;}"
+				. "var data=ev.data||{};"
+				. "if(data.type!=='dr-sso-silent-probe'){return;}"
+				. "if(data.state!==state){return;}"
+				. "if(data.status==='has_session'){"
+				. "cleanup();"
+				. "var loginAnchor=document.querySelector('#pt-login a');"
+				. "var target=loginAnchor&&loginAnchor.href?loginAnchor.href:fallbackLoginUrl;"
+				. "window.location.replace(target);"
+				. "return;"
+				. "}"
+				. "cleanup();"
+				. "};"
+				. "window.addEventListener('message',onMessage);"
+				. "setTimeout(cleanup,3000);"
+				. "var appendIframe=function(){"
+				. "iframe.src=authUrl.toString();"
+				. "document.body.appendChild(iframe);"
+				. "};"
+				. "if(document.body){appendIframe();}else{document.addEventListener('DOMContentLoaded',appendIframe,{once:true});}"
+				. "})();"
+			);
+		}
+	}
+
 	// Optionally auto-forward login page to SSO while keeping an emergency local-login bypass.
 	if (
 		!empty( $GLOBALS['wgDRSSOAutoRedirectLogin'] ) &&

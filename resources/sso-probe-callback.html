@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="robots" content="noindex,nofollow">
+	<title>SSO Probe Callback</title>
+</head>
+<body>
+<script>
+( function () {
+	var params = new URLSearchParams( window.location.search );
+	var message = {
+		type: 'dr-sso-silent-probe',
+		state: params.get( 'state' ) || '',
+		status: 'unknown',
+		error: params.get( 'error' ) || ''
+	};
+
+	if ( params.get( 'code' ) ) {
+		message.status = 'has_session';
+	} else if ( message.error ) {
+		message.status = 'no_session';
+	}
+
+	try {
+		if ( window.parent && window.parent !== window ) {
+			window.parent.postMessage( message, window.location.origin );
+		}
+	} catch ( e ) {
+		// Ignore postMessage errors, this page is only used for silent checks.
+	}
+} )();
+</script>
+</body>
+</html>

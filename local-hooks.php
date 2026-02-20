@@ -197,25 +197,52 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		$bypassParam = $GLOBALS['wgDRSSOAutoRedirectBypassParam'] ?? 'local';
 		$request = $out->getRequest();
 		if ( !$request->getBool( $bypassParam ) ) {
+			$issuerForHost = isset( $GLOBALS['wgDanceResourceKeycloakIssuer'] )
+				? trim( (string)$GLOBALS['wgDanceResourceKeycloakIssuer'] )
+				: '';
+			$ssoHost = '';
+			if ( $issuerForHost !== '' ) {
+				$parsedHost = parse_url( $issuerForHost, PHP_URL_HOST );
+				if ( is_string( $parsedHost ) ) {
+					$ssoHost = $parsedHost;
+				}
+			}
+			$out->addHeadItem(
+				'dr-sso-login-hide-form',
+				'<style id="dr-sso-login-hide-form">body.mw-special-Userlogin #userloginForm{display:none !important;}</style>'
+			);
 			$out->addInlineScript(
 				"(function(){"
 				. "var params=new URLSearchParams(window.location.search);"
-				. "if(params.get('" . addslashes( $bypassParam ) . "')==='1'){return;}"
+				. "var unhide=function(){"
+				. "var styleNode=document.getElementById('dr-sso-login-hide-form');"
+				. "if(styleNode&&styleNode.parentNode){styleNode.parentNode.removeChild(styleNode);}"
+				. "var overlay=document.getElementById('sso-redirect');"
+				. "if(overlay){overlay.classList.remove('is-active');}"
+				. "};"
+				. "if(params.get('" . addslashes( $bypassParam ) . "')==='1'){unhide();return;}"
 				. "var storage=null;"
 				. "try{storage=window.sessionStorage;}catch(_e){}"
 				. "var guardKey='dr-sso-login-guard-until';"
 				. "var now=Date.now();"
 				. "var guardUntil=0;"
 				. "if(storage){guardUntil=parseInt(storage.getItem(guardKey)||'0',10)||0;}"
-				. "if(guardUntil>now){return;}"
+				. "var expectedSsoHost=" . json_encode( $ssoHost ) . ";"
+				. "var refHost='';"
+				. "try{refHost=(new URL(document.referrer||'')).hostname||'';}catch(_e){}"
+				. "var fromSsoRef=(expectedSsoHost!==''&&refHost===expectedSsoHost);"
+				. "if(guardUntil>now){"
+				. "if(window.drShowSsoRedirectOverlay){window.drShowSsoRedirectOverlay();}"
+				. "if(fromSsoRef){setTimeout(unhide,2500);return;}"
+				. "unhide();"
+				. "return;"
+				. "}"
 				. "var markGuard=function(ms){if(storage){storage.setItem(guardKey,String(Date.now()+ms));}};"
 				. "var cooldownMs=12000;"
 				. "var submitSso=function(){"
 				. "var btn=document.querySelector('button[name=\"pluggableauthlogin0\"],input[name=\"pluggableauthlogin0\"]');"
 				. "if(btn){"
 				. "markGuard(cooldownMs);"
-				. "var form=document.getElementById('userloginForm');"
-				. "if(form){form.style.setProperty('display','none','important');}"
 				. "if(document.activeElement&&document.activeElement.blur){document.activeElement.blur();}"
 				. "if(window.drShowSsoRedirectOverlay){window.drShowSsoRedirectOverlay();}"
 				. "btn.click();"
@@ -226,9 +253,7 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 				. "if(storage){storage.removeItem(guardKey);}"
 				. "return;"
 				. "}"
-				. "var overlay=document.getElementById('sso-redirect');"
-				. "if(overlay){overlay.classList.remove('is-active');}"
-				. "if(form){form.style.removeProperty('display');}"
+				. "unhide();"
 				. "},3500);"
 				. "return true;"
 				. "}"
@@ -238,7 +263,8 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 				. "var run=function(){"
 				. "tries++;"
 				. "if(submitSso()){return;}"
-				. "if(tries<80){setTimeout(run,50);}"
+				. "if(tries<80){setTimeout(run,50);return;}"
+				. "unhide();"
 				. "};"
 				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
 				. "})();"

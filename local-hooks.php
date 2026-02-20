@@ -98,8 +98,6 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 			$out->addInlineScript(
 				"(function(){"
 				. "if(window.__drSsoProbeInitialized){return;}window.__drSsoProbeInitialized=true;"
-				. "var storageKey='dr_sso_silent_probe_v1';"
-				. "if(window.sessionStorage&&sessionStorage.getItem(storageKey)==='done'){return;}"
 				. "var callbackUrl=" . json_encode( $callbackUrl ) . ";"
 				. "var authEndpoint=" . json_encode( $authEndpoint ) . ";"
 				. "var clientId=" . json_encode( $clientId ) . ";"
@@ -121,7 +119,6 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 				. "var cleanup=function(){"
 				. "if(done){return;}done=true;"
 				. "window.removeEventListener('message',onMessage);"
-				. "if(window.sessionStorage){sessionStorage.setItem(storageKey,'done');}"
 				. "if(iframe&&iframe.parentNode){iframe.parentNode.removeChild(iframe);}"
 				. "};"
 				. "var onMessage=function(ev){"

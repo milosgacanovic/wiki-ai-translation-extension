@@ -79,14 +79,33 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		$bypassParam = $GLOBALS['wgDRSSOAutoRedirectBypassParam'] ?? 'local';
 		$request = $out->getRequest();
 		if ( !$request->getBool( $bypassParam ) ) {
+			$out->addHeadItem(
+				'dr-sso-redirect-style',
+				'<style id="dr-sso-redirect-style">'
+				. 'body.mw-special-Userlogin #userloginForm{visibility:hidden;}'
+				. '#dr-sso-redirect-note{display:block;max-width:38rem;margin:0 0 1rem 0;}'
+				. '</style>'
+			);
 			$out->addInlineScript(
 				"(function(){"
+				. "var showNotice=function(){"
+				. "if(document.getElementById('dr-sso-redirect-note')){return;}"
+				. "var formWrap=document.getElementById('userloginForm');"
+				. "if(!formWrap||!formWrap.parentNode){return;}"
+				. "var note=document.createElement('div');"
+				. "note.id='dr-sso-redirect-note';"
+				. "note.className='mw-message-box cdx-message cdx-message--block cdx-message--notice';"
+				. "note.innerHTML='<span class=\"cdx-message__icon\"></span><div class=\"cdx-message__content\">Redirecting to DanceResource SSO...</div>';"
+				. "formWrap.parentNode.insertBefore(note,formWrap);"
+				. "};"
 				. "var submitSso=function(){"
 				. "if(new URLSearchParams(window.location.search).get('" . addslashes( $bypassParam ) . "')==='1'){return;}"
 				. "var btn=document.querySelector('button[name=\"pluggableauthlogin0\"],input[name=\"pluggableauthlogin0\"]');"
-				. "if(btn){btn.click();}"
+				. "if(btn){btn.click();return true;}"
+				. "return false;"
 				. "};"
-				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',submitSso);}else{submitSso();}"
+				. "var run=function(){showNotice();if(!submitSso()){setTimeout(run,50);}};"
+				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
 				. "})();"
 			);
 		}

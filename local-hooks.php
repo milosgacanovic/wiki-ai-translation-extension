@@ -70,6 +70,46 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		return true;
 	}
 
+	// Shared fullscreen overlay for SSO redirects.
+	if (
+		$out->getUser()->isAnon() &&
+		(
+			!empty( $GLOBALS['wgDRSSOSilentCheckEnabled'] ) ||
+			!empty( $GLOBALS['wgDRSSOAutoRedirectLogin'] )
+		)
+	) {
+		$out->addHeadItem(
+			'dr-sso-overlay-style',
+			'<style id="dr-sso-overlay-style">'
+			. '.sso-redirect{position:fixed;inset:0;display:none;z-index:2147483647;background:#fff;align-items:center;justify-content:center;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}'
+			. '.sso-redirect.is-active{display:flex;}'
+			. '.sso-redirect__card{text-align:center;color:#666;padding:24px;}'
+			. '.sso-redirect__spinner{width:22px;height:22px;margin:0 auto 14px;border:2px solid #d2d2d2;border-top-color:#666;border-radius:50%;animation:dr-sso-spin .9s linear infinite;}'
+			. '.sso-redirect__title{margin:0 0 6px;font-size:18px;font-weight:500;}'
+			. '.sso-redirect__text{margin:0;font-size:14px;}'
+			. '@keyframes dr-sso-spin{to{transform:rotate(360deg);}}'
+			. '</style>'
+		);
+		$out->addInlineScript(
+			"(function(){"
+			. "if(window.drShowSsoRedirectOverlay){return;}"
+			. "window.drShowSsoRedirectOverlay=function(){"
+			. "var overlay=document.getElementById('sso-redirect');"
+			. "if(!overlay){"
+			. "overlay=document.createElement('div');"
+			. "overlay.id='sso-redirect';"
+			. "overlay.className='sso-redirect';"
+			. "overlay.setAttribute('role','status');"
+			. "overlay.setAttribute('aria-live','polite');"
+			. "overlay.innerHTML='<div class=\"sso-redirect__card\"><div class=\"sso-redirect__spinner\" aria-hidden=\"true\"></div><h1 class=\"sso-redirect__title\">Redirecting to DanceResource login system...</h1><p class=\"sso-redirect__text\">Please wait.</p></div>';"
+			. "(document.body||document.documentElement).appendChild(overlay);"
+			. "}"
+			. "overlay.classList.add('is-active');"
+			. "};"
+			. "})();"
+		);
+	}
+
 	// Optional: silent background SSO probe on anonymous page views.
 	// If the user already has a Keycloak session, redirect to local wiki login flow.
 	if (
@@ -130,7 +170,8 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 				. "cleanup();"
 				. "var loginAnchor=document.querySelector('#pt-login a');"
 				. "var target=loginAnchor&&loginAnchor.href?loginAnchor.href:fallbackLoginUrl;"
-				. "window.location.replace(target);"
+				. "if(window.drShowSsoRedirectOverlay){window.drShowSsoRedirectOverlay();}"
+				. "setTimeout(function(){window.location.replace(target);},40);"
 				. "return;"
 				. "}"
 				. "cleanup();"
@@ -156,32 +197,49 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		$bypassParam = $GLOBALS['wgDRSSOAutoRedirectBypassParam'] ?? 'local';
 		$request = $out->getRequest();
 		if ( !$request->getBool( $bypassParam ) ) {
-			$out->addHeadItem(
-				'dr-sso-redirect-style',
-				'<style id="dr-sso-redirect-style">'
-				. 'body.mw-special-Userlogin #userloginForm{visibility:hidden;}'
-				. '#dr-sso-redirect-note{display:block;max-width:38rem;margin:0 0 1rem 0;}'
-				. '</style>'
-			);
 			$out->addInlineScript(
 				"(function(){"
-				. "var showNotice=function(){"
-				. "if(document.getElementById('dr-sso-redirect-note')){return;}"
-				. "var formWrap=document.getElementById('userloginForm');"
-				. "if(!formWrap||!formWrap.parentNode){return;}"
-				. "var note=document.createElement('div');"
-				. "note.id='dr-sso-redirect-note';"
-				. "note.className='mw-message-box cdx-message cdx-message--block cdx-message--notice';"
-				. "note.innerHTML='<span class=\"cdx-message__icon\"></span><div class=\"cdx-message__content\">Redirecting to DanceResource SSO...</div>';"
-				. "formWrap.parentNode.insertBefore(note,formWrap);"
-				. "};"
+				. "var params=new URLSearchParams(window.location.search);"
+				. "if(params.get('" . addslashes( $bypassParam ) . "')==='1'){return;}"
+				. "var storage=null;"
+				. "try{storage=window.sessionStorage;}catch(_e){}"
+				. "var guardKey='dr-sso-login-guard-until';"
+				. "var now=Date.now();"
+				. "var guardUntil=0;"
+				. "if(storage){guardUntil=parseInt(storage.getItem(guardKey)||'0',10)||0;}"
+				. "if(guardUntil>now){return;}"
+				. "var markGuard=function(ms){if(storage){storage.setItem(guardKey,String(Date.now()+ms));}};"
+				. "var cooldownMs=12000;"
 				. "var submitSso=function(){"
-				. "if(new URLSearchParams(window.location.search).get('" . addslashes( $bypassParam ) . "')==='1'){return;}"
 				. "var btn=document.querySelector('button[name=\"pluggableauthlogin0\"],input[name=\"pluggableauthlogin0\"]');"
-				. "if(btn){btn.click();return true;}"
+				. "if(btn){"
+				. "markGuard(cooldownMs);"
+				. "var form=document.getElementById('userloginForm');"
+				. "if(form){form.style.setProperty('display','none','important');}"
+				. "if(document.activeElement&&document.activeElement.blur){document.activeElement.blur();}"
+				. "if(window.drShowSsoRedirectOverlay){window.drShowSsoRedirectOverlay();}"
+				. "btn.click();"
+				. "setTimeout(function(){"
+				. "var url=window.location.href||'';"
+				. "var stillOnLogin=(url.indexOf('Special:UserLogin')!==-1)||(url.indexOf('Special:Userlogin')!==-1);"
+				. "if(!stillOnLogin){"
+				. "if(storage){storage.removeItem(guardKey);}"
+				. "return;"
+				. "}"
+				. "var overlay=document.getElementById('sso-redirect');"
+				. "if(overlay){overlay.classList.remove('is-active');}"
+				. "if(form){form.style.removeProperty('display');}"
+				. "},3500);"
+				. "return true;"
+				. "}"
 				. "return false;"
 				. "};"
-				. "var run=function(){showNotice();if(!submitSso()){setTimeout(run,50);}};"
+				. "var tries=0;"
+				. "var run=function(){"
+				. "tries++;"
+				. "if(submitSso()){return;}"
+				. "if(tries<80){setTimeout(run,50);}"
+				. "};"
 				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
 				. "})();"
 			);

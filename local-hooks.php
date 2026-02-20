@@ -70,6 +70,28 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		return true;
 	}
 
+	// Optionally auto-forward login page to SSO while keeping an emergency local-login bypass.
+	if (
+		!empty( $GLOBALS['wgDRSSOAutoRedirectLogin'] ) &&
+		$title->isSpecial( 'Userlogin' ) &&
+		$out->getUser()->isAnon()
+	) {
+		$bypassParam = $GLOBALS['wgDRSSOAutoRedirectBypassParam'] ?? 'local';
+		$request = $out->getRequest();
+		if ( !$request->getBool( $bypassParam ) ) {
+			$out->addInlineScript(
+				"(function(){"
+				. "var submitSso=function(){"
+				. "if(new URLSearchParams(window.location.search).get('" . addslashes( $bypassParam ) . "')==='1'){return;}"
+				. "var btn=document.querySelector('button[name=\"pluggableauthlogin0\"],input[name=\"pluggableauthlogin0\"]');"
+				. "if(btn){btn.click();}"
+				. "};"
+				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',submitSso);}else{submitSso();}"
+				. "})();"
+			);
+		}
+	}
+
 	$action = $out->getRequest()->getVal( 'action', 'view' );
 	if ( $action !== 'view' ) {
 		return true;

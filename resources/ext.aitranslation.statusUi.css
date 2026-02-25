@@ -50,12 +50,34 @@
 .ai-translation-status-banner {
 	position: relative;
 	padding: 10px 36px 10px 12px;
-	margin: 0 0 12px;
+	margin: 20px 0 12px;
 	border: 1px solid #c8ccd1;
 	border-radius: 4px;
 	font-size: 0.95em;
 	text-align: center;
-	top: 28px;
+	top: 0;
+}
+
+body.skin-danceresourcetimeless #mw-content-text {
+	position: relative;
+	--aits-banner-offset: 72px;
+}
+
+body.skin-danceresourcetimeless .ai-translation-status-banner {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 24px;
+	margin: 0;
+	z-index: 4;
+}
+
+body.skin-danceresourcetimeless.ai-translation-status-banner-visible #mw-content-text {
+	padding-top: var( --aits-banner-offset );
+}
+
+body.skin-danceresourcetimeless.ai-translation-status-banner-visible #contentSub {
+	top: -8px !important;
 }
 
 .ai-translation-status-banner-machine {

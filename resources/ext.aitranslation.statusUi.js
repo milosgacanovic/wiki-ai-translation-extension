@@ -598,9 +598,21 @@
 	}
 
 	function contentContainer() {
-		return document.querySelector( '#mw-content-text' ) ||
-			document.querySelector( '.mw-parser-output' ) ||
+		return document.querySelector( '.mw-parser-output' ) ||
+			document.querySelector( '#mw-content-text' ) ||
 			document.querySelector( '.mw-body-content' );
+	}
+
+	function bannerInsertTarget() {
+		var container = contentContainer();
+		if ( container ) {
+			return {
+				parent: container,
+				before: container.firstChild
+			};
+		}
+
+		return null;
 	}
 
 	function sourceUrl() {
@@ -629,8 +641,8 @@
 			return;
 		}
 
-		var container = contentContainer();
-		if ( !container || document.getElementById( 'ai-translation-status-banner' ) ) {
+		var target = bannerInsertTarget();
+		if ( !target || document.getElementById( 'ai-translation-status-banner' ) ) {
 			return;
 		}
 
@@ -690,13 +702,37 @@
 		banner.appendChild( body );
 		banner.appendChild( document.createTextNode( ' ' ) );
 		banner.appendChild( actions );
-		container.insertBefore( banner, container.firstChild );
+		target.parent.insertBefore( banner, target.before );
+		document.body.classList.add( 'ai-translation-status-banner-visible' );
+
+		var contentText = document.getElementById( 'mw-content-text' );
+		var resizeObserver = null;
+		var updateBannerOffset = function () {
+			if ( !contentText || !banner.isConnected ) {
+				return;
+			}
+			var offset = Math.ceil( banner.getBoundingClientRect().height ) + 12;
+			contentText.style.setProperty( '--aits-banner-offset', offset + 'px' );
+		};
+		updateBannerOffset();
+		window.requestAnimationFrame( updateBannerOffset );
+		if ( window.ResizeObserver ) {
+			resizeObserver = new window.ResizeObserver( updateBannerOffset );
+			resizeObserver.observe( banner );
+		}
 
 		close.addEventListener( 'click', function () {
 			if ( info.status === STATUS_MACHINE ) {
 				hideMachineBanner();
 			}
+			if ( resizeObserver ) {
+				resizeObserver.disconnect();
+			}
+			if ( contentText ) {
+				contentText.style.removeProperty( '--aits-banner-offset' );
+			}
 			banner.remove();
+			document.body.classList.remove( 'ai-translation-status-banner-visible' );
 		} );
 	}
 

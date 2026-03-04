@@ -104,9 +104,32 @@ Remove `?debuguls=1` from code when done troubleshooting — it is a temporary d
 - Serbian shown as single **Srpski** entry; link uses `?uselang=sr-el`
 - Language-specific sidebars via `MediaWiki:Sidebar/<lang>` pages
 
-## Git Workflow
+## DanceResourceTimeless Skin Structure
+
+```
+skins/DanceResourceTimeless/
+├── skin.json                   # Manifest, ResourceLoader modules (skins.danceresourcetimeless, skins.danceresourcetimeless.js)
+├── includes/
+│   ├── DanceResourceTimelessTemplate.php   # Main HTML template (~35KB)
+│   └── DanceResourceTimelessVariablesModule.php  # Injects LESS variables at runtime
+├── resources/
+│   ├── themes/wikimedia.less   # All LESS color variables (@base100, @text, @link, etc.)
+│   ├── variables.less          # Dimension/layout/font LESS variables
+│   ├── danceresource-overrides.css  # DanceResource brand overrides (hardcoded hex colors)
+│   └── screen-*.less           # Layout/structure files (17 files)
+└── i18n/                       # Translation strings
+```
+
+**Color architecture:** Core skin colors are LESS variables (compiled at build time). DanceResource brand colors in `danceresource-overrides.css` are hardcoded hex values. Dark mode uses CSS custom properties layered on top of both.
+
+## Git Repos
+
+| Repo | Path | Remote |
+|------|------|--------|
+| AiTranslationExtension | `public_html/extensions/AiTranslationExtension/` | `github.com:milosgacanovic/wiki-ai-translation-extension` |
+| DanceResourceTimeless | `public_html/skins/DanceResourceTimeless/` | `github.com:milosgacanovic/DanceResourceTimeless` |
+| GTag | `public_html/extensions/GTag/` | — |
 
 - **Do not push to `origin` unless explicitly asked.**
 - Commit locally as needed; push only on explicit request.
 - The main wiki root (`/var/www/wiki.danceresource.org/public_html`) is NOT a git repo.
-- Git repos: `AiTranslationExtension/`, `skins/DanceResourceTimeless/`, `extensions/GTag/`

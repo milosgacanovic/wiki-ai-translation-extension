@@ -1,9 +1,32 @@
 /* Feature-specific styles for ext.danceresource.common.js
    Visual/layout theme rules live in DanceResourceTimeless skin CSS. */
 
+/* =========================================================
+   Common Extension — CSS Custom Properties
+   ========================================================= */
+:root {
+  --dr-common-link: #1d4ed8;
+  --dr-common-muted: #6b7280;
+  --dr-common-border: #ccc;
+}
+
+html[data-theme="dark"] {
+  --dr-common-link: #7cb3ff;
+  --dr-common-muted: #a1a1aa;
+  --dr-common-border: #3f3f46;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --dr-common-link: #7cb3ff;
+    --dr-common-muted: #a1a1aa;
+    --dr-common-border: #3f3f46;
+  }
+}
+
 /* Breadcrumb arrows/localized separators inserted by JS */
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages {
-	color: #1d4ed8 !important;
+	color: var(--dr-common-link) !important;
 }
 
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages .dr-breadcrumb-icon,
@@ -11,7 +34,7 @@ body.skin-danceresourcetimeless #mw-content-subtitle .subpages .dr-breadcrumb-se
 	display: inline-block;
 	font-size: 16px;
 	line-height: 1;
-	color: #6b7280;
+	color: var(--dr-common-muted);
 	vertical-align: middle;
 	transform: translateY( -1px );
 }
@@ -23,12 +46,12 @@ body.skin-danceresourcetimeless #mw-content-subtitle .subpages .dr-breadcrumb-ic
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages,
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages a,
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages a:visited {
-	color: #6b7280 !important;
+	color: var(--dr-common-muted) !important;
 }
 
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages a:hover,
 body.skin-danceresourcetimeless #mw-content-subtitle .subpages a:focus {
-	color: #1d4ed8 !important;
+	color: var(--dr-common-link) !important;
 }
 
 /* JS-enhanced subpage navigation row */
@@ -36,8 +59,8 @@ body.skin-danceresourcetimeless .subpage-nav {
 	margin-top: 0.7rem;
 	opacity: 0.4;
 	padding-top: 0.7rem;
-	border-top: 1px #ccc solid;
-	color: #6b7280;
+	border-top: 1px var(--dr-common-border) solid;
+	color: var(--dr-common-muted);
 }
 
 body.skin-danceresourcetimeless .dr-subpage-nav-grid {
@@ -61,13 +84,13 @@ body.skin-danceresourcetimeless .dr-subpage-nav-right {
 
 body.skin-danceresourcetimeless .subpage-nav a,
 body.skin-danceresourcetimeless .subpage-nav a:visited {
-	color: #6b7280 !important;
+	color: var(--dr-common-muted) !important;
 	text-decoration: none;
 }
 
 body.skin-danceresourcetimeless .subpage-nav a:hover,
 body.skin-danceresourcetimeless .subpage-nav a:focus {
-	color: #1d4ed8 !important;
+	color: var(--dr-common-link) !important;
 	text-decoration: underline;
 }
 

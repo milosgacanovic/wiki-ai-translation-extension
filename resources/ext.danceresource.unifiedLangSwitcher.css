@@ -1,3 +1,38 @@
+/* =========================================================
+   Language Switcher — CSS Custom Properties
+   ========================================================= */
+:root {
+  --dr-uls-link: #0645ad;
+  --dr-uls-dropdown-bg: #fff;
+  --dr-uls-dropdown-border: #c8ccd1;
+  --dr-uls-dropdown-shadow: rgba(0, 0, 0, 0.08);
+  --dr-uls-titlebar-hover: #f8f8f8;
+  --dr-uls-label-color: #4a4a4a;
+  --dr-uls-caret-color: #36c;
+}
+
+html[data-theme="dark"] {
+  --dr-uls-link: #7cb3ff;
+  --dr-uls-dropdown-bg: #2b2b30;
+  --dr-uls-dropdown-border: #3f3f46;
+  --dr-uls-dropdown-shadow: rgba(0, 0, 0, 0.25);
+  --dr-uls-titlebar-hover: #2b2b30;
+  --dr-uls-label-color: #a1a1aa;
+  --dr-uls-caret-color: #7cb3ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --dr-uls-link: #7cb3ff;
+    --dr-uls-dropdown-bg: #2b2b30;
+    --dr-uls-dropdown-border: #3f3f46;
+    --dr-uls-dropdown-shadow: rgba(0, 0, 0, 0.25);
+    --dr-uls-titlebar-hover: #2b2b30;
+    --dr-uls-label-color: #a1a1aa;
+    --dr-uls-caret-color: #7cb3ff;
+  }
+}
+
 .dr-uls-container {
 	margin: 0.5em 0;
 	pointer-events: auto;
@@ -19,13 +54,13 @@
 
 .dr-uls-portlet .dr-uls-list a {
 	text-decoration: none;
-	color: #0645ad;
+	color: var(--dr-uls-link);
 }
 
 .dr-uls-portlet .dr-uls-list a:hover,
 .dr-uls-portlet .dr-uls-list a:focus {
 	text-decoration: underline;
-	color: #0645ad;
+	color: var(--dr-uls-link);
 }
 
 .dr-uls-current {
@@ -58,7 +93,7 @@
 }
 
 .dr-titlebar-tools:hover {
-	background: #f8f8f8;
+	background: var(--dr-uls-titlebar-hover);
 }
 
 .dr-titlebar-tools {
@@ -107,11 +142,11 @@
 	left: 18px;
 	top: 100%;
 	min-width: 150px;
-	background: #fff;
-	border: 1px solid #c8ccd1;
+	background: var(--dr-uls-dropdown-bg);
+	border: 1px solid var(--dr-uls-dropdown-border);
 	border-radius: 4px;
 	padding: 0.4em 0.6em;
-	box-shadow: 0 2px 8px rgba( 0, 0, 0, 0.08 );
+	box-shadow: 0 2px 8px var(--dr-uls-dropdown-shadow);
 	z-index: 3;
 }
 
@@ -138,12 +173,12 @@
 #p-language-compact-label {
 	position: relative;
 	top: -2px;
-	color: #4a4a4a;
+	color: var(--dr-uls-label-color);
 	font-weight: 500;
 }
 
 #p-language-compact > h3:hover {
-	color: #0645ad;
+	color: var(--dr-uls-link);
 }
 
 #p-language-compact > h3 .dr-lang-icon {
@@ -156,7 +191,7 @@
 	height: 0;
 	border-left: 4px solid transparent;
 	border-right: 4px solid transparent;
-	border-top: 5px solid #36c;
+	border-top: 5px solid var(--dr-uls-caret-color);
 	display: inline-block;
 	margin-left: 8px;
 	padding-top: 2px;

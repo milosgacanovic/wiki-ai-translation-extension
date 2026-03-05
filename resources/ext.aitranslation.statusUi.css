@@ -1,3 +1,65 @@
+/* =========================================================
+   Translation Status UI — CSS Custom Properties
+   ========================================================= */
+:root {
+  --dr-status-machine: #f0c419;
+  --dr-status-reviewed: #3aa78d;
+  --dr-status-unknown: #d73333;
+  --dr-status-unknown-inline: #36c;
+  --dr-banner-machine-bg: #fff8db;
+  --dr-banner-machine-border: #e7cf6b;
+  --dr-banner-outdated-bg: #fff3cd;
+  --dr-banner-outdated-border: #d8b56a;
+  --dr-banner-border: #c8ccd1;
+  --dr-banner-close: #54595d;
+  --dr-banner-close-hover: #202122;
+  --dr-tooltip-bg: #fff;
+  --dr-tooltip-text: #202122;
+  --dr-tooltip-border: #c8ccd1;
+  --dr-tooltip-shadow: rgba(0, 0, 0, 0.15);
+  --dr-tooltip-divider: #eaecf0;
+}
+
+html[data-theme="dark"] {
+  --dr-status-machine: #f0c419;
+  --dr-status-reviewed: #3aa78d;
+  --dr-status-unknown: #f87171;
+  --dr-status-unknown-inline: #7cb3ff;
+  --dr-banner-machine-bg: #302c1a;
+  --dr-banner-machine-border: #8a7a3a;
+  --dr-banner-outdated-bg: #302c1a;
+  --dr-banner-outdated-border: #8a7a3a;
+  --dr-banner-border: #3f3f46;
+  --dr-banner-close: #a1a1aa;
+  --dr-banner-close-hover: #d4d4d8;
+  --dr-tooltip-bg: #2b2b30;
+  --dr-tooltip-text: #d4d4d8;
+  --dr-tooltip-border: #3f3f46;
+  --dr-tooltip-shadow: rgba(0, 0, 0, 0.3);
+  --dr-tooltip-divider: #3f3f46;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --dr-status-machine: #f0c419;
+    --dr-status-reviewed: #3aa78d;
+    --dr-status-unknown: #f87171;
+    --dr-status-unknown-inline: #7cb3ff;
+    --dr-banner-machine-bg: #302c1a;
+    --dr-banner-machine-border: #8a7a3a;
+    --dr-banner-outdated-bg: #302c1a;
+    --dr-banner-outdated-border: #8a7a3a;
+    --dr-banner-border: #3f3f46;
+    --dr-banner-close: #a1a1aa;
+    --dr-banner-close-hover: #d4d4d8;
+    --dr-tooltip-bg: #2b2b30;
+    --dr-tooltip-text: #d4d4d8;
+    --dr-tooltip-border: #3f3f46;
+    --dr-tooltip-shadow: rgba(0, 0, 0, 0.3);
+    --dr-tooltip-divider: #3f3f46;
+  }
+}
+
 .ai-translation-status-dot {
 	width: 12px;
 	height: 12px;
@@ -20,19 +82,19 @@
 }
 
 .ai-translation-status-dot-machine {
-	background: #f0c419;
+	background: var(--dr-status-machine);
 }
 
 .ai-translation-status-dot-reviewed {
-	background: #3aa78d;
+	background: var(--dr-status-reviewed);
 }
 
 .ai-translation-status-dot-outdated {
-	background: linear-gradient( 90deg, #f0c419 50%, #3aa78d 50% );
+	background: linear-gradient( 90deg, var(--dr-status-machine) 50%, var(--dr-status-reviewed) 50% );
 }
 
 .ai-translation-status-dot-unknown {
-	background: #d73333;
+	background: var(--dr-status-unknown);
 }
 
 .ai-translation-status-dot-inline {
@@ -43,7 +105,7 @@
 }
 
 .ai-translation-status-dot-inline.ai-translation-status-dot-unknown {
-	background: #36c;
+	background: var(--dr-status-unknown-inline);
 	top: 14px;
 }
 
@@ -51,7 +113,7 @@
 	position: relative;
 	padding: 10px 36px 10px 12px;
 	margin: 20px 0 12px;
-	border: 1px solid #c8ccd1;
+	border: 1px solid var(--dr-banner-border);
 	border-radius: 4px;
 	font-size: 0.95em;
 	text-align: center;
@@ -81,13 +143,13 @@ body.skin-danceresourcetimeless.ai-translation-status-banner-visible #contentSub
 }
 
 .ai-translation-status-banner-machine {
-	background: #fff8db;
-	border-color: #e7cf6b;
+	background: var(--dr-banner-machine-bg);
+	border-color: var(--dr-banner-machine-border);
 }
 
 .ai-translation-status-banner-outdated {
-	background: #fff3cd;
-	border-color: #d8b56a;
+	background: var(--dr-banner-outdated-bg);
+	border-color: var(--dr-banner-outdated-border);
 }
 
 .ai-translation-status-title {
@@ -106,7 +168,7 @@ body.skin-danceresourcetimeless.ai-translation-status-banner-visible #contentSub
 	border: 0;
 	background: transparent;
 	cursor: pointer;
-	color: #54595d;
+	color: var(--dr-banner-close);
 	font-size: 14px;
 	line-height: 1;
 	padding: 2px;
@@ -114,21 +176,21 @@ body.skin-danceresourcetimeless.ai-translation-status-banner-visible #contentSub
 
 .ai-translation-status-close:hover,
 .ai-translation-status-close:focus {
-	color: #202122;
+	color: var(--dr-banner-close-hover);
 }
 
 .ai-translation-status-tooltip {
 	position: absolute;
 	z-index: 2000;
 	max-width: 320px;
-	background: #fff;
-	border: 1px solid #c8ccd1;
+	background: var(--dr-tooltip-bg);
+	border: 1px solid var(--dr-tooltip-border);
 	border-radius: 4px;
-	box-shadow: 0 2px 10px rgba( 0, 0, 0, 0.15 );
+	box-shadow: 0 2px 10px var(--dr-tooltip-shadow);
 	padding: 8px 10px;
 	font-size: 13px;
 	line-height: 1.4;
-	color: #202122;
+	color: var(--dr-tooltip-text);
 	display: none;
 }
 
@@ -142,7 +204,7 @@ body.skin-danceresourcetimeless.ai-translation-status-banner-visible #contentSub
 
 .ai-translation-status-tooltip-links {
 	margin-top: 8px;
-	border-top: 1px solid #eaecf0;
+	border-top: 1px solid var(--dr-tooltip-divider);
 	padding-top: 6px;
 }
 
@@ -174,7 +236,7 @@ body.skin-danceresourcetimeless.ai-translation-status-banner-visible #contentSub
 .ai-translation-status-tooltip-pref {
 	display: block;
 	margin-top: 8px;
-	border-top: 1px solid #eaecf0;
+	border-top: 1px solid var(--dr-tooltip-divider);
 	padding-top: 6px;
 	font-size: 12px;
 }

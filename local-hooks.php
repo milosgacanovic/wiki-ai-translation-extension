@@ -88,7 +88,12 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 			. '.sso-redirect__title{margin:0 0 6px;font-size:18px;font-weight:500;}'
 			. '.sso-redirect__text{margin:0;font-size:14px;}'
 			. '@keyframes dr-sso-spin{to{transform:rotate(360deg);}}'
+			. 'html[data-theme="dark"] .sso-redirect{background:#1b1b1f;}'
+			. 'html[data-theme="dark"] .sso-redirect__card{color:#a1a1aa;}'
+			. 'html[data-theme="dark"] .sso-redirect__spinner{border-color:#3f3f46;border-top-color:#a1a1aa;}'
+			. '@media(prefers-color-scheme:dark){html:not([data-theme]) .sso-redirect{background:#1b1b1f;}html:not([data-theme]) .sso-redirect__card{color:#a1a1aa;}html:not([data-theme]) .sso-redirect__spinner{border-color:#3f3f46;border-top-color:#a1a1aa;}}'
 			. '</style>'
+			. '<script>!function(){var s=localStorage.getItem("dr-theme");if(s)document.documentElement.setAttribute("data-theme",s);else if(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches);else document.documentElement.setAttribute("data-theme","light");}();</script>'
 		);
 		$out->addInlineScript(
 			"(function(){"

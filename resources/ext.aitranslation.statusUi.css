@@ -3,9 +3,9 @@
    ========================================================= */
 :root {
   --dr-status-machine: #f0c419;
-  --dr-status-reviewed: #3aa78d;
+  --dr-status-reviewed: var(--dr-link);
   --dr-status-unknown: #d73333;
-  --dr-status-unknown-inline: #36c;
+  --dr-status-unknown-inline: var(--dr-link);
   --dr-banner-machine-bg: #fff8db;
   --dr-banner-machine-border: #e7cf6b;
   --dr-banner-outdated-bg: #fff3cd;
@@ -22,9 +22,9 @@
 
 html[data-theme="dark"] {
   --dr-status-machine: #f0c419;
-  --dr-status-reviewed: #3aa78d;
+  --dr-status-reviewed: var(--dr-link);
   --dr-status-unknown: #f87171;
-  --dr-status-unknown-inline: #7cb3ff;
+  --dr-status-unknown-inline: var(--dr-link);
   --dr-banner-machine-bg: #302c1a;
   --dr-banner-machine-border: #8a7a3a;
   --dr-banner-outdated-bg: #302c1a;
@@ -42,9 +42,9 @@ html[data-theme="dark"] {
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
     --dr-status-machine: #f0c419;
-    --dr-status-reviewed: #3aa78d;
+    --dr-status-reviewed: var(--dr-link);
     --dr-status-unknown: #f87171;
-    --dr-status-unknown-inline: #7cb3ff;
+    --dr-status-unknown-inline: var(--dr-link);
     --dr-banner-machine-bg: #302c1a;
     --dr-banner-machine-border: #8a7a3a;
     --dr-banner-outdated-bg: #302c1a;

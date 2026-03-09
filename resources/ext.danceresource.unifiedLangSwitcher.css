@@ -2,33 +2,33 @@
    Language Switcher — CSS Custom Properties
    ========================================================= */
 :root {
-  --dr-uls-link: #0645ad;
-  --dr-uls-dropdown-bg: #fff;
-  --dr-uls-dropdown-border: #c8ccd1;
+  --dr-uls-link: var(--dr-link);
+  --dr-uls-dropdown-bg: var(--dr-bg-alt);
+  --dr-uls-dropdown-border: var(--dr-border);
   --dr-uls-dropdown-shadow: rgba(0, 0, 0, 0.08);
-  --dr-uls-titlebar-hover: #f8f8f8;
-  --dr-uls-label-color: #4a4a4a;
+  --dr-uls-titlebar-hover: var(--dr-bg-alt);
+  --dr-uls-label-color: var(--dr-text-muted);
   --dr-uls-caret-color: var(--dr-link);
 }
 
 html[data-theme="dark"] {
-  --dr-uls-link: #7cb3ff;
-  --dr-uls-dropdown-bg: #2b2b30;
-  --dr-uls-dropdown-border: #3f3f46;
+  --dr-uls-link: var(--dr-link);
+  --dr-uls-dropdown-bg: var(--dr-bg-alt);
+  --dr-uls-dropdown-border: var(--dr-border);
   --dr-uls-dropdown-shadow: rgba(0, 0, 0, 0.25);
-  --dr-uls-titlebar-hover: #2b2b30;
-  --dr-uls-label-color: #a1a1aa;
+  --dr-uls-titlebar-hover: var(--dr-bg-alt);
+  --dr-uls-label-color: var(--dr-text-muted);
   --dr-uls-caret-color: var(--dr-link);
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
-    --dr-uls-link: #7cb3ff;
-    --dr-uls-dropdown-bg: #2b2b30;
-    --dr-uls-dropdown-border: #3f3f46;
+    --dr-uls-link: var(--dr-link);
+    --dr-uls-dropdown-bg: var(--dr-bg-alt);
+    --dr-uls-dropdown-border: var(--dr-border);
     --dr-uls-dropdown-shadow: rgba(0, 0, 0, 0.25);
-    --dr-uls-titlebar-hover: #2b2b30;
-    --dr-uls-label-color: #a1a1aa;
+    --dr-uls-titlebar-hover: var(--dr-bg-alt);
+    --dr-uls-label-color: var(--dr-text-muted);
     --dr-uls-caret-color: var(--dr-link);
   }
 }

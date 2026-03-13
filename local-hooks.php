@@ -387,6 +387,94 @@ $wgHooks['SkinAfterPortlet'][] = static function ( $skin, string $portlet, &$htm
 	return true;
 };
 
+// SEO: Open Graph, meta description, Twitter Card, JSON-LD, canonical URL support.
+$wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
+	$title = $out->getTitle();
+	if ( !$title || !$title->isContentPage() ) {
+		return true;
+	}
+
+	$action = $out->getRequest()->getVal( 'action', 'view' );
+	if ( $action !== 'view' ) {
+		return true;
+	}
+
+	$siteName = 'DanceResource Wiki';
+	$canonicalUrl = $title->getCanonicalURL();
+	$isMainPage = $title->isMainPage();
+	$langCode = $title->getPageLanguage()->getCode();
+
+	// Use the display title (respects DISPLAYTITLE set by translated pages) rather than the raw slug.
+	$pageTitle = strip_tags( $out->getPageTitle() );
+	if ( $pageTitle === '' ) {
+		$pageTitle = $title->getText();
+	}
+
+	// Only use the English fallback description on English pages.
+	// For translated pages without an explicit description property, omit the description tags.
+	$description = (string)$out->getProperty( 'description' );
+	if ( $description === '' && $langCode === 'en' ) {
+		$description = "Explore $pageTitle on the DanceResource Wiki"
+			. " — an open knowledge base on conscious dance, movement practices, and somatic traditions.";
+	}
+	if ( $description !== '' ) {
+		$description = mb_substr( $description, 0, 160 );
+	}
+
+	$imageUrl = 'https://wiki.danceresource.org/images/9/99/Danceresource.org_logo.png';
+
+	$ogType = $isMainPage ? 'website' : 'article';
+	// og:locale uses underscores (e.g. sr_RS, en_US); BCP47 uses hyphens (e.g. sr-el)
+	$ogLocale = str_replace( '-', '_', $langCode );
+
+	$escapedTitle = htmlspecialchars( $pageTitle, ENT_QUOTES, 'UTF-8' );
+	$escapedUrl = htmlspecialchars( $canonicalUrl, ENT_QUOTES, 'UTF-8' );
+	$escapedImage = htmlspecialchars( $imageUrl, ENT_QUOTES, 'UTF-8' );
+	$escapedSiteName = htmlspecialchars( $siteName, ENT_QUOTES, 'UTF-8' );
+	$escapedOgType = htmlspecialchars( $ogType, ENT_QUOTES, 'UTF-8' );
+	$escapedLocale = htmlspecialchars( $ogLocale, ENT_QUOTES, 'UTF-8' );
+
+	$jsonLd = json_encode( [
+		'@context' => 'https://schema.org',
+		'@type' => 'Article',
+		'headline' => $pageTitle,
+		'url' => $canonicalUrl,
+		'name' => $pageTitle,
+		'isPartOf' => [
+			'@type' => 'WebSite',
+			'name' => $siteName,
+			'url' => 'https://wiki.danceresource.org',
+		],
+		'inLanguage' => $langCode,
+		'publisher' => [
+			'@type' => 'Organization',
+			'name' => 'DanceResource',
+			'url' => 'https://danceresource.org',
+		],
+	], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+	$html = '<meta property="og:locale" content="' . $escapedLocale . '"/>' . "\n"
+		. '<meta property="og:type" content="' . $escapedOgType . '"/>' . "\n"
+		. '<meta property="og:title" content="' . $escapedTitle . '"/>' . "\n"
+		. '<meta property="og:url" content="' . $escapedUrl . '"/>' . "\n"
+		. '<meta property="og:site_name" content="' . $escapedSiteName . '"/>' . "\n"
+		. '<meta property="og:image" content="' . $escapedImage . '"/>' . "\n"
+		. '<meta name="twitter:card" content="summary_large_image"/>' . "\n"
+		. '<meta name="twitter:title" content="' . $escapedTitle . '"/>' . "\n";
+
+	if ( $description !== '' ) {
+		$escapedDesc = htmlspecialchars( $description, ENT_QUOTES, 'UTF-8' );
+		$html .= '<meta name="description" content="' . $escapedDesc . '"/>' . "\n"
+			. '<meta property="og:description" content="' . $escapedDesc . '"/>' . "\n"
+			. '<meta name="twitter:description" content="' . $escapedDesc . '"/>' . "\n";
+	}
+
+	$html .= '<script type="application/ld+json">' . $jsonLd . '</script>';
+
+	$out->addHeadItem( 'dr-seo-meta', $html );
+	return true;
+};
+
 $wgHooks['OutputPageBeforeHTML'][] = static function ( $out, &$text ) {
 	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {
 		return true;

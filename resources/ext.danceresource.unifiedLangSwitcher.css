@@ -159,13 +159,10 @@ html[data-theme="dark"] {
 	display: inline-block;
 	font-size: 1em;
 	line-height: 1.5;
-	padding: 0 2px 0 28px;
+	padding: 0 2px;
 	margin: 0;
 	background-color: transparent;
-	background-repeat: no-repeat;
-	background-position: left center;
 	border: 0;
-	background-image: url(/skins/Timeless/resources/images/languages-grey.svg?7ad50);
 	white-space: nowrap;
 	margin-top: 4px;
 }

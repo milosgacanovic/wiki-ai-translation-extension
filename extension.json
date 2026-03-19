@@ -104,6 +104,12 @@
 				"mediawiki.util"
 			]
 		},
+		"ext.danceresource.gtmTracking": {
+			"scripts": [
+				"resources/ext.danceresource.gtmTracking.js"
+			],
+			"dependencies": []
+		},
 		"ext.danceresource.unifiedLangSwitcher": {
 			"scripts": [
 				"resources/ext.danceresource.unifiedLangSwitcher.js"

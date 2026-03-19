@@ -475,6 +475,39 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	return true;
 };
 
+// GTM dataLayer: detect fresh login via session flag
+$wgHooks['UserLoginComplete'][] = static function ( User &$user, string &$inject_html, bool $direct ) {
+	RequestContext::getMain()->getRequest()->setSessionData( 'drJustLoggedIn', true );
+};
+
+// GTM dataLayer: pass page data to JS and load tracking module
+$wgHooks['BeforePageDisplay'][] = static function ( OutputPage $out, Skin $skin ) {
+	$request = $out->getRequest();
+	$title   = $out->getTitle();
+	$user    = $out->getUser();
+
+	// Read and immediately clear the fresh-login flag (one-shot)
+	$justLoggedIn = (bool) $request->getSessionData( 'drJustLoggedIn' );
+	if ( $justLoggedIn ) {
+		$request->setSessionData( 'drJustLoggedIn', null );
+	}
+
+	$out->addJsConfigVars( 'drGtm', [
+		'userAuthenticated' => $user->isRegistered(),
+		'userGroups'        => \MediaWiki\MediaWikiServices::getInstance()
+			->getUserGroupManager()->getUserEffectiveGroups( $user ),
+		'justLoggedIn'      => $justLoggedIn,
+		'articleTitle'      => $title->getText(),
+		'articleNamespace'  => $title->getNamespace(),
+		'articleId'         => $title->getArticleID(),
+		'isMainPage'        => $title->isMainPage(),
+		'categories'        => array_keys( $out->getCategories() ),
+		'pageName'          => $title->getPrefixedText(),
+	] );
+
+	$out->addModules( [ 'ext.danceresource.gtmTracking' ] );
+};
+
 $wgHooks['OutputPageBeforeHTML'][] = static function ( $out, &$text ) {
 	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {
 		return true;

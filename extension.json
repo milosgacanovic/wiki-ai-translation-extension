@@ -53,7 +53,8 @@
 		"MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus": "src/ApiLanguageStatus.php",
 		"MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation": "src/ApiMarkForTranslation.php",
 		"MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationInfo": "src/ApiTranslationInfo.php",
-		"MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationStatus": "src/ApiTranslationStatus.php"
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationStatus": "src/ApiTranslationStatus.php",
+		"MediaWiki\\Extension\\AiTranslationExtension\\ApiDRSearch": "src/ApiDRSearch.php"
 	},
 	"ResourceModules": {
 		"ext.danceresource.common": {
@@ -64,7 +65,8 @@
 				"resources/ext.danceresource.common.css"
 			],
 			"dependencies": [
-				"mediawiki.api"
+				"mediawiki.api",
+				"mediawiki.searchSuggest"
 			]
 		},
 		"ext.aitranslation.statusUi": {
@@ -135,6 +137,7 @@
 		"markfortranslation": "MediaWiki\\Extension\\AiTranslationExtension\\ApiMarkForTranslation",
 		"danceresource-languagestatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiLanguageStatus",
 		"aitranslationinfo": "MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationInfo",
-		"aitranslationstatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationStatus"
+		"aitranslationstatus": "MediaWiki\\Extension\\AiTranslationExtension\\ApiTranslationStatus",
+		"drsearch": "MediaWiki\\Extension\\AiTranslationExtension\\ApiDRSearch"
 	}
 }

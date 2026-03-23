@@ -63,12 +63,58 @@ $wgHooks['SearchDataForIndex2'][] = static function (
 	);
 };
 
+// Search: clean wikitext snippets + language-scoped result filtering.
+$wgHooks['ShowSearchHit'][] = static function (
+	$searchPage, $result, $terms, &$link, &$redirect,
+	&$section, &$extract, &$score, &$size, &$date, &$related, &$html
+) {
+	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onShowSearchHit(
+		$searchPage, $result, $terms, $link, $redirect,
+		$section, $extract, $score, $size, $date, $related, $html
+	);
+};
+
+$wgHooks['SpecialSearchSetupEngine'][] = static function ( $search, $profile, $engine ) {
+	\MediaWiki\Extension\AiTranslationExtension\HookHandler::onSpecialSearchSetupEngine(
+		$search, $profile, $engine
+	);
+};
+
+$wgHooks['ApiOpenSearchSuggest'][] = static function ( array &$results ) {
+	\MediaWiki\Extension\AiTranslationExtension\HookHandler::onApiOpenSearchSuggest( $results );
+};
+
+$wgHooks['SpecialSearchResultsPrepend'][] = static function ( $specialSearch, $output, $term ) {
+	return \MediaWiki\Extension\AiTranslationExtension\HookHandler::onSpecialSearchResultsPrepend(
+		$specialSearch, $output, $term
+	);
+};
+
+$wgHooks['SpecialSearchResultsAppend'][] = static function ( $specialSearch, $output, $term ) {
+	\MediaWiki\Extension\AiTranslationExtension\HookHandler::onSpecialSearchResultsAppend(
+		$specialSearch, $output, $term
+	);
+};
+
+$wgHooks['ShowSearchHitTitle'][] = static function (
+	&$title, &$titleSnippet, $result, $terms, $specialSearch, &$query, &$attributes
+) {
+	\MediaWiki\Extension\AiTranslationExtension\HookHandler::onShowSearchHitTitle(
+		$title, $titleSnippet, $result, $terms, $specialSearch, $query, $attributes
+	);
+};
+
 // Unified language switcher hooks (registered locally to avoid autoload conflicts).
 $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	$title = $out->getTitle();
 	if ( !$title ) {
 		return true;
 	}
+
+	// Load common module on every page so the drsearch autocomplete override
+	// in ext.danceresource.common.js works everywhere (including Special:Search).
+	$out->addModules( [ 'ext.danceresource.common' ] );
+	$out->addModuleStyles( [ 'ext.danceresource.common' ] );
 
 	// Shared fullscreen overlay for SSO redirects.
 	if (

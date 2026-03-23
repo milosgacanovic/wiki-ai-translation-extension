@@ -247,6 +247,531 @@ class HookHandler {
 		return true;
 	}
 
+	// ── Search: snippet cleanup + language-scoped filtering ──────────
+
+	/**
+	 * Get the language suffix for search filtering based on the current UI language.
+	 * Returns '' for English (base pages), or the language code for translations.
+	 * Returns null if filtering should be skipped.
+	 */
+	public static function getSearchLanguageSuffix( $context ): ?string {
+		if ( method_exists( $context, 'getContext' ) ) {
+			$context = $context->getContext();
+		}
+		if ( $context->getRequest()->getVal( 'searchlang' ) === 'all' ) {
+			return null;
+		}
+		$code = $context->getLanguage()->getCode();
+		// Normalize variant codes: sr-el -> sr, sr-ec -> sr, zh-hans -> zh
+		$parts = explode( '-', $code );
+		return $parts[0];
+	}
+
+	/**
+	 * Check whether a page title matches the desired language scope.
+	 */
+	public static function titleMatchesLanguage( string $titleText, string $langSuffix ): bool {
+		if ( $langSuffix === 'en' ) {
+			// English: show pages WITHOUT a language suffix (base pages)
+			return !preg_match( '#/[a-z]{2}(-[a-z]+)?$#', $titleText );
+		}
+		// Non-English: show only pages ending in /$langSuffix
+		return (bool)preg_match(
+			'#/' . preg_quote( $langSuffix, '#' ) . '$#',
+			$titleText
+		);
+	}
+
+	/**
+	 * Strip residual wikitext markup from a search snippet.
+	 */
+	private static function cleanSearchExtract( string $extract ): string {
+		if ( $extract === '' ) {
+			return '';
+		}
+		// Strip {{template|...}} calls (including nested single-level)
+		$cleaned = preg_replace( '/\{\{[^{}]*\}\}/', '', $extract );
+		// Second pass for any that were nested
+		$cleaned = preg_replace( '/\{\{[^{}]*\}\}/', '', $cleaned );
+		// Strip [[File:...|...]] and [[Image:...|...]]
+		$cleaned = preg_replace( '/\[\[(File|Image):[^\]]*\]\]/i', '', $cleaned );
+		// Convert [[link|display]] -> display, [[link]] -> link
+		$cleaned = preg_replace( '/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/', '$1', $cleaned );
+		// Strip bold/italic markers
+		$cleaned = preg_replace( "/'{2,5}/", '', $cleaned );
+		// Strip <ref>...</ref> tags
+		$cleaned = preg_replace( '/<ref[^>]*>.*?<\/ref>/si', '', $cleaned );
+		$cleaned = preg_replace( '/<ref[^>]*\/?>/i', '', $cleaned );
+		// Collapse whitespace
+		$cleaned = preg_replace( '/\s{2,}/', ' ', trim( $cleaned ) );
+		return $cleaned;
+	}
+
+	/**
+	 * ShowSearchHit: clean snippets + filter by language.
+	 */
+	public static function onShowSearchHit(
+		$searchPage, $result, $terms, &$link, &$redirect,
+		&$section, &$extract, &$score, &$size, &$date, &$related, &$html
+	): bool {
+		// Skip language filtering on the "translation" search profile (Translate extension)
+		$profile = $searchPage->getRequest()->getVal( 'profile', '' );
+		if ( $profile === 'translation' ) {
+			// Still clean snippets
+			$extract = self::cleanSearchExtract( $extract );
+			return true;
+		}
+
+		// Language filtering
+		$langSuffix = self::getSearchLanguageSuffix( $searchPage );
+		if ( $langSuffix !== null ) {
+			$title = $result->getTitle();
+			if ( $title && !self::titleMatchesLanguage( $title->getText(), $langSuffix ) ) {
+				$html = '';
+				return false;
+			}
+		}
+
+		// Clean wikitext from snippet
+		$extract = self::cleanSearchExtract( $extract );
+		return true;
+	}
+
+	/**
+	 * SpecialSearchSetupEngine: increase limit to compensate for language post-filtering.
+	 */
+	public static function onSpecialSearchSetupEngine( $search, $profile, $engine ): void {
+		if ( $profile === 'translation' ) {
+			return;
+		}
+		$langSuffix = self::getSearchLanguageSuffix( $search );
+		if ( $langSuffix !== null && $langSuffix !== 'en' ) {
+			// Non-English: many results will be filtered out, so fetch more.
+			// SearchEngine has no getLimit() — use a generous fixed limit.
+			$engine->setLimitOffset( 200, 0 );
+		}
+	}
+
+	/**
+	 * ApiOpenSearchSuggest: filter autocomplete suggestions by language and
+	 * supplement with substring matches so that e.g. "Inner" finds
+	 * "Conscious Dance Practices/InnerMotion".
+	 */
+	public static function onApiOpenSearchSuggest( array &$results ): void {
+		$context = \RequestContext::getMain();
+		$langSuffix = self::getSearchLanguageSuffix( $context );
+
+		if ( $langSuffix === null ) {
+			return;
+		}
+
+		$search = $context->getRequest()->getVal( 'search', '' );
+		if ( $search === '' ) {
+			return;
+		}
+
+		$limit = 10;
+
+		// 1. Start with prefix-based completion results (language-filtered).
+		$services = MediaWikiServices::getInstance();
+		$searchEngine = $services->newSearchEngine();
+		$searchEngine->setNamespaces( [ NS_MAIN ] );
+		$searchEngine->setLimitOffset( 100, 0 );
+		$suggestions = $searchEngine->completionSearchWithVariants( $search );
+		$prefixTitles = $searchEngine->extractTitles( $suggestions );
+
+		$seen = [];
+		$filtered = [];
+		foreach ( $prefixTitles as $title ) {
+			if ( self::titleMatchesLanguage( $title->getText(), $langSuffix ) ) {
+				$dbKey = $title->getPrefixedDBkey();
+				if ( isset( $seen[$dbKey] ) ) {
+					continue;
+				}
+				$seen[$dbKey] = true;
+				$filtered[] = self::makeOpenSearchEntry( $title );
+				if ( count( $filtered ) >= $limit ) {
+					break;
+				}
+			}
+		}
+
+		// 2. If we still have room, find pages where a subpage segment matches.
+		//    e.g. "Inner" matches "Conscious_Dance_Practices/InnerMotion".
+		if ( count( $filtered ) < $limit ) {
+			$substringTitles = self::substringTitleSearch(
+				$search, $langSuffix, $limit * 3
+			);
+			foreach ( $substringTitles as $title ) {
+				$dbKey = $title->getPrefixedDBkey();
+				if ( isset( $seen[$dbKey] ) ) {
+					continue;
+				}
+				$seen[$dbKey] = true;
+				$filtered[] = self::makeOpenSearchEntry( $title );
+				if ( count( $filtered ) >= $limit ) {
+					break;
+				}
+			}
+		}
+
+		// 3. Search display titles (translated page names) for the term.
+		if ( count( $filtered ) < $limit ) {
+			$dtTitles = self::displayTitleSearch(
+				$search, $langSuffix, $limit * 3
+			);
+			foreach ( $dtTitles as $title ) {
+				$dbKey = $title->getPrefixedDBkey();
+				if ( isset( $seen[$dbKey] ) ) {
+					continue;
+				}
+				$seen[$dbKey] = true;
+				$filtered[] = self::makeOpenSearchEntry( $title );
+				if ( count( $filtered ) >= $limit ) {
+					break;
+				}
+			}
+		}
+
+		$results = $filtered;
+	}
+
+	/**
+	 * Build an opensearch result entry from a Title.
+	 */
+	private static function makeOpenSearchEntry( \Title $title ): array {
+		return [
+			'title' => $title,
+			'redirect from' => null,
+			'extract' => false,
+			'extract trimmed' => false,
+			'image' => false,
+			'url' => $title->getFullURL(),
+		];
+	}
+
+	/**
+	 * Find pages whose title contains the search term as a substring,
+	 * already filtered by language suffix.  This catches subpage-segment
+	 * matches that prefix search misses (e.g. "Inner" → ".../InnerMotion").
+	 */
+	private static function substringTitleSearch(
+		string $search, string $langSuffix, int $limit
+	): array {
+		$dbr = MediaWikiServices::getInstance()
+			->getConnectionProvider()->getReplicaDatabase();
+
+		$conditions = [
+			'page_namespace' => NS_MAIN,
+			'page_is_redirect' => 0,
+		];
+
+		// Match title containing the search term anywhere.
+		// DB uses binary charset, so LIKE is case-sensitive and LOWER() is a no-op.
+		// CONVERT to utf8mb4 gives case-insensitive LIKE via utf8mb4_general_ci.
+		$titleExpr = 'CONVERT(page_title USING utf8mb4)';
+		$searchLower = str_replace( ' ', '_', mb_strtolower( $search ) );
+		$like = $dbr->buildLike(
+			$dbr->anyString(), $searchLower, $dbr->anyString()
+		);
+		$conditions[] = $titleExpr . $like;
+
+		// Language filter: exclude translated subpages for English,
+		// require the suffix for others.
+		if ( $langSuffix === 'en' ) {
+			// Exclude pages ending in /xx (2-3 letter lang code) or /xx-yy variant.
+			// Use anyChar() for _ wildcards — buildLike escapes literal _ chars.
+			$ac = $dbr->anyChar();
+			$notLike2 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac );
+			$notLike3 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac, $ac );
+			$notLike5 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac, '-', $ac, $ac );
+			$notLike6 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac, '-', $ac, $ac, $ac );
+			$conditions[] = $titleExpr . ' NOT' . $notLike2;
+			$conditions[] = $titleExpr . ' NOT' . $notLike3;
+			$conditions[] = $titleExpr . ' NOT' . $notLike5;
+			$conditions[] = $titleExpr . ' NOT' . $notLike6;
+		} else {
+			$langLike = $dbr->buildLike(
+				$dbr->anyString(), '/' . $langSuffix
+			);
+			$conditions[] = 'page_title' . $langLike;
+		}
+
+		// Prefer shorter titles (closer matches) over longer ones.
+		$rows = $dbr->newSelectQueryBuilder()
+			->select( [ 'page_namespace', 'page_title' ] )
+			->from( 'page' )
+			->where( $conditions )
+			->limit( $limit )
+			->orderBy( 'LENGTH(page_title)', 'ASC' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$titles = [];
+		foreach ( $rows as $row ) {
+			$title = Title::makeTitle( (int)$row->page_namespace, $row->page_title );
+			if ( $title && self::titleMatchesLanguage( $title->getText(), $langSuffix ) ) {
+				$titles[] = $title;
+			}
+		}
+		return $titles;
+	}
+
+	/**
+	 * Public wrapper for substringTitleSearch (used by ApiDRSearch).
+	 * @return Title[]
+	 */
+	public static function substringTitleSearchPublic(
+		string $search, string $langSuffix, int $limit
+	): array {
+		return self::substringTitleSearch( $search, $langSuffix, $limit );
+	}
+
+	/**
+	 * Find pages whose display title (page_props.displaytitle) contains
+	 * the search term.  This lets users search in their language for
+	 * translated pages (e.g. "rezonanca" → Heart Resonance/sr).
+	 *
+	 * @return Title[]
+	 */
+	private static function displayTitleSearch(
+		string $search, string $langSuffix, int $limit
+	): array {
+		$dbr = MediaWikiServices::getInstance()
+			->getConnectionProvider()->getReplicaDatabase();
+
+		$searchLower = mb_strtolower( $search );
+		$valueLike = $dbr->buildLike(
+			$dbr->anyString(), $searchLower, $dbr->anyString()
+		);
+
+		// pp_value is stored in binary charset, so LOWER() is a no-op.
+		// CONVERT to utf8mb4 gives case-insensitive LIKE matching.
+		$conditions = [
+			'pp_propname' => 'displaytitle',
+			'page_namespace' => NS_MAIN,
+			'page_is_redirect' => 0,
+			'CONVERT(pp_value USING utf8mb4)' . $valueLike,
+		];
+
+		// Language filter on the page title (not the display title).
+		if ( $langSuffix === 'en' ) {
+			$ac = $dbr->anyChar();
+			$notLike2 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac );
+			$notLike3 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac, $ac );
+			$notLike5 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac, '-', $ac, $ac );
+			$notLike6 = $dbr->buildLike( $dbr->anyString(), '/', $ac, $ac, '-', $ac, $ac, $ac );
+			$titleExpr = 'CONVERT(page_title USING utf8mb4)';
+			$conditions[] = $titleExpr . ' NOT' . $notLike2;
+			$conditions[] = $titleExpr . ' NOT' . $notLike3;
+			$conditions[] = $titleExpr . ' NOT' . $notLike5;
+			$conditions[] = $titleExpr . ' NOT' . $notLike6;
+		} else {
+			$langLike = $dbr->buildLike(
+				$dbr->anyString(), '/' . $langSuffix
+			);
+			$conditions[] = 'page_title' . $langLike;
+		}
+
+		$rows = $dbr->newSelectQueryBuilder()
+			->select( [ 'page_namespace', 'page_title' ] )
+			->from( 'page_props' )
+			->join( 'page', null, 'pp_page = page_id' )
+			->where( $conditions )
+			->limit( $limit )
+			->orderBy( 'LENGTH(page_title)', 'ASC' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$titles = [];
+		foreach ( $rows as $row ) {
+			$title = Title::makeTitle( (int)$row->page_namespace, $row->page_title );
+			if ( $title && self::titleMatchesLanguage( $title->getText(), $langSuffix ) ) {
+				$titles[] = $title;
+			}
+		}
+		return $titles;
+	}
+
+	/**
+	 * Public wrapper for displayTitleSearch (used by ApiDRSearch).
+	 * @return Title[]
+	 */
+	public static function displayTitleSearchPublic(
+		string $search, string $langSuffix, int $limit
+	): array {
+		return self::displayTitleSearch( $search, $langSuffix, $limit );
+	}
+
+	/**
+	 * Bulk-fetch display titles for a list of Title objects.
+	 *
+	 * @param Title[] $titles
+	 * @return array<int, string> Map of page ID → display title
+	 */
+	private static function getDisplayTitles( array $titles ): array {
+		if ( $titles === [] ) {
+			return [];
+		}
+
+		$pageIds = [];
+		foreach ( $titles as $t ) {
+			$id = $t->getArticleID();
+			if ( $id > 0 ) {
+				$pageIds[] = $id;
+			}
+		}
+		if ( $pageIds === [] ) {
+			return [];
+		}
+
+		$dbr = MediaWikiServices::getInstance()
+			->getConnectionProvider()->getReplicaDatabase();
+
+		$rows = $dbr->newSelectQueryBuilder()
+			->select( [ 'pp_page', 'pp_value' ] )
+			->from( 'page_props' )
+			->where( [
+				'pp_propname' => 'displaytitle',
+				'pp_page' => $pageIds,
+			] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$map = [];
+		foreach ( $rows as $row ) {
+			$map[(int)$row->pp_page] = $row->pp_value;
+		}
+		return $map;
+	}
+
+	/**
+	 * Public wrapper for getDisplayTitles (used by ApiDRSearch).
+	 *
+	 * @param Title[] $titles
+	 * @return array<int, string>
+	 */
+	public static function getDisplayTitlesPublic( array $titles ): array {
+		return self::getDisplayTitles( $titles );
+	}
+
+	/**
+	 * SpecialSearchResultsPrepend: show a banner indicating language-scoped search.
+	 */
+	public static function onSpecialSearchResultsPrepend(
+		$specialSearch, $output, $term
+	): bool {
+		$langSuffix = self::getSearchLanguageSuffix( $specialSearch );
+		if ( $langSuffix === null || $langSuffix === 'en' ) {
+			return true;
+		}
+		$langName = \MediaWiki\Languages\LanguageNameUtils::AUTONYMS;
+		$services = MediaWikiServices::getInstance();
+		$langNameUtils = $services->getLanguageNameUtils();
+		$displayName = $langNameUtils->getLanguageName( $langSuffix );
+		if ( !$displayName ) {
+			$displayName = $langSuffix;
+		}
+
+		$allUrl = $specialSearch->getPageTitle()->getLocalURL( [
+			'search' => $term,
+			'fulltext' => 1,
+			'searchlang' => 'all',
+		] );
+
+		// Banner hidden for now — language scoping is handled silently.
+		return true;
+	}
+
+	/**
+	 * SpecialSearchResultsAppend: when default full-text search finds nothing,
+	 * show title-substring matches (MySQL FULLTEXT is word-based, so "inner"
+	 * won't match "InnerMotion" — this bridges that gap).
+	 */
+	public static function onSpecialSearchResultsAppend(
+		$specialSearch, $output, $term
+	): void {
+		if ( trim( $term ) === '' ) {
+			return;
+		}
+
+		$profile = $specialSearch->getRequest()->getVal( 'profile', '' );
+		if ( $profile === 'translation' ) {
+			return;
+		}
+
+		$langSuffix = self::getSearchLanguageSuffix( $specialSearch );
+		if ( $langSuffix === null ) {
+			$langSuffix = 'en';
+		}
+
+		// Combine substring title matches + display title matches.
+		$seen = [];
+		$allTitles = [];
+		foreach ( self::substringTitleSearch( $term, $langSuffix, 20 ) as $t ) {
+			$key = $t->getPrefixedDBkey();
+			if ( !isset( $seen[$key] ) ) {
+				$seen[$key] = true;
+				$allTitles[] = $t;
+			}
+		}
+		if ( count( $allTitles ) < 20 ) {
+			foreach ( self::displayTitleSearch( $term, $langSuffix, 20 ) as $t ) {
+				$key = $t->getPrefixedDBkey();
+				if ( !isset( $seen[$key] ) ) {
+					$seen[$key] = true;
+					$allTitles[] = $t;
+				}
+				if ( count( $allTitles ) >= 20 ) {
+					break;
+				}
+			}
+		}
+
+		if ( $allTitles === [] ) {
+			return;
+		}
+
+		// Fetch display titles so we show translated names.
+		$displayMap = self::getDisplayTitles( $allTitles );
+
+		$html = '<div class="mw-search-title-matches" style="margin-top:1em;">'
+			. '<h2 style="font-size:1.1em;border-bottom:1px solid #a2a9b1;padding-bottom:4px;">'
+			. htmlspecialchars( 'Pages with matching titles' )
+			. '</h2><ul>';
+
+		foreach ( $allTitles as $title ) {
+			$url = $title->getLocalURL();
+			$pageId = $title->getArticleID();
+			$display = $displayMap[$pageId] ?? $title->getText();
+			$html .= '<li><a href="' . htmlspecialchars( $url ) . '">'
+				. htmlspecialchars( $display ) . '</a></li>';
+		}
+
+		$html .= '</ul></div>';
+		$output->addHTML( $html );
+	}
+
+	/**
+	 * ShowSearchHitTitle: replace the English page title shown in search
+	 * results with the page's display title (translated name).
+	 */
+	public static function onShowSearchHitTitle(
+		&$title, &$titleSnippet, $result, $terms, $specialSearch, &$query, &$attributes
+	): void {
+		if ( !$title instanceof \MediaWiki\Title\Title ) {
+			return;
+		}
+		$pageId = $title->getArticleID();
+		if ( $pageId <= 0 ) {
+			return;
+		}
+		$displayMap = self::getDisplayTitles( [ $title ] );
+		if ( isset( $displayMap[$pageId] ) ) {
+			$titleSnippet = new \HtmlArmor( htmlspecialchars( $displayMap[$pageId] ) );
+		}
+	}
+
 	public static function onPageSaveComplete(
 		WikiPage $wikiPage,
 		$user,

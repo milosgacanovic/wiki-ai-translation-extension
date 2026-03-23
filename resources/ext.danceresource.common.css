@@ -98,3 +98,124 @@ body.skin-danceresourcetimeless .subpage-nav:hover,
 body.skin-danceresourcetimeless .subpage-nav:focus-within {
 	opacity: 1;
 }
+
+/* =========================================================
+   Special:Search — language selector + layout tweaks
+   ========================================================= */
+
+/* Language selector sits in #mw-search-top-table next to the search button */
+.dr-search-lang-portlet {
+	position: relative;
+	display: inline-flex;
+	vertical-align: middle;
+	margin-left: auto;
+	flex-shrink: 0;
+}
+
+.dr-search-lang-label {
+	background: transparent !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	padding: 0 2px !important;
+	cursor: pointer;
+	font-size: 1em;
+	color: var(--dr-uls-label-color, var(--dr-common-muted)) !important;
+	font-weight: 500;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	white-space: nowrap;
+	line-height: 1.5;
+}
+
+.dr-search-lang-label:hover,
+.dr-search-lang-label:focus {
+	background: transparent !important;
+	color: var(--dr-link, #408657) !important;
+}
+
+.dr-search-lang-portlet .dr-search-lang-dropdown {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	left: auto;
+	min-width: 170px;
+	max-height: 300px;
+	overflow-y: auto;
+	z-index: 9999;
+	background: var(--dr-bg, #fff);
+	border: 1px solid var(--dr-common-border);
+	border-radius: 4px;
+	padding: 0.4em 0.6em;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	margin-top: 2px;
+}
+
+html[data-theme="dark"] .dr-search-lang-portlet .dr-search-lang-dropdown {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.dr-search-lang-portlet.dr-open .dr-search-lang-dropdown {
+	display: block;
+}
+
+.dr-search-lang-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.dr-search-lang-list li {
+	margin: 0;
+	padding: 0;
+}
+
+.dr-search-lang-list a {
+	display: block;
+	padding: 4px 8px;
+	color: var(--dr-text, #333);
+	text-decoration: none;
+	font-size: 0.9em;
+	border-radius: 3px;
+}
+
+.dr-search-lang-list a:hover,
+.dr-search-lang-list a:focus {
+	background: var(--dr-bg-alt, #f0f0f0);
+	color: var(--dr-link, #408657);
+}
+
+.dr-search-lang-list a.dr-uls-current {
+	font-weight: 700;
+}
+
+/* Caret triangle — matches ULS caret (.dr-lang-caret) */
+.dr-search-lang-portlet .dr-lang-caret {
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 5px solid var(--dr-link, #408657);
+	display: inline-block;
+}
+
+/* #mw-search-top-table: flex layout to align search input, button, lang selector */
+#mw-search-top-table {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+/* Make profile tabs full width */
+.mw-search-profile-tabs {
+	width: 100%;
+}
+
+/* .results-info gets moved under tabs by JS — subtle style */
+.mw-search-profile-tabs + .results-info {
+	padding: 6px 0;
+	font-size: 0.9em;
+	color: var(--dr-common-muted);
+}

@@ -63,7 +63,21 @@ var api = new mw.Api();
 		if ( code.indexOf( 'sr-' ) === 0 ) {
 			return 'sr';
 		}
+		if ( code.indexOf( 'zh-' ) === 0 ) {
+			return 'zh';
+		}
 		return code;
+	}
+
+	// Write the cross-subdomain dr_locale cookie so www/events/sso pick up
+	// a language change made here. Only ever called from explicit user action.
+	function writeDrLocaleCookie( code ) {
+		if ( !code ) {
+			return;
+		}
+		var normalized = normalizeContentCode( code );
+		document.cookie = 'dr_locale=' + normalized +
+			'; Max-Age=31536000; Path=/; Domain=.danceresource.org; Secure; SameSite=Lax';
 	}
 
 	function animatePortletIn( $portlet ) {
@@ -308,6 +322,10 @@ var api = new mw.Api();
 
 			var currentPage = mw.config.get( 'wgPageName' );
 			var isSamePage = currentPage === targetPageName;
+
+			// Record the user's explicit language choice for cross-subdomain sync
+			// before any navigation or notify branch runs.
+			writeDrLocaleCookie( contentCode );
 
 			if ( !available[ contentCode ] && contentCode !== data.sourceLanguage ) {
 				if ( config.fallbackBehavior === 'stay_and_notify' ) {

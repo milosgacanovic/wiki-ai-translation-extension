@@ -623,40 +623,11 @@ $wgHooks['UserGetLanguageObject'][] = static function ( $user, &$code, $context 
 	return true;
 };
 
-// Write dr_locale whenever the resolved page language differs from the cookie,
-// so language changes from ?uselang=, ULS, or user prefs propagate to the
-// other subdomains. Runs for guests too.
-$wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
-	if ( headers_sent() ) {
-		return;
-	}
-	$code = $GLOBALS['wgDRLocaleNormalize']( $out->getLanguage()->getCode() );
-	if ( !in_array( $code, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
-		return;
-	}
-	if ( isset( $_COOKIE['dr_locale'] ) && $_COOKIE['dr_locale'] === $code ) {
-		return;
-	}
-	setcookie( 'dr_locale', $code, [
-		'expires'  => time() + 31536000,
-		'path'     => '/',
-		'domain'   => '.danceresource.org',
-		'secure'   => true,
-		'samesite' => 'Lax',
-	] );
-	$_COOKIE['dr_locale'] = $code;
-
-	// Keep ULS's persistent `wikilanguage` cookie aligned so it doesn't
-	// fight dr_locale on the next request.
-	$prefix = $GLOBALS['wgCookiePrefix'] ?? '';
-	setcookie( $prefix . 'language', $code, [
-		'expires'  => time() + 31536000,
-		'path'     => '/',
-		'secure'   => true,
-		'samesite' => 'Lax',
-	] );
-	$_COOKIE[$prefix . 'language'] = $code;
-};
+// No server-side dr_locale write hook: the cookie is only written in response
+// to explicit user actions (click in the language switcher on any subdomain).
+// Writing on page load previously clobbered the shared cookie when MW fell
+// back to English for a locale it had no UI translation for (e.g. sr), which
+// then propagated that clobber back to www/events/sso.
 
 // Cross-site theme sync via shared dr_theme cookie on .danceresource.org.
 // The server never writes this cookie — the user's toggle in main.js does.

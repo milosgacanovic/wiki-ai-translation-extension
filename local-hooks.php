@@ -629,6 +629,42 @@ $wgHooks['UserGetLanguageObject'][] = static function ( $user, &$code, $context 
 // back to English for a locale it had no UI translation for (e.g. sr), which
 // then propagated that clobber back to www/events/sso.
 
+// Redirect from a base article to its /<lang> translation subpage when the
+// visitor has a non-English dr_locale and that translation exists. This makes
+// the content language follow the cookie (UserGetLanguageObject only handles
+// the UI). Skipped when an explicit ?uselang= is present, when the title is
+// already a language subpage, or when the translation doesn't exist.
+$wgHooks['BeforeInitialize'][] = static function (
+	&$title, &$article, &$output, &$user, $request, $mediaWiki
+) {
+	if ( $request->getRawVal( 'uselang' ) !== null ) {
+		return;
+	}
+	if ( $request->getRawVal( 'action', 'view' ) !== 'view' ) {
+		return;
+	}
+	if ( !$title || $title->getNamespace() !== NS_MAIN || !$title->exists() ) {
+		return;
+	}
+	if ( !isset( $_COOKIE['dr_locale'] ) ) {
+		return;
+	}
+	$lang = $GLOBALS['wgDRLocaleNormalize']( $_COOKIE['dr_locale'] );
+	if ( $lang === 'en' || !in_array( $lang, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
+		return;
+	}
+	// Skip if title already ends in /<any-lang-code>
+	$text = $title->getText();
+	if ( preg_match( '#/[a-z]{2,3}(-[a-z0-9]{2,8})?$#i', $text ) ) {
+		return;
+	}
+	$translated = Title::makeTitleSafe( NS_MAIN, $text . '/' . $lang );
+	if ( !$translated || !$translated->exists() ) {
+		return;
+	}
+	$output->redirect( $translated->getFullURL(), '302' );
+};
+
 // Cross-site theme sync via shared dr_theme cookie on .danceresource.org.
 // The server never writes this cookie — the user's toggle in main.js does.
 // We only inject a tiny blocking <head> script so the right theme is applied

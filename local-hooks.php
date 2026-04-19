@@ -340,6 +340,13 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	if ( $hasTranslate && !$title->isSpecialPage() ) {
 		$handle = new \MessageHandle( $title );
 		if ( \MediaWiki\Extension\Translate\Utilities\Utilities::isTranslationPage( $handle ) ) {
+			// SEO: noindex translation subpages — only the base (English) page should be indexed.
+			// Added as a head item because ApprovedRevs' ParserBeforeInternalParse hook
+			// resets the robot policy to index,follow during skin rendering.
+			// Google combines directives from all robots meta tags; noindex wins.
+			$out->addHeadItem( 'dr-noindex-translation',
+				'<meta name="robots" content="noindex,follow"/>' );
+
 			\MediaWiki\Extension\AiTranslationExtension\HookHandler::ensureTranslationStatusForTranslatedPage( $title );
 			$baseTitle = $handle->getTitleForBase();
 			if ( !$baseTitle ) {
@@ -575,4 +582,106 @@ $wgHooks['OutputPageBeforeHTML'][] = static function ( $out, &$text ) {
 
 	$text = '<div class="dr-uls-container" data-dr-uls-position="header"></div>' . $text;
 	return true;
+};
+
+// Cross-site language sync via shared dr_locale cookie on .danceresource.org.
+// Source of truth for language across www, wiki, events, sso. Must match the
+// 35 realm locales configured in Keycloak.
+$wgDRLocaleAllowed = [
+	'ar', 'cs', 'da', 'de', 'el', 'en', 'es', 'fi', 'fr', 'he', 'hi', 'hr',
+	'hu', 'id', 'is', 'it', 'ja', 'ka', 'ko', 'nl', 'no', 'pl', 'pt', 'ro',
+	'ru', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh', 'zu',
+];
+
+// Normalize Serbian/Chinese script variants to their base code — dr_locale
+// and wikilanguage persist the base language only; variants like sr-el,
+// sr-ec, zh-hans, zh-hant are UI-only and applied via ?uselang=.
+$wgDRLocaleNormalize = static function ( $code ) {
+	if ( $code === 'sr-el' || $code === 'sr-ec' || $code === 'sr-latn' || $code === 'sr-cyrl' ) {
+		return 'sr';
+	}
+	if ( $code === 'zh-hans' || $code === 'zh-hant' || $code === 'zh-cn' || $code === 'zh-tw' || $code === 'zh-hk' ) {
+		return 'zh';
+	}
+	return $code;
+};
+
+// Read dr_locale on page load and use it as the page language when valid.
+// Also sync ULS's own `wikilanguage` cookie in-memory so ULS's own
+// UserGetLanguageObject hook (which reads that cookie) doesn't overwrite us
+// with a stale value when it runs after this one.
+$wgHooks['UserGetLanguageObject'][] = static function ( $user, &$code, $context ) {
+	if ( !isset( $_COOKIE['dr_locale'] ) ) {
+		return true;
+	}
+	$candidate = $GLOBALS['wgDRLocaleNormalize']( $_COOKIE['dr_locale'] );
+	if ( in_array( $candidate, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
+		$code = $candidate;
+		$prefix = $GLOBALS['wgCookiePrefix'] ?? '';
+		$_COOKIE[$prefix . 'language'] = $candidate;
+	}
+	return true;
+};
+
+// Write dr_locale whenever the resolved page language differs from the cookie,
+// so language changes from ?uselang=, ULS, or user prefs propagate to the
+// other subdomains. Runs for guests too.
+$wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
+	if ( headers_sent() ) {
+		return;
+	}
+	$code = $GLOBALS['wgDRLocaleNormalize']( $out->getLanguage()->getCode() );
+	if ( !in_array( $code, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
+		return;
+	}
+	if ( isset( $_COOKIE['dr_locale'] ) && $_COOKIE['dr_locale'] === $code ) {
+		return;
+	}
+	setcookie( 'dr_locale', $code, [
+		'expires'  => time() + 31536000,
+		'path'     => '/',
+		'domain'   => '.danceresource.org',
+		'secure'   => true,
+		'samesite' => 'Lax',
+	] );
+	$_COOKIE['dr_locale'] = $code;
+
+	// Keep ULS's persistent `wikilanguage` cookie aligned so it doesn't
+	// fight dr_locale on the next request.
+	$prefix = $GLOBALS['wgCookiePrefix'] ?? '';
+	setcookie( $prefix . 'language', $code, [
+		'expires'  => time() + 31536000,
+		'path'     => '/',
+		'secure'   => true,
+		'samesite' => 'Lax',
+	] );
+	$_COOKIE[$prefix . 'language'] = $code;
+};
+
+// Cross-site theme sync via shared dr_theme cookie on .danceresource.org.
+// The server never writes this cookie — the user's toggle in main.js does.
+// We only inject a tiny blocking <head> script so the right theme is applied
+// before the skin CSS paints, avoiding a white flash on dark-mode loads.
+$wgDRThemeAllowed = [ 'light', 'dark' ];
+
+$wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
+	// Inline, runs before CSS. Mirrors the IIFE in main.js but executes
+	// earlier (main.js is loaded via ResourceLoader later in <head>).
+	$script = <<<'JS'
+<script>(function(){try{
+var m=document.cookie.match(/(?:^|; )dr_theme=([^;]*)/);
+var v=m?decodeURIComponent(m[1]):null;
+if(v!=='light'&&v!=='dark'){
+ var l=null;try{l=localStorage.getItem('dr-theme');}catch(e){}
+ if(l==='light'||l==='dark'){v=l;
+  document.cookie='dr_theme='+v+'; Max-Age=31536000; Path=/; Domain=.danceresource.org; Secure; SameSite=Lax';
+ }
+}
+if(v==='light'||v==='dark'){document.documentElement.setAttribute('data-theme',v);}
+else if(!(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)){
+ document.documentElement.setAttribute('data-theme','light');
+}
+}catch(e){}}());</script>
+JS;
+	$out->addHeadItem( 'dr-theme-fouc', $script );
 };

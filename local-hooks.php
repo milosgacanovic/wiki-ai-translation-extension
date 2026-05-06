@@ -629,11 +629,13 @@ $wgHooks['UserGetLanguageObject'][] = static function ( $user, &$code, $context 
 // back to English for a locale it had no UI translation for (e.g. sr), which
 // then propagated that clobber back to www/events/sso.
 
-// Redirect from a base article to its /<lang> translation subpage when the
-// visitor has a non-English dr_locale and that translation exists. This makes
-// the content language follow the cookie (UserGetLanguageObject only handles
-// the UI). Skipped when an explicit ?uselang= is present, when the title is
-// already a language subpage, or when the translation doesn't exist.
+// Keep the article URL aligned with dr_locale in either direction:
+//   /Title          + dr_locale=hr  -> /Title/hr   (when /Title/hr exists)
+//   /Title/hr       + dr_locale=it  -> /Title/it   (when /Title/it exists)
+//   /Title/hr       + dr_locale=en  -> /Title      (back to source)
+// Skipped when ?uselang= is present (explicit per-request override), for
+// non-view actions, outside NS_MAIN, or when the desired target doesn't
+// exist (avoid 404 loops on missing translations).
 $wgHooks['BeforeInitialize'][] = static function (
 	&$title, &$article, &$output, &$user, $request, $mediaWiki
 ) {
@@ -649,20 +651,34 @@ $wgHooks['BeforeInitialize'][] = static function (
 	if ( !isset( $_COOKIE['dr_locale'] ) ) {
 		return;
 	}
-	$lang = $GLOBALS['wgDRLocaleNormalize']( $_COOKIE['dr_locale'] );
-	if ( $lang === 'en' || !in_array( $lang, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
+	$desired = $GLOBALS['wgDRLocaleNormalize']( $_COOKIE['dr_locale'] );
+	if ( !in_array( $desired, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
 		return;
 	}
-	// Skip if title already ends in /<any-lang-code>
+
+	// Decode current title: base article or /<lang> subpage?
 	$text = $title->getText();
-	if ( preg_match( '#/[a-z]{2,3}(-[a-z0-9]{2,8})?$#i', $text ) ) {
+	$baseText = $text;
+	$currentLang = 'en';
+	if ( preg_match( '#^(.+)/([a-z]{2,3}(?:-[a-z0-9]{2,8})?)$#i', $text, $m ) ) {
+		$suffix = $GLOBALS['wgDRLocaleNormalize']( strtolower( $m[2] ) );
+		if ( in_array( $suffix, $GLOBALS['wgDRLocaleAllowed'], true ) ) {
+			$baseText = $m[1];
+			$currentLang = $suffix;
+		}
+	}
+
+	if ( $currentLang === $desired ) {
 		return;
 	}
-	$translated = Title::makeTitleSafe( NS_MAIN, $text . '/' . $lang );
-	if ( !$translated || !$translated->exists() ) {
+
+	$targetText = ( $desired === 'en' ) ? $baseText : ( $baseText . '/' . $desired );
+	$target = Title::makeTitleSafe( NS_MAIN, $targetText );
+	if ( !$target || !$target->exists() || $target->equals( $title ) ) {
 		return;
 	}
-	$output->redirect( $translated->getFullURL(), '302' );
+
+	$output->redirect( $target->getFullURL(), '302' );
 };
 
 // Cross-site theme sync via shared dr_theme cookie on .danceresource.org.

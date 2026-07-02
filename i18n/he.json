@@ -20,5 +20,6 @@
 	"aits-open-page-source": "קוד מקור הדף",
 	"aits-open-source": "פתח מקור באנגלית",
 	"aits-show-machine-banner": "הצג באנר של תרגום מכונה",
-	"aits-close": "לִסְגוֹר"
+	"aits-close": "לִסְגוֹר",
+	"aits-pending-approval-banner": "העריכה שלך נשמרה וממתינה לאישור מבדק. קוראים אחרים לא יראו אותה עד שהשינוי יאושר."
 }

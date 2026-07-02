@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Sidans källkod",
 	"aits-open-source": "Öppen engelsk källa",
 	"aits-show-machine-banner": "Visa maskinöversättningsbanner",
-	"aits-close": "Nära"
+	"aits-close": "Nära",
+	"aits-pending-approval-banner": "Din redigering har sparats och väntar på godkännande av en granskare. Andra läsare ser den inte förrän ändringen har godkänts."
 }

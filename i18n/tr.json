@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Sayfa kaynak kodu",
 	"aits-open-source": "İngilizce kaynağı aç",
 	"aits-show-machine-banner": "Makine çevirisi başlığını göster",
-	"aits-close": "Kapalı"
+	"aits-close": "Kapalı",
+	"aits-pending-approval-banner": "Düzenlemeniz kaydedildi ve bir denetçinin onayını bekliyor. Değişiklik onaylanana kadar diğer okuyucular göremeyecek."
 }

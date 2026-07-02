@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Izvorna koda strani",
 	"aits-open-source": "Odprta angleška koda",
 	"aits-show-machine-banner": "Pokaži pasico za strojno prevajanje",
-	"aits-close": "Zapri"
+	"aits-close": "Zapri",
+	"aits-pending-approval-banner": "Vaše urejanje je shranjeno in čaka na odobritev pregledovalca. Drugi bralci ga ne bodo videli, dokler sprememba ne bo potrjena."
 }

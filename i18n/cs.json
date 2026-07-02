@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Zdrojový kód stránky",
 	"aits-open-source": "Otevřený anglický zdroj",
 	"aits-show-machine-banner": "Zobrazit banner strojového překladu",
-	"aits-close": "Blízko"
+	"aits-close": "Blízko",
+	"aits-pending-approval-banner": "Vaše úprava byla uložena a čeká na schválení recenzentem. Ostatní čtenáři ji neuvidí, dokud nebude změna schválena."
 }

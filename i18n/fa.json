@@ -20,5 +20,6 @@
 	"aits-open-page-source": "کد منبع صفحه",
 	"aits-open-source": "منبع باز انگلیسی",
 	"aits-show-machine-banner": "نمایش بنر ترجمه ماشینی",
-	"aits-close": "بستن"
+	"aits-close": "بستن",
+	"aits-pending-approval-banner": "ویرایش شما ذخیره شد و در انتظار تأیید بازبین است. خوانندگان دیگر تا زمانی که تغییر تأیید نشود، آن را نخواهند دید."
 }

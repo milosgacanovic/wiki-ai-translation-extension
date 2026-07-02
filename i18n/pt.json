@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Código fonte da página",
 	"aits-open-source": "Fonte aberta em inglês",
 	"aits-show-machine-banner": "Mostrar banner de tradução automática",
-	"aits-close": "Fechar"
+	"aits-close": "Fechar",
+	"aits-pending-approval-banner": "A tua edição foi guardada e aguarda aprovação de um revisor. Os outros leitores não a verão até que a alteração seja aprovada."
 }

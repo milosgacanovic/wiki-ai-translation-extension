@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Frumkóði síðu",
 	"aits-open-source": "Opinn enskur heimild",
 	"aits-show-machine-banner": "Sýna vélþýðingarborða",
-	"aits-close": "Loka"
+	"aits-close": "Loka",
+	"aits-pending-approval-banner": "Breytingin þín hefur verið vistuð og bíður samþykktar yfirfarara. Aðrir lesendur munu ekki sjá hana fyrr en breytingin hefur verið samþykkt."
 }

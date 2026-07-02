@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Az oldal forráskódja",
 	"aits-open-source": "Nyílt angol forrás",
 	"aits-show-machine-banner": "Gépi fordítási szalaghirdetés megjelenítése",
-	"aits-close": "Közeli"
+	"aits-close": "Közeli",
+	"aits-pending-approval-banner": "A szerkesztésed mentve, és egy ellenőr jóváhagyására vár. A többi olvasó addig nem fogja látni, amíg a változtatást nem hagyják jóvá."
 }

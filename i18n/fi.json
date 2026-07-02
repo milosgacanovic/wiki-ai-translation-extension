@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Sivun lähdekoodi",
 	"aits-open-source": "Avoin englanninkielinen lähde",
 	"aits-show-machine-banner": "Näytä konekäännösbanneri",
-	"aits-close": "Lähellä"
+	"aits-close": "Lähellä",
+	"aits-pending-approval-banner": "Muokkauksesi on tallennettu ja odottaa arvioijan hyväksyntää. Muut lukijat eivät näe sitä, ennen kuin muutos on hyväksytty."
 }

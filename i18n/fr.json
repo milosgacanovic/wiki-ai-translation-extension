@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Code source de la page",
 	"aits-open-source": "Source anglaise ouverte",
 	"aits-show-machine-banner": "Afficher la bannière de traduction automatique",
-	"aits-close": "Fermer"
+	"aits-close": "Fermer",
+	"aits-pending-approval-banner": "Votre modification a été enregistrée et attend l’approbation d’un relecteur. Les autres lecteurs ne la verront pas tant qu’elle n’aura pas été approuvée."
 }

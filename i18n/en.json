@@ -31,5 +31,6 @@
 	"aits-tooltip-reviewed-at": "Reviewed at",
 	"aits-show-machine-banner": "Show machine translation banner",
 	"aits-close": "Close",
-	"aits-banner-machine-link-text": "editing the page"
+	"aits-banner-machine-link-text": "editing the page",
+	"aits-pending-approval-banner": "Your edit has been saved and is awaiting reviewer approval. Other readers won't see it until a reviewer approves the change."
 }

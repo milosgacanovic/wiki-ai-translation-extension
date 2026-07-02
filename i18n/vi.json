@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Mã nguồn trang",
 	"aits-open-source": "Nguồn tiếng Anh mở",
 	"aits-show-machine-banner": "Hiển thị biểu ngữ dịch máy",
-	"aits-close": "Đóng"
+	"aits-close": "Đóng",
+	"aits-pending-approval-banner": "Chỉnh sửa của bạn đã được lưu và đang chờ phê duyệt từ người duyệt. Người đọc khác sẽ không thấy cho đến khi thay đổi được phê duyệt."
 }

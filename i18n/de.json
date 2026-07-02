@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Quellcode der Seite",
 	"aits-open-source": "Offene englische Quelle",
 	"aits-show-machine-banner": "Banner für maschinelle Übersetzung anzeigen",
-	"aits-close": "Schließen"
+	"aits-close": "Schließen",
+	"aits-pending-approval-banner": "Deine Bearbeitung wurde gespeichert und wartet auf die Freigabe durch eine Prüfperson. Andere Leser sehen sie erst, wenn die Änderung freigegeben wurde."
 }

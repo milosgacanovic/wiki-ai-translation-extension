@@ -20,5 +20,6 @@
 	"aits-open-page-source": "页面源代码",
 	"aits-open-source": "开放英文源代码",
 	"aits-show-machine-banner": "显示机器翻译横幅",
-	"aits-close": "关闭"
+	"aits-close": "关闭",
+	"aits-pending-approval-banner": "您的编辑已保存，正在等待审核者批准。在更改获得批准之前，其他读者将看不到。"
 }

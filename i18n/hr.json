@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Izvorni kod stranice",
 	"aits-open-source": "Otvoreni engleski izvor",
 	"aits-show-machine-banner": "Prikaži banner strojnog prijevoda",
-	"aits-close": "Zatvoriti"
+	"aits-close": "Zatvoriti",
+	"aits-pending-approval-banner": "Vaše uređivanje je spremljeno i čeka odobrenje recenzenta. Ostali čitatelji ga neće vidjeti dok promjena ne bude odobrena."
 }

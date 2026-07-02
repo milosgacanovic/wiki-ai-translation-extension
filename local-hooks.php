@@ -773,3 +773,54 @@ $wgHooks['DifferenceEngineShowDiffPage'][] = static function ( $out ) {
 	// set before the table-prefix hook stringifies widgets. Fixes Theme.php:31 fatal.
 	$out->enableOOUI();
 };
+
+// Pending-approval banner: when the viewer is the latest editor of a page whose
+// current revision is unapproved (and they can't self-approve), show a notice so
+// they don't think their edit failed. Without this, $egApprovedRevsBlankIfUnapproved
+// silently renders a blank page for the editor — confusing for new contributors.
+$wgHooks['BeforePageDisplay'][] = static function ( OutputPage $out, Skin $skin ) {
+	if ( !class_exists( ApprovedRevs::class ) ) {
+		return;
+	}
+	$title = $out->getTitle();
+	$user  = $out->getUser();
+	if ( !$title || !$user->isRegistered() ) {
+		return;
+	}
+	$request = $out->getRequest();
+	if ( $request->getVal( 'action', 'view' ) !== 'view' ) {
+		return;
+	}
+	if ( !$title->exists() || $title->isSpecialPage() ) {
+		return;
+	}
+	if ( !ApprovedRevs::pageIsApprovable( $title ) ) {
+		return;
+	}
+	$approvedRevId = ApprovedRevs::getApprovedRevID( $title );
+	$latestRevId   = $title->getLatestRevID();
+	if ( $approvedRevId === (int)$latestRevId ) {
+		return;
+	}
+	if ( ApprovedRevs::userCanApprove( $user, $title ) ) {
+		return;
+	}
+	$latestRev = \MediaWiki\MediaWikiServices::getInstance()
+		->getRevisionLookup()->getRevisionById( (int)$latestRevId );
+	if ( !$latestRev ) {
+		return;
+	}
+	$latestEditor = $latestRev->getUser();
+	if ( !$latestEditor || $latestEditor->getId() !== $user->getId() ) {
+		return;
+	}
+	$msg = $out->msg( 'aits-pending-approval-banner' )->parse();
+	$out->prependHTML(
+		'<div class="dr-pending-approval-banner cdx-message cdx-message--block cdx-message--notice" '
+		. 'role="status" aria-live="polite" '
+		. 'style="margin:0 0 1em 0;padding:12px 16px;border-left:4px solid #36c;background:#eaf3ff;'
+		. 'color:#202122;border-radius:2px;font-size:0.95em;line-height:1.5;">'
+		. $msg
+		. '</div>'
+	);
+};

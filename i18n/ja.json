@@ -20,5 +20,6 @@
 	"aits-open-page-source": "ページのソースコード",
 	"aits-open-source": "オープン英語ソース",
 	"aits-show-machine-banner": "機械翻訳バナーを表示",
-	"aits-close": "近い"
+	"aits-close": "近い",
+	"aits-pending-approval-banner": "編集内容を保存しました。レビュー担当者の承認待ちです。承認されるまで他の読者には表示されません。"
 }

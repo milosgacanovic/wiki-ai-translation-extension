@@ -20,5 +20,6 @@
 	"aits-open-page-source": "كود مصدر الصفحة",
 	"aits-open-source": "فتح المصدر الإنجليزي",
 	"aits-show-machine-banner": "عرض شعار الترجمة الآلية",
-	"aits-close": "يغلق"
+	"aits-close": "يغلق",
+	"aits-pending-approval-banner": "تم حفظ تعديلك وهو في انتظار موافقة مراجع. لن يراه القراء الآخرون حتى يوافق المراجع على التغيير."
 }

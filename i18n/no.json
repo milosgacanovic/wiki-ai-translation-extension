@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Sidens kildekode",
 	"aits-open-source": "Åpen engelsk kilde",
 	"aits-show-machine-banner": "Vis maskinoversettelsesbanner",
-	"aits-close": "Lukke"
+	"aits-close": "Lukke",
+	"aits-pending-approval-banner": "Redigeringen din er lagret og venter på godkjenning fra en moderator. Andre lesere ser den ikke før endringen er godkjent."
 }

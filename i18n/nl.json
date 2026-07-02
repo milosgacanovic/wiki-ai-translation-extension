@@ -20,5 +20,6 @@
 	"aits-open-page-source": "Broncode van pagina",
 	"aits-open-source": "Open Engelse bron",
 	"aits-show-machine-banner": "Banner voor machinevertaling weergeven",
-	"aits-close": "Dichtbij"
+	"aits-close": "Dichtbij",
+	"aits-pending-approval-banner": "Je bewerking is opgeslagen en wacht op goedkeuring door een beoordelaar. Andere lezers zien hem niet totdat de wijziging is goedgekeurd."
 }

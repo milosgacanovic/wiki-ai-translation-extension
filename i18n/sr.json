@@ -31,5 +31,6 @@
 	"aits-tooltip-reviewed-at": "Прегледано",
 	"aits-show-machine-banner": "Прикажи банер за машински превод",
 	"aits-close": "Затвори",
-	"aits-banner-machine-link-text": "уредити страницу"
+	"aits-banner-machine-link-text": "уредити страницу",
+	"aits-pending-approval-banner": "Vaša izmena je sačuvana i čeka odobrenje recenzenta. Drugi čitaoci je neće videti dok izmena ne bude odobrena."
 }

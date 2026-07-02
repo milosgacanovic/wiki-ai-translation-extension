@@ -20,5 +20,6 @@
 	"aits-open-page-source": "페이지 소스 코드",
 	"aits-open-source": "영어 소스 공개",
 	"aits-show-machine-banner": "기계 번역 배너 표시",
-	"aits-close": "닫다"
+	"aits-close": "닫다",
+	"aits-pending-approval-banner": "수정 사항이 저장되었으며 검토자 승인을 기다리고 있습니다. 변경이 승인되기 전까지 다른 독자에게는 표시되지 않습니다."
 }

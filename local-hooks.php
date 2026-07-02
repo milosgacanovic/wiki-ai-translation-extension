@@ -320,6 +320,28 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
 				. "})();"
 			);
+		} else {
+			// Bypass param is active (?local=1). Patch the local-login form so a POST
+			// preserves the bypass param — otherwise the POST lands at /Special:UserLogin
+			// (no bypass) and on re-render the autoredirect block above auto-clicks SSO,
+			// making the emergency local fallback unusable.
+			$out->addInlineScript(
+				"(function(){"
+				. "var bp=" . json_encode( $bypassParam ) . ";"
+				. "var patchAction=function(){"
+				. "var fs=document.querySelectorAll('form');"
+				. "for(var i=0;i<fs.length;i++){var f=fs[i];"
+				. "var hasLoginField=false;"
+				. "for(var j=0;j<f.elements.length;j++){var n=f.elements[j].name;if(n==='wpName'||n==='wpLoginToken'){hasLoginField=true;break;}}"
+				. "if(!hasLoginField){continue;}"
+				. "var a=f.getAttribute('action')||'';"
+				. "if(a.indexOf(bp+'=')!==-1){continue;}"
+				. "f.setAttribute('action', a + (a.indexOf('?')===-1?'?':'&') + bp + '=1');"
+				. "}"
+				. "};"
+				. "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',patchAction,{once:true});}else{patchAction();}"
+				. "})();"
+			);
 		}
 	}
 

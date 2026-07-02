@@ -636,6 +636,27 @@ $wgHooks['UserGetLanguageObject'][] = static function ( $user, &$code, $context 
 	return true;
 };
 
+// On /sr translation pages, force the UI to Serbian Latin (sr-el).
+// Site convention: Serbian content is published only in Latin script, and the
+// language switcher shows a single "Srpski" entry that links to ?uselang=sr-el.
+// Without this hook, MW would resolve plain 'sr' to its default variant
+// (Cyrillic via fallback to sr-ec), making chrome inconsistent with content.
+// Runs after the dr_locale hook above so its $code is upgraded sr → sr-el;
+// also syncs the in-memory `language` cookie so ULS's own later hook agrees.
+$wgHooks['UserGetLanguageObject'][] = static function ( $user, &$code, $context ) {
+	$title = $context->getTitle();
+	if ( !$title || $title->getNamespace() !== NS_MAIN ) {
+		return true;
+	}
+	if ( !str_ends_with( $title->getPrefixedDBkey(), '/sr' ) ) {
+		return true;
+	}
+	$code = 'sr-el';
+	$prefix = $GLOBALS['wgCookiePrefix'] ?? '';
+	$_COOKIE[$prefix . 'language'] = 'sr-el';
+	return true;
+};
+
 // No server-side dr_locale write hook: the cookie is only written in response
 // to explicit user actions (click in the language switcher on any subdomain).
 // Writing on page load previously clobbered the shared cookie when MW fell

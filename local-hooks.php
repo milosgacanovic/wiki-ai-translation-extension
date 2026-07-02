@@ -764,3 +764,12 @@ else if(!(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').m
 JS;
 	$out->addHeadItem( 'dr-theme-fouc', $script );
 };
+
+$wgHooks['DifferenceEngineShowDiffPage'][] = static function ( $out ) {
+	// VisualEditor's onTextSlotDiffRendererTablePrefix builds OOUI widgets while
+	// assembling the diff but only enables OOUI in onDifferenceEngineViewHeader,
+	// which core skips when the old revision is missing (e.g. the (prev) link on a
+	// page's first revision). Enable OOUI for every diff so the theme singleton is
+	// set before the table-prefix hook stringifies widgets. Fixes Theme.php:31 fatal.
+	$out->enableOOUI();
+};

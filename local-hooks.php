@@ -366,12 +366,25 @@ $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 		}
 	}
 
+	$suppressList = $GLOBALS['wgAiTranslationStatusBannerSuppressedPages'] ?? [];
+	$bannerSuppressed = false;
+	if ( $suppressList && $baseTitle ) {
+		$baseDbKey = $baseTitle->getPrefixedDBkey();
+		foreach ( $suppressList as $entry ) {
+			if ( str_replace( ' ', '_', (string)$entry ) === $baseDbKey ) {
+				$bannerSuppressed = true;
+				break;
+			}
+		}
+	}
+
 	$out->addModuleStyles( [ 'ext.aitranslation.statusUi' ] );
 	$out->addModules( [ 'ext.aitranslation.statusUi' ] );
 	$out->addJsConfigVars( 'aiTranslationStatus', [
 		'enabled' => true,
 		'title' => $title->getPrefixedText(),
 		'sourceTitle' => $isMarkedTranslatable ? $baseTitle->getPrefixedText() : '',
+		'bannerSuppressed' => $bannerSuppressed,
 	] );
 
 	if ( empty( $GLOBALS['wgDRUnifiedLangSwitcherEnabled'] ) ) {

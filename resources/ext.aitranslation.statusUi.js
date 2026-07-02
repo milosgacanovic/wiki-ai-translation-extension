@@ -355,6 +355,12 @@
 			prefActions.appendChild( buildWatchCheckboxItem() );
 			pref.appendChild( prefActions );
 
+			if ( cfg && cfg.bannerSuppressed ) {
+				tooltip.appendChild( pref );
+				document.body.appendChild( tooltip );
+				return tooltip;
+			}
+
 			var prefToggle = document.createElement( 'label' );
 			prefToggle.className = 'ai-translation-status-tooltip-pref-toggle';
 			var checkbox = document.createElement( 'input' );
@@ -625,6 +631,10 @@
 
 	function renderBanner( info ) {
 		if ( info.status !== STATUS_MACHINE && info.status !== STATUS_OUTDATED ) {
+			return;
+		}
+
+		if ( cfg && cfg.bannerSuppressed ) {
 			return;
 		}
 

@@ -38,6 +38,10 @@
 		"DRUnifiedLangSwitcherUILanguageMode": {
 			"value": "uls_cookie",
 			"description": "How to set UI language: uls_cookie or user_preference_only."
+		},
+		"AiTranslationStatusBannerSuppressedPages": {
+			"value": [],
+			"description": "Array of base page DB keys whose translation subpages should NOT show the machine-translation banner (dot indicator is still shown)."
 		}
 	},
 	"MessagesDirs": {

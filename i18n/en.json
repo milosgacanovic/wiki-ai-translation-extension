@@ -32,5 +32,9 @@
 	"aits-show-machine-banner": "Show machine translation banner",
 	"aits-close": "Close",
 	"aits-banner-machine-link-text": "editing the page",
-	"aits-pending-approval-banner": "Your edit has been saved and is awaiting reviewer approval. Other readers won't see it until a reviewer approves the change."
+	"aits-pending-approval-banner": "Your edit has been saved and is awaiting reviewer approval. Other readers won't see it until a reviewer approves the change.",
+	"aits-search-no-in-language-results": "No results in $1. $2",
+	"aits-search-see-all-languages-link": "Show {{PLURAL:$1|1 result|$1 results}} in other languages",
+	"aits-search-suggest-other-lang-heading": "In other languages",
+	"pluggableauthlogin": "Log in"
 }

@@ -433,6 +433,38 @@ class HookHandler {
 			}
 		}
 
+		// 4. Cross-language fallback: if we still have zero suggestions,
+		//    surface prefix matches AND display-title matches from other
+		//    languages so the user can discover translated pages by their
+		//    localized name (e.g. English user typing "Uvod" gets the
+		//    Serbian intro page).
+		if ( $filtered === [] ) {
+			foreach ( $prefixTitles as $title ) {
+				$dbKey = $title->getPrefixedDBkey();
+				if ( isset( $seen[$dbKey] ) ) {
+					continue;
+				}
+				$seen[$dbKey] = true;
+				$filtered[] = self::makeOpenSearchEntry( $title );
+				if ( count( $filtered ) >= $limit ) {
+					break;
+				}
+			}
+			if ( count( $filtered ) < $limit ) {
+				foreach ( self::displayTitleSearchAny( $search, $limit * 3 ) as $title ) {
+					$dbKey = $title->getPrefixedDBkey();
+					if ( isset( $seen[$dbKey] ) ) {
+						continue;
+					}
+					$seen[$dbKey] = true;
+					$filtered[] = self::makeOpenSearchEntry( $title );
+					if ( count( $filtered ) >= $limit ) {
+						break;
+					}
+				}
+			}
+		}
+
 		$results = $filtered;
 	}
 
@@ -594,6 +626,46 @@ class HookHandler {
 	}
 
 	/**
+	 * displayTitleSearch variant that ignores the language suffix — used for
+	 * cross-language fallback when the in-language autocomplete would be empty.
+	 *
+	 * @return Title[]
+	 */
+	private static function displayTitleSearchAny( string $search, int $limit ): array {
+		$dbr = MediaWikiServices::getInstance()
+			->getConnectionProvider()->getReplicaDatabase();
+
+		$searchLower = mb_strtolower( $search );
+		$valueLike = $dbr->buildLike(
+			$dbr->anyString(), $searchLower, $dbr->anyString()
+		);
+
+		$rows = $dbr->newSelectQueryBuilder()
+			->select( [ 'page_namespace', 'page_title' ] )
+			->from( 'page_props' )
+			->join( 'page', null, 'pp_page = page_id' )
+			->where( [
+				'pp_propname' => 'displaytitle',
+				'page_namespace' => NS_MAIN,
+				'page_is_redirect' => 0,
+				'CONVERT(pp_value USING utf8mb4)' . $valueLike,
+			] )
+			->limit( $limit )
+			->orderBy( 'LENGTH(page_title)', 'ASC' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
+
+		$titles = [];
+		foreach ( $rows as $row ) {
+			$title = Title::makeTitle( (int)$row->page_namespace, $row->page_title );
+			if ( $title ) {
+				$titles[] = $title;
+			}
+		}
+		return $titles;
+	}
+
+	/**
 	 * Public wrapper for displayTitleSearch (used by ApiDRSearch).
 	 * @return Title[]
 	 */
@@ -656,30 +728,81 @@ class HookHandler {
 	}
 
 	/**
-	 * SpecialSearchResultsPrepend: show a banner indicating language-scoped search.
+	 * SpecialSearchResultsPrepend: when in-language filtering would drop
+	 * every hit, prepend a banner offering the same query in all languages.
 	 */
 	public static function onSpecialSearchResultsPrepend(
 		$specialSearch, $output, $term
 	): bool {
-		$langSuffix = self::getSearchLanguageSuffix( $specialSearch );
-		if ( $langSuffix === null || $langSuffix === 'en' ) {
+		if ( trim( (string)$term ) === '' ) {
 			return true;
 		}
-		$langName = \MediaWiki\Languages\LanguageNameUtils::AUTONYMS;
-		$services = MediaWikiServices::getInstance();
-		$langNameUtils = $services->getLanguageNameUtils();
-		$displayName = $langNameUtils->getLanguageName( $langSuffix );
-		if ( !$displayName ) {
-			$displayName = $langSuffix;
+		$request = $specialSearch->getRequest();
+		if ( $request->getVal( 'profile', '' ) === 'translation' ) {
+			return true;
 		}
+		if ( $request->getVal( 'searchlang' ) === 'all' ) {
+			return true;
+		}
+
+		$langSuffix = self::getSearchLanguageSuffix( $specialSearch );
+		if ( $langSuffix === null ) {
+			return true;
+		}
+
+		// Probe: how many raw hits does the query have, and how many survive
+		// the in-language filter?
+		$services = MediaWikiServices::getInstance();
+		$engine = $services->newSearchEngine();
+		$engine->setNamespaces( [ NS_MAIN ] );
+		$engine->setLimitOffset( 200, 0 );
+		$matches = $engine->searchText( $term );
+		if ( !$matches ) {
+			return true;
+		}
+
+		$totalHits = 0;
+		$inLangHits = 0;
+		foreach ( $matches as $result ) {
+			$title = $result->getTitle();
+			if ( !$title ) {
+				continue;
+			}
+			$totalHits++;
+			if ( self::titleMatchesLanguage( $title->getText(), $langSuffix ) ) {
+				$inLangHits++;
+			}
+		}
+		if ( $inLangHits > 0 || $totalHits === 0 ) {
+			return true;
+		}
+
+		$langNameUtils = $services->getLanguageNameUtils();
+		$displayName = $langNameUtils->getLanguageName( $langSuffix ) ?: $langSuffix;
 
 		$allUrl = $specialSearch->getPageTitle()->getLocalURL( [
 			'search' => $term,
 			'fulltext' => 1,
 			'searchlang' => 'all',
 		] );
+		$linkText = $specialSearch->msg( 'aits-search-see-all-languages-link' )
+			->numParams( $totalHits )->text();
+		$linkHtml = \Html::element( 'a',
+			[ 'href' => $allUrl, 'class' => 'aits-search-all-languages-link' ],
+			$linkText
+		);
+		$bannerText = $specialSearch->msg( 'aits-search-no-in-language-results' )
+			->params( $displayName )->rawParams( $linkHtml )->parse();
 
-		// Banner hidden for now — language scoping is handled silently.
+		$bannerHtml = \Html::rawElement( 'div',
+			[
+				'class' => 'aits-search-fallback-banner',
+				'style' => 'padding:12px 16px;margin:0 0 1em;background:#fef6e7;'
+					. 'border:1px solid #fc3;border-radius:4px;',
+			],
+			$bannerText
+		);
+		$output->addHTML( $bannerHtml );
 		return true;
 	}
 

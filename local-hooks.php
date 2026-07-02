@@ -475,6 +475,20 @@ $wgHooks['SkinAfterPortlet'][] = static function ( $skin, string $portlet, &$htm
 	return true;
 };
 
+// PluggableAuth's Special:PluggableAuthLogin page never calls SpecialPage::setHeaders(),
+// so <title> and <h1> stay empty. Fill them in from our own i18n key.
+$wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
+	$title = $out->getTitle();
+	if ( !$title || !$title->isSpecial( 'PluggableAuthLogin' ) ) {
+		return true;
+	}
+	if ( trim( (string)$out->getPageTitle() ) !== '' ) {
+		return true;
+	}
+	$out->setPageTitleMsg( $out->msg( 'pluggableauthlogin' ) );
+	return true;
+};
+
 // SEO: Open Graph, meta description, Twitter Card, JSON-LD, canonical URL support.
 $wgHooks['BeforePageDisplay'][] = static function ( $out, $skin ) {
 	$title = $out->getTitle();
